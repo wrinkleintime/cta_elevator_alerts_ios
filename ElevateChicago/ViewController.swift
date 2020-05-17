@@ -10,10 +10,19 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    //MARK: Properties
+    @IBOutlet weak var stationStatus: UILabel!
+    
+    //This value is passed by in `prepare(for:sender:)`
+//    var station: Station?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        
+        stationStatus.text = "All elevators at this station are working properly."
     }
+    
+    
 
 
 }
