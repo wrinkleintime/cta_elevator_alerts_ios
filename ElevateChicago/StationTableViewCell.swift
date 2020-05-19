@@ -9,7 +9,19 @@
 import UIKit
 
 class StationTableViewCell: UITableViewCell {
-
+    
+    //MARK: Properties
+    @IBOutlet weak var stationName: UILabel!
+    
+    @IBOutlet weak var redLine: UIView!
+    @IBOutlet weak var brownLine: UIView!
+    @IBOutlet weak var greenLine: UIView!
+    @IBOutlet weak var orangeLine: UIView!
+    @IBOutlet weak var pinkLine: UIView!
+    @IBOutlet weak var purpleLine: UIView!
+    @IBOutlet weak var blueLine: UIView!
+    @IBOutlet weak var yellowLine: UIView!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
