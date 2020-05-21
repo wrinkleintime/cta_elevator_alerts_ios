@@ -14,6 +14,9 @@
 		383B544C246E18850095BEB3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 383B544B246E18850095BEB3 /* Assets.xcassets */; };
 		383B544F246E18850095BEB3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 383B544D246E18850095BEB3 /* LaunchScreen.storyboard */; };
 		383B545A246E18860095BEB3 /* ElevateChicagoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 383B5459246E18860095BEB3 /* ElevateChicagoTests.swift */; };
+		38473880247383580024A9F1 /* LineTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3847387F247383580024A9F1 /* LineTableViewCell.swift */; };
+		38473882247385150024A9F1 /* LineTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38473881247385150024A9F1 /* LineTableViewController.swift */; };
+		386B82EE247385C50064E578 /* Line.swift in Sources */ = {isa = PBXBuildFile; fileRef = 386B82ED247385C50064E578 /* Line.swift */; };
 		38AB86D8247208BC0072EF69 /* StationTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38AB86D7247208BC0072EF69 /* StationTableViewController.swift */; };
 		38AB86DA247209950072EF69 /* Station.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38AB86D9247209950072EF69 /* Station.swift */; };
 		38CA5E262471FACE00570FEF /* StationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38CA5E252471FACE00570FEF /* StationTableViewCell.swift */; };
@@ -41,6 +44,9 @@
 		383B5455246E18860095BEB3 /* ElevateChicagoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ElevateChicagoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		383B5459246E18860095BEB3 /* ElevateChicagoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElevateChicagoTests.swift; sourceTree = "<group>"; };
 		383B545B246E18860095BEB3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3847387F247383580024A9F1 /* LineTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineTableViewCell.swift; sourceTree = "<group>"; };
+		38473881247385150024A9F1 /* LineTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineTableViewController.swift; sourceTree = "<group>"; };
+		386B82ED247385C50064E578 /* Line.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Line.swift; sourceTree = "<group>"; };
 		38AB86D7247208BC0072EF69 /* StationTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationTableViewController.swift; sourceTree = "<group>"; };
 		38AB86D9247209950072EF69 /* Station.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Station.swift; sourceTree = "<group>"; };
 		38CA5E252471FACE00570FEF /* StationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationTableViewCell.swift; sourceTree = "<group>"; };
@@ -87,10 +93,13 @@
 			children = (
 				383B5442246E187B0095BEB3 /* AppDelegate.swift */,
 				383B5444246E187B0095BEB3 /* SceneDelegate.swift */,
+				38473881247385150024A9F1 /* LineTableViewController.swift */,
+				3847387F247383580024A9F1 /* LineTableViewCell.swift */,
 				383B5446246E187B0095BEB3 /* StationViewController.swift */,
 				38CA5E252471FACE00570FEF /* StationTableViewCell.swift */,
 				38AB86D7247208BC0072EF69 /* StationTableViewController.swift */,
 				38AB86D9247209950072EF69 /* Station.swift */,
+				386B82ED247385C50064E578 /* Line.swift */,
 				383B5448246E187B0095BEB3 /* Main.storyboard */,
 				383B544B246E18850095BEB3 /* Assets.xcassets */,
 				383B544D246E18850095BEB3 /* LaunchScreen.storyboard */,
@@ -212,9 +221,12 @@
 				38AB86D8247208BC0072EF69 /* StationTableViewController.swift in Sources */,
 				383B5447246E187B0095BEB3 /* StationViewController.swift in Sources */,
 				383B5443246E187B0095BEB3 /* AppDelegate.swift in Sources */,
+				38473880247383580024A9F1 /* LineTableViewCell.swift in Sources */,
 				38CA5E262471FACE00570FEF /* StationTableViewCell.swift in Sources */,
 				38AB86DA247209950072EF69 /* Station.swift in Sources */,
+				386B82EE247385C50064E578 /* Line.swift in Sources */,
 				383B5445246E187B0095BEB3 /* SceneDelegate.swift in Sources */,
+				38473882247385150024A9F1 /* LineTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

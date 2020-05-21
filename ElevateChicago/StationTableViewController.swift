@@ -12,7 +12,6 @@ import os.log
 class StationTableViewController: UITableViewController {
     
     //MARK: Properties
-    
     var stations = [Station]()
 
     override func viewDidLoad() {
@@ -20,7 +19,6 @@ class StationTableViewController: UITableViewController {
 
         // Load the sample data.
         loadSampleStations()
-        
     }
 
     // MARK: - Table view data source
@@ -97,20 +95,45 @@ class StationTableViewController: UITableViewController {
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard let stationDetailViewController = segue.destination as? StationViewController else {
-            fatalError("Unexpected destination: \(segue.destination)")
+        
+        switch(segue.identifier ?? "") {
+
+            case "ShowDetail":
+                guard let stationDetailViewController = segue.destination as? StationViewController else {
+                    fatalError("Unexpected destination: \(segue.destination)")
+                }
+                 
+                guard let selectedStationCell = sender as? StationTableViewCell else {
+                    fatalError("Unexpected sender: \(String(describing: sender))")
+                }
+                 
+                guard let indexPath = tableView.indexPath(for: selectedStationCell) else {
+                    fatalError("The selected cell is not being displayed by the table")
+                }
+                 
+                let selectedStation = stations[indexPath.row]
+                stationDetailViewController.station = selectedStation
+            
+            case "ShowAllLines":
+                return
+//                guard let allLinesViewController = segue.destination as? LineTableViewController else {
+//                    fatalError("Unexpected destination: \(segue.destination)")
+//                }
+                 
+//                guard let selectedStationCell = sender as? StationTableViewCell else {
+//                    fatalError("Unexpected sender: \(String(describing: sender))")
+//                }
+//
+//                guard let indexPath = tableView.indexPath(for: selectedStationCell) else {
+//                    fatalError("The selected cell is not being displayed by the table")
+//                }
+//
+//                let selectedStation = stations[indexPath.row]
+//                stationDetailViewController.station = selectedStation
+//
+        default:
+               fatalError("Unexpected Segue Identifier; \(String(describing: segue.identifier))")
         }
-         
-        guard let selectedStationCell = sender as? StationTableViewCell else {
-            fatalError("Unexpected sender: \(String(describing: sender))")
-        }
-         
-        guard let indexPath = tableView.indexPath(for: selectedStationCell) else {
-            fatalError("The selected cell is not being displayed by the table")
-        }
-         
-        let selectedStation = stations[indexPath.row]
-        stationDetailViewController.station = selectedStation
     }
     
     //MARK: Private Methods
@@ -120,7 +143,7 @@ class StationTableViewController: UITableViewController {
             fatalError("Unable to instantiate station1")
         }
         
-        guard let station2 = Station(id: "40120", name: "35th/Archer", hasElevator: true, red: false, blue: false, brown: false, green: false, orange: true, pink: false, purple: false, yellow: false, hasAlert: true) else {
+        guard let station2 = Station(id: "40120", name: "35th/Archer", hasElevator: true, red: false, blue: false, brown: false, green: false, orange: true, pink: false, purple: false, yellow: false, hasAlert: false) else {
             fatalError("Unable to instantiate station2")
         }
         
