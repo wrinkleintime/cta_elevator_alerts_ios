@@ -7,18 +7,36 @@
 //
 
 import UIKit
-import os.log
+import CoreData
 
 class StationTableViewController: UITableViewController {
     
     //MARK: Properties
-    var stations = [Station]()
+    var stations: [NSManagedObject] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
 
-        // Load the sample data.
-        loadSampleStations()
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+            return
+        }
+
+        let managedContext = appDelegate.persistentContainer.viewContext
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Station")
+        do{
+            stations = try managedContext.fetch(fetchRequest)
+            // Load the sample data.
+            if (stations.count == 0){
+                loadSampleStations()
+                stations = try managedContext.fetch(fetchRequest)
+            }
+        } catch let error as NSError {
+            print("Could not fetch. \(error), \(error.userInfo)")
+        }
     }
 
     // MARK: - Table view data source
@@ -32,26 +50,25 @@ class StationTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         let cellIdentifier = "StationTableViewCell"
         
         guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? StationTableViewCell  else {
             fatalError("The dequeued cell is not an instance of StationTableViewCell.")
         }
 
-        // Fetches the appropriate meal for the data source layout.
+        // Fetches the appropriate station for the data source layout.
         let station = stations[indexPath.row]
         
-        cell.stationName.text = station.name
-        cell.redLine.isHidden = !station.red
-        cell.blueLine.isHidden = !station.blue
-        cell.brownLine.isHidden = !station.brown
-        cell.greenLine.isHidden = !station.green
-        cell.orangeLine.isHidden = !station.orange
-        cell.pinkLine.isHidden = !station.pink
-        cell.purpleLine.isHidden = !station.purple
-        cell.blueLine.isHidden = !station.blue
-        cell.yellowLine.isHidden = !station.yellow
+        cell.stationName.text = station.value(forKeyPath: "name") as? String
+        cell.redLine.isHidden = !(station.value(forKeyPath: "red") as? Bool ?? true)
+        cell.blueLine.isHidden = !(station.value(forKeyPath: "blue") as? Bool ?? true)
+        cell.brownLine.isHidden = !(station.value(forKeyPath: "brown") as? Bool ?? true)
+        cell.greenLine.isHidden = !(station.value(forKeyPath: "green") as? Bool ?? true)
+        cell.orangeLine.isHidden = !(station.value(forKeyPath: "orange") as? Bool ?? true)
+        cell.pinkLine.isHidden = !(station.value(forKeyPath: "pink") as? Bool ?? true)
+        cell.purpleLine.isHidden = !(station.value(forKeyPath: "purple") as? Bool ?? true)
+        cell.blueLine.isHidden = !(station.value(forKeyPath: "blue") as? Bool ?? true)
+        cell.yellowLine.isHidden = !(station.value(forKeyPath: "yellow") as? Bool ?? true)
 
         return cell
     }
@@ -99,7 +116,7 @@ class StationTableViewController: UITableViewController {
         switch(segue.identifier ?? "") {
 
             case "ShowDetail":
-                guard let stationDetailViewController = segue.destination as? StationViewController else {
+                guard let stationViewController = segue.destination as? StationViewController else {
                     fatalError("Unexpected destination: \(segue.destination)")
                 }
                  
@@ -112,7 +129,7 @@ class StationTableViewController: UITableViewController {
                 }
                  
                 let selectedStation = stations[indexPath.row]
-                stationDetailViewController.station = selectedStation
+                stationViewController.station = selectedStation
             
             case "ShowAllLines":
                 return
@@ -139,18 +156,69 @@ class StationTableViewController: UITableViewController {
     //MARK: Private Methods
      
     private func loadSampleStations() {
-        guard let station1 = Station(id: "40100", name: "Morse", hasElevator: false, red: true, blue: false, brown: false, green: false, orange: false, pink: false, purple: false, yellow: false) else {
-            fatalError("Unable to instantiate station1")
-        }
+        save(id: "40100", name: "Morse", hasElevator: false, red: true, blue: false, brown: false, green: false, orange: false, pink: false, purple: false, yellow: false)
+
+        save(id: "40120", name: "35th/Archer", hasElevator: true, red: false, blue: false, brown: false, green: false, orange: true, pink: false, purple: false, yellow: false)
         
-        guard let station2 = Station(id: "40120", name: "35th/Archer", hasElevator: true, red: false, blue: false, brown: false, green: false, orange: true, pink: false, purple: false, yellow: false, hasAlert: false) else {
-            fatalError("Unable to instantiate station2")
-        }
-        
-        guard let station3 = Station(id: "40380", name: "Clark/Lake", hasElevator: true, red: false, blue: false, brown: false, green: true, orange: true, pink: true, purple: true, yellow: false, hasAlert: true, alertDetails: "The elevator at Clark/Lake is down!") else {
-            fatalError("Unable to instantiate station3")
-        }
-        
-        stations += [station1, station2, station3]
+        save(id: "40380", name: "Clark/Lake", hasElevator: true, red: false, blue: false, brown: false, green: true, orange: true, pink: true, purple: true, yellow: false)
     }
+    
+    private func save(id: String, name: String, hasElevator: Bool, red: Bool, blue: Bool, brown: Bool, green: Bool, orange: Bool, pink: Bool, purple: Bool, yellow: Bool) {
+      
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+            return
+        }
+      
+        let managedContext = appDelegate.persistentContainer.viewContext
+        let entity = NSEntityDescription.entity(forEntityName: "Station",
+                                   in: managedContext)!
+        let station = NSManagedObject(entity: entity, insertInto: managedContext)
+      
+        station.setValue(name, forKeyPath: "name")
+        print(name)
+        station.setValue("", forKeyPath: "alertDetails")
+        station.setValue(id, forKeyPath: "id")
+        station.setValue(false, forKeyPath: "hasAlert")
+        station.setValue(hasElevator, forKeyPath: "hasElevator")
+        station.setValue(false, forKeyPath: "isFavorite")
+        station.setValue(blue, forKeyPath: "blue")
+        station.setValue(brown, forKeyPath: "brown")
+        station.setValue(green, forKeyPath: "green")
+        station.setValue(orange, forKeyPath: "orange")
+        station.setValue(pink, forKeyPath: "pink")
+        station.setValue(purple, forKeyPath: "purple")
+        station.setValue(red, forKeyPath: "red")
+        print(red)
+        station.setValue(yellow, forKeyPath: "yellow")
+
+        do {
+            try managedContext.save()
+            stations.append(station)
+            } catch let error as NSError {
+            print("Could not save. \(error), \(error.userInfo)")
+        }
+    }
+    /*
+    //For testing only
+
+    private func deleteAllStations(){
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+            return
+        }
+
+        let managedContext = appDelegate.persistentContainer.viewContext
+        
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Station")
+        fetchRequest.returnsObjectsAsFaults = false
+        do {
+            let results = try managedContext.fetch(fetchRequest)
+            for object in results {
+                guard let objectData = object as? NSManagedObject else {continue}
+                managedContext.delete(objectData)
+            }
+        } catch let error {
+            print("Detele all data in Station error :", error)
+        }
+    }
+ */
 }

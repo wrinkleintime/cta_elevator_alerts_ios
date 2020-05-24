@@ -23,6 +23,6 @@
     </entity>
     <elements>
         <element name="Station" positionX="-63" positionY="-18" width="128" height="28"/>
-        <element name="Line" positionX="-54" positionY="-9" width="128" height="28"/>
+        <element name="Line" positionX="-45" positionY="-27" width="128" height="88"/>
     </elements>
 </model>
