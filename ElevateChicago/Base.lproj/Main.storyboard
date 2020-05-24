@@ -154,13 +154,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Station Name" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bxD-U1-wz3">
-                                <rect key="frame" x="60" y="86" width="294" height="36"/>
+                                <rect key="frame" x="60" y="30" width="294" height="36"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VrA-xv-gIj">
-                                <rect key="frame" x="47" y="144.5" width="320" height="15"/>
+                                <rect key="frame" x="47" y="88.5" width="320" height="15"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yey-Xl-xYR" userLabel="Red Line">
                                         <rect key="frame" x="0.0" y="0.0" width="40" height="15"/>
@@ -229,7 +229,7 @@
                                 </subviews>
                             </stackView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="All elevators at this station are working properly." textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MAO-m6-fob">
-                                <rect key="frame" x="20" y="191.5" width="374" height="48"/>
+                                <rect key="frame" x="20" y="135.5" width="374" height="48"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -302,13 +302,13 @@
         <!--All Lines-->
         <scene sceneID="ciH-2o-kJS">
             <objects>
-                <tableViewController id="2kJ-XE-Nbq" customClass="LineTableViewController" customModule="ElevateChicago" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="2kJ-XE-Nbq" customClass="AllLinesTableViewController" customModule="ElevateChicago" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="KEd-6s-rQf">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="LineTableViewCell" rowHeight="90" id="XGl-ug-Kut" customClass="LineTableViewCell" customModule="ElevateChicago" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="AllLinesTableViewCell" rowHeight="90" id="XGl-ug-Kut" customClass="AllLinesTableViewCell" customModule="ElevateChicago" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="414" height="90"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="XGl-ug-Kut" id="K4a-g6-jdL">
@@ -363,21 +363,34 @@
         <!--Specific Line-->
         <scene sceneID="t3w-ie-nuS">
             <objects>
-                <tableViewController id="adU-er-pOu" sceneMemberID="viewController">
+                <tableViewController id="adU-er-pOu" customClass="SpecificLineTableViewController" customModule="ElevateChicago" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="GPa-Vs-qdG">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="g2K-rA-AsO">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="SpecificLineTableViewCell" id="g2K-rA-AsO" customClass="SpecificLineTableViewCell" customModule="ElevateChicago" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="414" height="43.5"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="g2K-rA-AsO" id="mDn-2d-pDY">
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Station Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CrJ-5H-pfQ">
+                                            <rect key="frame" x="20" y="7.5" width="140" height="29"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="CrJ-5H-pfQ" firstAttribute="leading" secondItem="mDn-2d-pDY" secondAttribute="leading" constant="20" id="F0h-yq-VTx"/>
+                                        <constraint firstItem="CrJ-5H-pfQ" firstAttribute="centerY" secondItem="mDn-2d-pDY" secondAttribute="centerY" id="ICI-gb-1RN"/>
+                                    </constraints>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <segue destination="6Pg-xb-RU5" kind="presentation" id="d7V-PI-EaW"/>
+                                    <outlet property="name" destination="CrJ-5H-pfQ" id="rkI-ZH-1aE"/>
+                                    <segue destination="BYZ-38-t0r" kind="presentation" identifier="showDetail" id="GcY-rU-gcQ"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -390,7 +403,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="z0p-WV-bh7" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2854" y="869"/>
+            <point key="canvasLocation" x="2853.6231884057975" y="868.52678571428567"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="cab-iB-mNQ">
@@ -430,6 +443,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="UBx-Qg-svK"/>
+        <segue reference="GcY-rU-gcQ"/>
     </inferredMetricsTieBreakers>
 </document>

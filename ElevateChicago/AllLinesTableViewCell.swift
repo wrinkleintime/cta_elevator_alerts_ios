@@ -1,5 +1,5 @@
 //
-//  LineTableViewCell.swift
+//  AllLinesTableViewCell.swift
 //  ElevateChicago
 //
 //  Created by Sam Siner on 5/18/20.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class LineTableViewCell: UITableViewCell {
+class AllLinesTableViewCell: UITableViewCell {
 
     //MARK: Properties
     @IBOutlet weak var lineIcon: UIImageView!

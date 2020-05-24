@@ -1,5 +1,5 @@
 //
-//  LineTableViewController.swift
+//  AllLinesTableViewController.swift
 //  ElevateChicago
 //
 //  Created by Sam Siner on 5/18/20.
@@ -7,9 +7,8 @@
 //
 
 import UIKit
-import os.log
 
-class LineTableViewController: UITableViewController {
+class AllLinesTableViewController: UITableViewController {
 
     //MARK: Properties
     var lines = [Line]()
@@ -33,11 +32,11 @@ class LineTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cellIdentifier = "LineTableViewCell"
+        let cellIdentifier = "AllLinesTableViewCell"
         
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? LineTableViewCell
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? AllLinesTableViewCell
         else {
-            fatalError("The dequeued cell is not an instance of LineTableViewCell.")
+            fatalError("The dequeued cell is not an instance of AllLinesTableViewCell.")
         }
 
         // Fetches the appropriate line for the data source layout.
@@ -84,15 +83,28 @@ class LineTableViewController: UITableViewController {
     }
     */
 
-    /*
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+        
+        super.prepare(for: segue, sender: sender)
+
+        guard let specificLineViewController = segue.destination as? SpecificLineTableViewController else {
+               fatalError("Unexpected destination: \(segue.destination)")
+           }
+        
+       guard let selectedMealCell = sender as? AllLinesTableViewCell else {
+           fatalError("Unexpected sender: \(String(describing: sender))")
+       }
+        
+       guard let indexPath = tableView.indexPath(for: selectedMealCell) else {
+           fatalError("The selected cell is not being displayed by the table")
+       }
+        
+       let selectedLine = lines[indexPath.row]
+       specificLineViewController.line = selectedLine
     }
-    */
     
     //MARK: Private Methods
      
