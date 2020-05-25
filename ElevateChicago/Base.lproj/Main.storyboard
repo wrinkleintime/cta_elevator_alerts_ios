@@ -119,7 +119,7 @@
                                     <outlet property="redLine" destination="ely-lm-rM5" id="DDb-nv-Qmq"/>
                                     <outlet property="stationName" destination="Dez-6m-0hm" id="DEm-Va-em0"/>
                                     <outlet property="yellowLine" destination="AW6-rh-lz8" id="0Nf-8Q-Rt7"/>
-                                    <segue destination="6Pg-xb-RU5" kind="presentation" identifier="ShowDetail" id="UBx-Qg-svK"/>
+                                    <segue destination="BYZ-38-t0r" kind="presentation" identifier="ShowDetail" id="JHp-az-tUi"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -429,7 +429,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="6Pg-xb-RU5" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="fgI-sT-jhL">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="56"/>
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -443,6 +443,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="GcY-rU-gcQ"/>
+        <segue reference="JHp-az-tUi"/>
     </inferredMetricsTieBreakers>
 </document>

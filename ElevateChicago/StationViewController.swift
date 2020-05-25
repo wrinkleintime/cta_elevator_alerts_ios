@@ -31,56 +31,26 @@ class StationViewController: UIViewController {
         super.viewDidLoad()
         
         if let station = station {
-//            stationName.text = station.name
-//            redLine.isHidden = !station.red
-//            blueLine.isHidden = !station.blue
-//            brownLine.isHidden = !station.brown
-//            greenLine.isHidden = !station.green
-//            orangeLine.isHidden = !station.orange
-//            pinkLine.isHidden = !station.pink
-//            purpleLine.isHidden = !station.purple
-//            blueLine.isHidden = !station.blue
-//            yellowLine.isHidden = !station.yellow
-            
-            
             stationName.text = station.value(forKeyPath: "name") as? String
-            redLine.isHidden = !(station.value(forKeyPath: "red") != nil)
-            blueLine.isHidden = !(station.value(forKeyPath: "blue") != nil)
-            brownLine.isHidden = !(station.value(forKeyPath: "brown") != nil)
-            greenLine.isHidden = !(station.value(forKeyPath: "green") != nil)
-            orangeLine.isHidden = !(station.value(forKeyPath: "orange") != nil)
-            pinkLine.isHidden = !(station.value(forKeyPath: "pink") != nil)
-            purpleLine.isHidden = !(station.value(forKeyPath: "purple") != nil)
-            blueLine.isHidden = !(station.value(forKeyPath: "blue") != nil)
-            yellowLine.isHidden = !(station.value(forKeyPath: "yellow") != nil)
+            redLine.isHidden = !(station.value(forKeyPath: "red") as? Bool ?? true)
+            blueLine.isHidden = !(station.value(forKeyPath: "blue") as? Bool ?? true)
+            brownLine.isHidden = !(station.value(forKeyPath: "brown") as? Bool ?? true)
+            greenLine.isHidden = !(station.value(forKeyPath: "green") as? Bool ?? true)
+            orangeLine.isHidden = !(station.value(forKeyPath: "orange") as? Bool ?? true)
+            pinkLine.isHidden = !(station.value(forKeyPath: "pink") as? Bool ?? true)
+            purpleLine.isHidden = !(station.value(forKeyPath: "purple") as? Bool ?? true)
+            blueLine.isHidden = !(station.value(forKeyPath: "blue") as? Bool ?? true)
+            yellowLine.isHidden = !(station.value(forKeyPath: "yellow") as? Bool ?? true)
             
-            if !(station.value(forKeyPath: "hasAlert") != nil) {
-                if (station.value(forKeyPath: "hasElevator") != nil){
+            //Display the correct elevator status details.
+            if !(station.value(forKeyPath: "hasElevator") as? Bool ?? true){
+                alertDetails.text = "There are no elevators at this station."
+            } else {
+                if (station.value(forKeyPath: "hasAlert") as? Bool ?? true) {
+                    alertDetails.text = station.value(forKeyPath: "alertDetails") as? String
+                } else{
                     alertDetails.text = "All elevators at this station are working properly."
-                } else {
-                    alertDetails.text = "There are no elevators at this station."
                 }
-//            } else {
-//                if ((station.value(forKeyPath: "alertDetails")) as? String).isEmpty {
-//                    alertDetails.text = "There is an elevator alert!"
-//                } else {
-//                    alertDetails.text = station.alertDetails
-//                }
-//            }
-            
-//            if !station.hasAlert {
-//                if station.hasElevator{
-//                    alertDetails.text = "All elevators at this station are working properly."
-//                } else {
-//                    alertDetails.text = "There are no elevators at this station."
-//                }
-//            } else {
-//                if station.alertDetails.isEmpty {
-//                    alertDetails.text = "There is an elevator alert!"
-//                } else {
-//                    alertDetails.text = station.alertDetails
-//                }
-//            }
             }
         }
     }

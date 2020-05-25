@@ -16,11 +16,7 @@ class StationTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-
+                
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
             return
         }
@@ -175,7 +171,6 @@ class StationTableViewController: UITableViewController {
         let station = NSManagedObject(entity: entity, insertInto: managedContext)
       
         station.setValue(name, forKeyPath: "name")
-        print(name)
         station.setValue("", forKeyPath: "alertDetails")
         station.setValue(id, forKeyPath: "id")
         station.setValue(false, forKeyPath: "hasAlert")
@@ -188,8 +183,11 @@ class StationTableViewController: UITableViewController {
         station.setValue(pink, forKeyPath: "pink")
         station.setValue(purple, forKeyPath: "purple")
         station.setValue(red, forKeyPath: "red")
-        print(red)
         station.setValue(yellow, forKeyPath: "yellow")
+        if (id == "40380"){
+            station.setValue(true, forKeyPath: "hasAlert")
+            station.setValue("The elevator at Clark/Lake is out of service.", forKeyPath: "alertDetails")
+        }
 
         do {
             try managedContext.save()
@@ -198,9 +196,8 @@ class StationTableViewController: UITableViewController {
             print("Could not save. \(error), \(error.userInfo)")
         }
     }
-    /*
+    
     //For testing only
-
     private func deleteAllStations(){
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
             return
@@ -220,5 +217,4 @@ class StationTableViewController: UITableViewController {
             print("Detele all data in Station error :", error)
         }
     }
- */
 }
