@@ -12,7 +12,7 @@ class StationTableViewCell: UITableViewCell {
     
     //MARK: Properties
     @IBOutlet weak var stationName: UILabel!
-    
+
     @IBOutlet weak var redLine: UIView!
     @IBOutlet weak var brownLine: UIView!
     @IBOutlet weak var greenLine: UIView!

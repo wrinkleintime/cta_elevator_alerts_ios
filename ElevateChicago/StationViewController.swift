@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class StationViewController: UIViewController {
+class StationViewController: UIViewController, UINavigationControllerDelegate {
 
     //MARK: Properties
 
@@ -52,6 +52,15 @@ class StationViewController: UIViewController {
                     alertDetails.text = "All elevators at this station are working properly."
                 }
             }
+        }
+    }
+    
+    @IBAction func done(_ sender: UIBarButtonItem) {
+        if let owningNavigationController = navigationController {
+            owningNavigationController.popViewController(animated: true)
+        }
+        else {
+            fatalError("The StationViewController is not inside a navigation controller.")
         }
     }
 }
