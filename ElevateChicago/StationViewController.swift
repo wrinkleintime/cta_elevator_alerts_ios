@@ -23,6 +23,7 @@ class StationViewController: UIViewController, UINavigationControllerDelegate {
     @IBOutlet weak var blueLine: UIView!
     @IBOutlet weak var yellowLine: UIView!
     @IBOutlet weak var alertDetails: UILabel!
+    @IBOutlet weak var favoriteButton: UIBarButtonItem!
     
     //This value is passed by in `prepare(for:sender:)`
     var station: NSManagedObject?
@@ -52,16 +53,42 @@ class StationViewController: UIViewController, UINavigationControllerDelegate {
                     alertDetails.text = "All elevators at this station are working properly."
                 }
             }
+            
+            if (station.value(forKeyPath: "isFavorite") as? Bool ?? true){
+                favoriteButton.image = UIImage(systemName: "star.fill")
+            } else {
+                favoriteButton.image = UIImage(systemName: "star")
+            }
         }
     }
     
-    @IBAction func done(_ sender: UIBarButtonItem) {
-        if let owningNavigationController = navigationController {
-            owningNavigationController.popViewController(animated: true)
+    //MARK: Actions
+    @IBAction func clickFavoriteButton(_ sender: UIBarButtonItem) {
+        if (sender.image == UIImage(systemName: "star.fill")){
+            changeFavorite(isNowFavorite: false);
+            sender.image = UIImage(systemName: "star")
+        } else {
+            changeFavorite(isNowFavorite: true);
+            sender.image = UIImage(systemName: "star.fill")
         }
-        else {
-            fatalError("The StationViewController is not inside a navigation controller.")
+    }
+    
+    //MARK: Private functions
+    func changeFavorite(isNowFavorite: Bool){
+        station?.setValue(isNowFavorite, forKeyPath: "isFavorite")
+        
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+              return
+          }
+        
+        let managedContext = appDelegate.persistentContainer.viewContext
+        
+        do {
+            try managedContext.save()
+            } catch let error as NSError {
+            print("Could not save. \(error), \(error.userInfo)")
         }
+        
     }
 }
 

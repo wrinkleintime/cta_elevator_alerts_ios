@@ -16,7 +16,7 @@ class StationTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-                
+                                
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
             return
         }
@@ -33,6 +33,11 @@ class StationTableViewController: UITableViewController {
         } catch let error as NSError {
             print("Could not fetch. \(error), \(error.userInfo)")
         }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tableView.reloadData()
     }
 
     // MARK: - Table view data source
@@ -56,6 +61,7 @@ class StationTableViewController: UITableViewController {
         let station = stations[indexPath.row]
         
         cell.stationName.text = station.value(forKeyPath: "name") as? String
+        cell.hasAlert.isHidden = !(station.value(forKeyPath: "hasAlert") as? Bool ?? true)
         cell.redLine.isHidden = !(station.value(forKeyPath: "red") as? Bool ?? true)
         cell.blueLine.isHidden = !(station.value(forKeyPath: "blue") as? Bool ?? true)
         cell.brownLine.isHidden = !(station.value(forKeyPath: "brown") as? Bool ?? true)
@@ -65,55 +71,31 @@ class StationTableViewController: UITableViewController {
         cell.purpleLine.isHidden = !(station.value(forKeyPath: "purple") as? Bool ?? true)
         cell.blueLine.isHidden = !(station.value(forKeyPath: "blue") as? Bool ?? true)
         cell.yellowLine.isHidden = !(station.value(forKeyPath: "yellow") as? Bool ?? true)
+        
+        //Set filled or unfilled star for favorites
+        if (station.value(forKeyPath: "isFavorite") as? Bool ?? true){
+            cell.isFavorite.image = UIImage(systemName: "star.fill")
+            print("FAVE")
+        } else {
+            cell.isFavorite.image = UIImage(systemName: "star")
+            print("NO FAVE")
+        }
 
         return cell
     }
 
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
     // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         switch(segue.identifier ?? "") {
-
             case "ShowDetail":
-                guard let stationViewController = segue.destination as? StationViewController else {
+                guard let stationNavController = segue.destination as? UINavigationController else {
                     fatalError("Unexpected destination: \(segue.destination)")
+                }
+                
+                guard let viewController = stationNavController.viewControllers[0] as? StationViewController else {
+                    fatalError("Unexpected viewConroller!")
                 }
                  
                 guard let selectedStationCell = sender as? StationTableViewCell else {
@@ -125,27 +107,24 @@ class StationTableViewController: UITableViewController {
                 }
                  
                 let selectedStation = stations[indexPath.row]
-                stationViewController.station = selectedStation
+                
+                viewController.station = selectedStation
             
             case "ShowAllLines":
                 return
-//                guard let allLinesViewController = segue.destination as? LineTableViewController else {
-//                    fatalError("Unexpected destination: \(segue.destination)")
-//                }
-                 
-//                guard let selectedStationCell = sender as? StationTableViewCell else {
-//                    fatalError("Unexpected sender: \(String(describing: sender))")
-//                }
-//
-//                guard let indexPath = tableView.indexPath(for: selectedStationCell) else {
-//                    fatalError("The selected cell is not being displayed by the table")
-//                }
-//
-//                let selectedStation = stations[indexPath.row]
-//                stationDetailViewController.station = selectedStation
-//
-        default:
-               fatalError("Unexpected Segue Identifier; \(String(describing: segue.identifier))")
+            
+            case "ShowAllAlerts":
+                return
+
+            default:
+                   fatalError("Unexpected Segue Identifier; \(String(describing: segue.identifier))")
+        }
+    }
+    
+    //MARK: Actions
+    @IBAction func unwindToFavorites(sender: UIStoryboardSegue) {
+        if sender.source is StationViewController {
+            tableView.reloadData()
         }
     }
     
@@ -184,9 +163,11 @@ class StationTableViewController: UITableViewController {
         station.setValue(purple, forKeyPath: "purple")
         station.setValue(red, forKeyPath: "red")
         station.setValue(yellow, forKeyPath: "yellow")
+        
         if (id == "40380"){
             station.setValue(true, forKeyPath: "hasAlert")
             station.setValue("The elevator at Clark/Lake is out of service.", forKeyPath: "alertDetails")
+            station.setValue(true, forKeyPath: "isFavorite")
         }
 
         do {
