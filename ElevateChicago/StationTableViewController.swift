@@ -17,7 +17,7 @@ class StationTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        deleteAllStations()
+//        deleteAllStations()
         
         if (stations.count == 0){
             print("Pulling stations")
