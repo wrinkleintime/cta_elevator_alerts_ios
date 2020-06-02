@@ -113,6 +113,13 @@ class SpecificLineTableViewController: UITableViewController {
         }
     }
     
+    //MARK: Actions
+    @IBAction func unwindFromDetail(sender: UIStoryboardSegue) {
+        if sender.source is StationViewController {
+            tableView.reloadData()
+        }
+    }
+    
     
     //MARK: Private Methods
     private func getStationsInOrder(name: String) -> [String] {

@@ -273,7 +273,7 @@
                         <barButtonItem key="leftBarButtonItem" systemItem="done" id="Isd-AI-XpS">
                             <connections>
                                 <action selector="done:" destination="BYZ-38-t0r" id="Mcf-bZ-zvn"/>
-                                <segue destination="6hj-vK-daO" kind="unwind" unwindAction="unwindToFavoritesWithSender:" id="Qdt-Kg-X1i"/>
+                                <segue destination="6hj-vK-daO" kind="unwind" unwindAction="unwindFromDetailWithSender:" id="B8F-ci-qz8"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Item" image="star" catalog="system" id="EfU-tQ-2F6">
@@ -472,7 +472,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="XD0-z3-vZr"/>
+        <segue reference="bci-MP-fEF"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="exclamationmark.circle" catalog="system" width="128" height="121"/>

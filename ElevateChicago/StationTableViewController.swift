@@ -122,7 +122,7 @@ class StationTableViewController: UITableViewController {
     }
     
     //MARK: Actions
-    @IBAction func unwindToFavorites(sender: UIStoryboardSegue) {
+    @IBAction func unwindFromDetail(sender: UIStoryboardSegue) {
         if sender.source is StationViewController {
             tableView.reloadData()
         }
@@ -230,6 +230,7 @@ class StationTableViewController: UITableViewController {
                 print("Loading stations")
                 DispatchQueue.main.async {
                     self.loadStations(currStations: stationsJSON)
+                    self.tableView.reloadData()
                 }
                 
             } catch {
@@ -245,21 +246,33 @@ class StationTableViewController: UITableViewController {
         
         for stationJSON in currStations {
             if stationDict.keys.contains(stationJSON.map_id){
-                let tempStation = stationJSON
-                var alreadyLoadedStation = stationDict[stationJSON.map_id]!
                 
-                alreadyLoadedStation.ada = tempStation.ada && alreadyLoadedStation.ada
-                alreadyLoadedStation.red = tempStation.red && alreadyLoadedStation.red
-                alreadyLoadedStation.blue = tempStation.blue && alreadyLoadedStation.blue
-                alreadyLoadedStation.g = tempStation.g && alreadyLoadedStation.g
-                alreadyLoadedStation.brn = tempStation.brn && alreadyLoadedStation.brn
-                alreadyLoadedStation.p = tempStation.p && alreadyLoadedStation.p
-                alreadyLoadedStation.pexp = tempStation.pexp && alreadyLoadedStation.pexp
-                alreadyLoadedStation.y = tempStation.y && alreadyLoadedStation.y
-                alreadyLoadedStation.pnk = tempStation.pnk && alreadyLoadedStation.pnk
-                alreadyLoadedStation.o = tempStation.o && alreadyLoadedStation.o
+                let tempStation = stationJSON
+                let alreadyLoadedStation = stationDict[stationJSON.map_id]!
+                
+                if stationJSON.map_id == "40900"{
+                    print("Updating Howard 2nd")
+                    print("Already Loaded Red: " + alreadyLoadedStation.red.description)
+                    print("New Loaded Red: " + tempStation.red.description)
+                }
+                
+                stationDict[stationJSON.map_id]?.ada = tempStation.ada || alreadyLoadedStation.ada
+                stationDict[stationJSON.map_id]?.red = tempStation.red || alreadyLoadedStation.red
+                stationDict[stationJSON.map_id]?.blue = tempStation.blue || alreadyLoadedStation.blue
+                stationDict[stationJSON.map_id]?.g = tempStation.g || alreadyLoadedStation.g
+                stationDict[stationJSON.map_id]?.brn = tempStation.brn || alreadyLoadedStation.brn
+                stationDict[stationJSON.map_id]?.p = tempStation.p || alreadyLoadedStation.p
+                stationDict[stationJSON.map_id]?.pexp = tempStation.pexp || alreadyLoadedStation.pexp
+                stationDict[stationJSON.map_id]?.y = tempStation.y || alreadyLoadedStation.y
+                stationDict[stationJSON.map_id]?.pnk = tempStation.pnk || alreadyLoadedStation.pnk
+                stationDict[stationJSON.map_id]?.o = tempStation.o || alreadyLoadedStation.o
             } else {
                 stationDict[stationJSON.map_id] = stationJSON
+                
+                if stationJSON.map_id == "40900"{
+                    print("Updating Howard 1st")
+                    print("Red: " + stationJSON.red.description)
+                }
             }
         }
         
@@ -287,14 +300,13 @@ class StationTableViewController: UITableViewController {
             station.setValue(stationJSON.g, forKeyPath: "green")
             station.setValue(stationJSON.o, forKeyPath: "orange")
             station.setValue(stationJSON.pnk, forKeyPath: "pink")
-            station.setValue(stationJSON.p && stationJSON.pexp, forKeyPath: "purple")
+            station.setValue(stationJSON.p || stationJSON.pexp, forKeyPath: "purple")
             station.setValue(stationJSON.red, forKeyPath: "red")
             station.setValue(stationJSON.y, forKeyPath: "yellow")
             
             do {
                 try managedContext.save()
                 stations.append(station)
-                print("Station added")
                 } catch let error as NSError {
                 print("Could not save. \(error), \(error.userInfo)")
             }
