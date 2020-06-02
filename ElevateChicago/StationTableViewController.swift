@@ -16,6 +16,13 @@ class StationTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        deleteAllStations()
+        
+        if (stations.count == 0){
+            print("Pulling stations")
+            pullStations()
+        }
                                 
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
             return
@@ -25,11 +32,6 @@ class StationTableViewController: UITableViewController {
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Station")
         do{
             stations = try managedContext.fetch(fetchRequest)
-            // Load the sample data.
-            if (stations.count == 0){
-                loadSampleStations()
-                stations = try managedContext.fetch(fetchRequest)
-            }
         } catch let error as NSError {
             print("Could not fetch. \(error), \(error.userInfo)")
         }
@@ -75,10 +77,8 @@ class StationTableViewController: UITableViewController {
         //Set filled or unfilled star for favorites
         if (station.value(forKeyPath: "isFavorite") as? Bool ?? true){
             cell.isFavorite.image = UIImage(systemName: "star.fill")
-            print("FAVE")
         } else {
             cell.isFavorite.image = UIImage(systemName: "star")
-            print("NO FAVE")
         }
 
         return cell
@@ -180,6 +180,8 @@ class StationTableViewController: UITableViewController {
     
     //For testing only
     private func deleteAllStations(){
+        print("Deleting stations")
+
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
             return
         }
@@ -198,4 +200,123 @@ class StationTableViewController: UITableViewController {
             print("Detele all data in Station error :", error)
         }
     }
+    
+    private func pullStations(){
+        let session = URLSession.shared
+        let url = URL(string: "https://data.cityofchicago.org/resource/8pix-ypme.json")!
+        
+        var stationsJSON: [StationJSON] = []
+                
+        let task = session.dataTask(with: url) { data, response, error in
+            if error != nil {
+                print("Error!")
+                return
+            }
+            
+            guard let httpResponse = response as? HTTPURLResponse,
+                  (200...299).contains(httpResponse.statusCode) else {
+                print("Bad HTTP status code!")
+                return
+            }
+            
+            guard let mime = response?.mimeType, mime == "application/json" else {
+                print("Wrong MIME type!")
+                return
+            }
+        
+            do{
+                stationsJSON = try JSONDecoder().decode([StationJSON].self, from: data!)
+                print(stationsJSON[0].station_name)
+                print("Loading stations")
+                DispatchQueue.main.async {
+                    self.loadStations(currStations: stationsJSON)
+                }
+                
+            } catch {
+                print("JSON error: \(error.localizedDescription)")
+            }
+        }
+        task.resume()
+    }
+    
+    private func loadStations(currStations: [StationJSON]){
+        print(currStations.count)
+        var stationDict = [String: StationJSON]()
+        
+        for stationJSON in currStations {
+            if stationDict.keys.contains(stationJSON.map_id){
+                let tempStation = stationJSON
+                var alreadyLoadedStation = stationDict[stationJSON.map_id]!
+                
+                alreadyLoadedStation.ada = tempStation.ada && alreadyLoadedStation.ada
+                alreadyLoadedStation.red = tempStation.red && alreadyLoadedStation.red
+                alreadyLoadedStation.blue = tempStation.blue && alreadyLoadedStation.blue
+                alreadyLoadedStation.g = tempStation.g && alreadyLoadedStation.g
+                alreadyLoadedStation.brn = tempStation.brn && alreadyLoadedStation.brn
+                alreadyLoadedStation.p = tempStation.p && alreadyLoadedStation.p
+                alreadyLoadedStation.pexp = tempStation.pexp && alreadyLoadedStation.pexp
+                alreadyLoadedStation.y = tempStation.y && alreadyLoadedStation.y
+                alreadyLoadedStation.pnk = tempStation.pnk && alreadyLoadedStation.pnk
+                alreadyLoadedStation.o = tempStation.o && alreadyLoadedStation.o
+            } else {
+                stationDict[stationJSON.map_id] = stationJSON
+            }
+        }
+        
+        print("Station logic parsed")
+        print(stationDict.values.count)
+
+        for stationJSON in stationDict.values{
+            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+                  return
+            }
+            
+            let managedContext = appDelegate.persistentContainer.viewContext
+            let entity = NSEntityDescription.entity(forEntityName: "Station",
+                                         in: managedContext)!
+            let station = NSManagedObject(entity: entity, insertInto: managedContext)
+            
+            station.setValue(stationJSON.station_name, forKeyPath: "name")
+            station.setValue("", forKeyPath: "alertDetails")
+            station.setValue(stationJSON.map_id, forKeyPath: "id")
+            station.setValue(false, forKeyPath: "hasAlert")
+            station.setValue(stationJSON.ada, forKeyPath: "hasElevator")
+            station.setValue(false, forKeyPath: "isFavorite")
+            station.setValue(stationJSON.blue, forKeyPath: "blue")
+            station.setValue(stationJSON.brn, forKeyPath: "brown")
+            station.setValue(stationJSON.g, forKeyPath: "green")
+            station.setValue(stationJSON.o, forKeyPath: "orange")
+            station.setValue(stationJSON.pnk, forKeyPath: "pink")
+            station.setValue(stationJSON.p && stationJSON.pexp, forKeyPath: "purple")
+            station.setValue(stationJSON.red, forKeyPath: "red")
+            station.setValue(stationJSON.y, forKeyPath: "yellow")
+            
+            do {
+                try managedContext.save()
+                stations.append(station)
+                print("Station added")
+                } catch let error as NSError {
+                print("Could not save. \(error), \(error.userInfo)")
+            }
+        }
+    }
+    
+    //Decoded from API call
+    struct StationJSON: Codable {
+        var map_id: String
+        var station_name: String
+        var ada: Bool
+        var red: Bool
+        var blue: Bool
+        var g: Bool
+        var brn: Bool
+        var p: Bool
+        var pexp: Bool
+        var y: Bool
+        var pnk: Bool
+        var o: Bool
+    }
 }
+
+
+
