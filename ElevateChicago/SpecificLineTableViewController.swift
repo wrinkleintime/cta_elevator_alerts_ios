@@ -13,6 +13,12 @@ class SpecificLineTableViewController: UITableViewController {
     
     //MARK: Properties
     var line: String = ""
+        
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        self.navigationItem.title = line + " Line";
+    }
     
     // MARK: - Table view data source
 
@@ -31,13 +37,58 @@ class SpecificLineTableViewController: UITableViewController {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? SpecificLineTableViewCell else{
             fatalError("The dequeued cell is not an instance of SpecificLineTableViewCell.")
         }
+                
+        switch indexPath.row {
+            case 0:
+                cell.topLine.isHidden = true;
 
+            case self.tableView(tableView, numberOfRowsInSection: 0) - 1:
+                cell.bottomLine.isHidden = true;
+
+            default:
+                cell.topLine.isHidden = false
+                cell.bottomLine.isHidden = false
+        }
+        
         // Fetches the appropriate line for the data source layout.
         let stationID = getStationsInOrder(name: line)[indexPath.row]
         let station = getStationById(id: stationID)
 
         if let station = station {
             cell.name.text = station.value(forKeyPath: "name") as? String
+            
+            cell.alert.isHidden = !(station.value(forKeyPath: "hasAlert") as? Bool ?? true)
+            
+            cell.isFavorite.isHidden = !(station.value(forKeyPath: "isFavorite") as? Bool ?? true)
+            
+            //TODO: Get colors by hex
+//            var color: UIColor?
+//
+//            switch line{
+//                case "Red":
+//                    color = UIColor(named: "redColor")
+//                case "Green":
+//                    color = UIColor(named: "greenColor")
+//                case "Blue":
+//                    color = UIColor(named: "blueColor")
+//                case "Orange":
+//                    color = UIColor(named: "orangeColor")
+//                case "Purple":
+//                    color = UIColor(named: "purpleColor")
+//                case "Pink":
+//                    color = UIColor(named: "magentaColor")
+//                case "Brown":
+//                    color = UIColor(named: "brownColor")
+//                case "Yellow":
+//                    color = UIColor(named: "yellowColor")
+//                default:
+//                    color = UIColor(named: "blackColor")
+//            }
+//
+//            cell.topLine.backgroundColor = color
+//            cell.bottomLine.backgroundColor = color
+//            cell.circle.tintColor = color
+//            cell.circle.backgroundColor = color
         } else {
             cell.name.text = "No station!"
         }

@@ -16,29 +16,20 @@ class StationTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-//        deleteAllStations()
-        
-        if (stations.count == 0){
-            print("Pulling stations")
-            pullStations()
-        }
-                                
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-            return
-        }
-
-        let managedContext = appDelegate.persistentContainer.viewContext
-        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Station")
-        do{
-            stations = try managedContext.fetch(fetchRequest)
-        } catch let error as NSError {
-            print("Could not fetch. \(error), \(error.userInfo)")
-        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+
+//        deleteAllStations()
+        
+        //TODO: Fix this!
+        if (stations.count == 0){
+            print("Pulling stations")
+            pullStations()
+        }
+        
+        getStationFavorites()
         tableView.reloadData()
     }
 
@@ -123,60 +114,60 @@ class StationTableViewController: UITableViewController {
     
     //MARK: Actions
     @IBAction func unwindFromDetail(sender: UIStoryboardSegue) {
-        if sender.source is StationViewController {
-            tableView.reloadData()
-        }
+//        if sender.source is StationViewController {
+//            tableView.reloadData()
+//        }
     }
     
     //MARK: Private Methods
      
-    private func loadSampleStations() {
-        save(id: "40100", name: "Morse", hasElevator: false, red: true, blue: false, brown: false, green: false, orange: false, pink: false, purple: false, yellow: false)
-
-        save(id: "40120", name: "35th/Archer", hasElevator: true, red: false, blue: false, brown: false, green: false, orange: true, pink: false, purple: false, yellow: false)
-        
-        save(id: "40380", name: "Clark/Lake", hasElevator: true, red: false, blue: false, brown: false, green: true, orange: true, pink: true, purple: true, yellow: false)
-    }
-    
-    private func save(id: String, name: String, hasElevator: Bool, red: Bool, blue: Bool, brown: Bool, green: Bool, orange: Bool, pink: Bool, purple: Bool, yellow: Bool) {
-      
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-            return
-        }
-      
-        let managedContext = appDelegate.persistentContainer.viewContext
-        let entity = NSEntityDescription.entity(forEntityName: "Station",
-                                   in: managedContext)!
-        let station = NSManagedObject(entity: entity, insertInto: managedContext)
-      
-        station.setValue(name, forKeyPath: "name")
-        station.setValue("", forKeyPath: "alertDetails")
-        station.setValue(id, forKeyPath: "id")
-        station.setValue(false, forKeyPath: "hasAlert")
-        station.setValue(hasElevator, forKeyPath: "hasElevator")
-        station.setValue(false, forKeyPath: "isFavorite")
-        station.setValue(blue, forKeyPath: "blue")
-        station.setValue(brown, forKeyPath: "brown")
-        station.setValue(green, forKeyPath: "green")
-        station.setValue(orange, forKeyPath: "orange")
-        station.setValue(pink, forKeyPath: "pink")
-        station.setValue(purple, forKeyPath: "purple")
-        station.setValue(red, forKeyPath: "red")
-        station.setValue(yellow, forKeyPath: "yellow")
-        
-        if (id == "40380"){
-            station.setValue(true, forKeyPath: "hasAlert")
-            station.setValue("The elevator at Clark/Lake is out of service.", forKeyPath: "alertDetails")
-            station.setValue(true, forKeyPath: "isFavorite")
-        }
-
-        do {
-            try managedContext.save()
-            stations.append(station)
-            } catch let error as NSError {
-            print("Could not save. \(error), \(error.userInfo)")
-        }
-    }
+//    private func loadSampleStations() {
+//        save(id: "40100", name: "Morse", hasElevator: false, red: true, blue: false, brown: false, green: false, orange: false, pink: false, purple: false, yellow: false)
+//
+//        save(id: "40120", name: "35th/Archer", hasElevator: true, red: false, blue: false, brown: false, green: false, orange: true, pink: false, purple: false, yellow: false)
+//
+//        save(id: "40380", name: "Clark/Lake", hasElevator: true, red: false, blue: false, brown: false, green: true, orange: true, pink: true, purple: true, yellow: false)
+//    }
+//
+//    private func save(id: String, name: String, hasElevator: Bool, red: Bool, blue: Bool, brown: Bool, green: Bool, orange: Bool, pink: Bool, purple: Bool, yellow: Bool) {
+//
+//        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+//            return
+//        }
+//
+//        let managedContext = appDelegate.persistentContainer.viewContext
+//        let entity = NSEntityDescription.entity(forEntityName: "Station",
+//                                   in: managedContext)!
+//        let station = NSManagedObject(entity: entity, insertInto: managedContext)
+//
+//        station.setValue(name, forKeyPath: "name")
+//        station.setValue("", forKeyPath: "alertDetails")
+//        station.setValue(id, forKeyPath: "id")
+//        station.setValue(false, forKeyPath: "hasAlert")
+//        station.setValue(hasElevator, forKeyPath: "hasElevator")
+//        station.setValue(false, forKeyPath: "isFavorite")
+//        station.setValue(blue, forKeyPath: "blue")
+//        station.setValue(brown, forKeyPath: "brown")
+//        station.setValue(green, forKeyPath: "green")
+//        station.setValue(orange, forKeyPath: "orange")
+//        station.setValue(pink, forKeyPath: "pink")
+//        station.setValue(purple, forKeyPath: "purple")
+//        station.setValue(red, forKeyPath: "red")
+//        station.setValue(yellow, forKeyPath: "yellow")
+//
+//        if (id == "40380"){
+//            station.setValue(true, forKeyPath: "hasAlert")
+//            station.setValue("The elevator at Clark/Lake is out of service.", forKeyPath: "alertDetails")
+//            station.setValue(true, forKeyPath: "isFavorite")
+//        }
+//
+//        do {
+//            try managedContext.save()
+//            stations.append(station)
+//            } catch let error as NSError {
+//            print("Could not save. \(error), \(error.userInfo)")
+//        }
+//    }
     
     //For testing only
     private func deleteAllStations(){
@@ -230,6 +221,7 @@ class StationTableViewController: UITableViewController {
                 print("Loading stations")
                 DispatchQueue.main.async {
                     self.loadStations(currStations: stationsJSON)
+                    self.getStationFavorites()
                     self.tableView.reloadData()
                 }
                 
@@ -249,12 +241,6 @@ class StationTableViewController: UITableViewController {
                 
                 let tempStation = stationJSON
                 let alreadyLoadedStation = stationDict[stationJSON.map_id]!
-                
-                if stationJSON.map_id == "40900"{
-                    print("Updating Howard 2nd")
-                    print("Already Loaded Red: " + alreadyLoadedStation.red.description)
-                    print("New Loaded Red: " + tempStation.red.description)
-                }
                 
                 stationDict[stationJSON.map_id]?.ada = tempStation.ada || alreadyLoadedStation.ada
                 stationDict[stationJSON.map_id]?.red = tempStation.red || alreadyLoadedStation.red
@@ -304,12 +290,36 @@ class StationTableViewController: UITableViewController {
             station.setValue(stationJSON.red, forKeyPath: "red")
             station.setValue(stationJSON.y, forKeyPath: "yellow")
             
+            //Dummy alerts
+            if stationJSON.map_id == "40100" {
+                station.setValue(true, forKeyPath: "hasAlert")
+                station.setValue("The elevator at Morse is out!", forKeyPath: "alertDetails")
+            }
+            
             do {
                 try managedContext.save()
                 stations.append(station)
                 } catch let error as NSError {
                 print("Could not save. \(error), \(error.userInfo)")
             }
+        }
+    }
+    
+    private func getStationFavorites(){
+        print("Getting station favorites")
+        
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+            return
+        }
+
+        let managedContext = appDelegate.persistentContainer.viewContext
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Station")
+        fetchRequest.predicate = NSPredicate(format: "isFavorite == 1")
+
+        do{
+           stations = try managedContext.fetch(fetchRequest)
+        } catch let error as NSError {
+           print("Could not fetch. \(error), \(error.userInfo)")
         }
     }
     

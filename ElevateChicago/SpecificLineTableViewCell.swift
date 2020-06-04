@@ -13,6 +13,11 @@ class SpecificLineTableViewCell: UITableViewCell {
     //MARK: Properties
     @IBOutlet weak var name: UILabel!
     @IBOutlet weak var accessible: UIImageView!
+    @IBOutlet weak var topLine: UIView!
+    @IBOutlet weak var bottomLine: UIView!
+    @IBOutlet weak var circle: UIImageView!
+    @IBOutlet weak var alert: UIImageView!
+    @IBOutlet weak var isFavorite: UIImageView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
