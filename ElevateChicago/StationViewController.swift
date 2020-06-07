@@ -54,7 +54,10 @@ class StationViewController: UIViewController, UINavigationControllerDelegate {
                 }
             }
             
-            if (station.value(forKeyPath: "isFavorite") as? Bool ?? true){
+            if ((station.value(forKeyPath: "hasElevator") as? Bool ?? false) == false){
+                favoriteButton.isEnabled = false
+                favoriteButton.tintColor = UIColor.clear
+            } else if (station.value(forKeyPath: "isFavorite") as? Bool ?? false){
                 favoriteButton.image = UIImage(systemName: "star.fill")
             } else {
                 favoriteButton.image = UIImage(systemName: "star")
