@@ -22,9 +22,7 @@ class StationTableViewController: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        //TODO: Constraint issue with All Lines
-        
+                
         print("View Will Appear")
         getStationFavorites()
         tableView.reloadData()

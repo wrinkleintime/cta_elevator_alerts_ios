@@ -18,6 +18,15 @@ class SpecificLineTableViewController: UITableViewController {
         super.viewDidLoad()
         
         self.navigationItem.title = line + " Line";
+    
+        //TODO: Line name color
+//        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: getLineColor()!]
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        tableView.reloadData()
     }
     
     // MARK: - Table view data source
@@ -58,37 +67,12 @@ class SpecificLineTableViewController: UITableViewController {
             cell.name.text = station.value(forKeyPath: "name") as? String
             
             cell.alert.isHidden = !(station.value(forKeyPath: "hasAlert") as? Bool ?? true)
-            
             cell.isFavorite.isHidden = !(station.value(forKeyPath: "isFavorite") as? Bool ?? true)
-            
-            //TODO: Get colors by hex
-//            var color: UIColor?
-//
-//            switch line{
-//                case "Red":
-//                    color = UIColor(named: "redColor")
-//                case "Green":
-//                    color = UIColor(named: "greenColor")
-//                case "Blue":
-//                    color = UIColor(named: "blueColor")
-//                case "Orange":
-//                    color = UIColor(named: "orangeColor")
-//                case "Purple":
-//                    color = UIColor(named: "purpleColor")
-//                case "Pink":
-//                    color = UIColor(named: "magentaColor")
-//                case "Brown":
-//                    color = UIColor(named: "brownColor")
-//                case "Yellow":
-//                    color = UIColor(named: "yellowColor")
-//                default:
-//                    color = UIColor(named: "blackColor")
-//            }
-//
-//            cell.topLine.backgroundColor = color
-//            cell.bottomLine.backgroundColor = color
-//            cell.circle.tintColor = color
-//            cell.circle.backgroundColor = color
+
+            cell.topLine.backgroundColor = getLineColor()
+            cell.bottomLine.backgroundColor = getLineColor()
+            cell.circle.tintColor = getLineColor()
+            cell.accessible.backgroundColor = getLineColor()
         } else {
             cell.name.text = "No station!"
         }
@@ -185,4 +169,48 @@ class SpecificLineTableViewController: UITableViewController {
         }
         return nil
     }
+
+    private func getLineColor() -> UIColor? {
+       switch line {
+           case "Red":
+               return UIColor(named: "C6222F")
+           case "Green":
+               return UIColor(named: "259B3A")
+           case "Blue":
+               return UIColor(named: "34A1DE")
+           case "Orange":
+               return UIColor(named: "F7451B")
+           case "Purple":
+               return UIColor(named: "522298")
+           case "Pink":
+               return UIColor(named: "E27EA6")
+           case "Brown":
+               return UIColor(named: "62361A")
+           case "Yellow":
+               return UIColor(named: "F9E300")
+           default:
+               return UIColor(named: "000000")
+       }
+    }
 }
+
+public extension UIColor {
+    convenience init?(named: String) {
+        var hex = named
+
+        // Check for hash and remove the hash
+        if hex.hasPrefix("#") {
+            hex = String(hex[hex.index(after: hex.startIndex)...])
+        }
+
+        guard let hexVal = Int64(hex, radix: 16) else {
+            self.init()
+            return nil
+        }
+
+        self.init(red:   CGFloat( (hexVal & 0xFF0000) >> 16 ) / 255.0,
+        green: CGFloat( (hexVal & 0x00FF00) >> 8 ) / 255.0,
+        blue:  CGFloat( (hexVal & 0x0000FF) >> 0 ) / 255.0, alpha: 1.0)
+    }
+}
+
