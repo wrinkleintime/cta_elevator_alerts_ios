@@ -23,7 +23,6 @@ class StationTableViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        //TODO: Don't allow favorites for stations without elevators
         //TODO: Constraint issue with All Lines
         
         print("View Will Appear")

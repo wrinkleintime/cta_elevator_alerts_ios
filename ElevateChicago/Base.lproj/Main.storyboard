@@ -349,7 +349,6 @@
                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="A1F-FW-YZW">
                                             <rect key="frame" x="20" y="11" width="50" height="68"/>
                                             <constraints>
-                                                <constraint firstAttribute="height" constant="50" id="ojG-IX-Zzq"/>
                                                 <constraint firstAttribute="width" constant="50" id="rnm-ZJ-fkG"/>
                                             </constraints>
                                         </imageView>
@@ -368,6 +367,7 @@
                                         <constraint firstItem="0gZ-yp-jPI" firstAttribute="trailing" secondItem="K4a-g6-jdL" secondAttribute="trailingMargin" id="Vac-F0-t6W"/>
                                         <constraint firstItem="A1F-FW-YZW" firstAttribute="leading" secondItem="K4a-g6-jdL" secondAttribute="leadingMargin" id="fCN-RL-T1d"/>
                                         <constraint firstItem="0gZ-yp-jPI" firstAttribute="leading" secondItem="A1F-FW-YZW" secondAttribute="trailing" constant="8" id="iQI-Nh-457"/>
+                                        <constraint firstItem="A1F-FW-YZW" firstAttribute="leading" secondItem="K4a-g6-jdL" secondAttribute="leadingMargin" id="leU-Dc-2NK"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
@@ -398,14 +398,14 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="SpecificLineTableViewCell" id="g2K-rA-AsO" customClass="SpecificLineTableViewCell" customModule="ElevateChicago" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="28" width="414" height="65.5"/>
+                                <rect key="frame" x="0.0" y="28" width="414" height="67.5"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="g2K-rA-AsO" id="mDn-2d-pDY">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="65.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="67.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="circle.fill" catalog="system" highlightedImage="circle.fill" translatesAutoresizingMaskIntoConstraints="NO" id="g1M-dr-5We">
-                                            <rect key="frame" x="51" y="23.5" width="20" height="19"/>
+                                            <rect key="frame" x="51" y="24.5" width="20" height="19"/>
                                             <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="20" id="8yp-qN-XVd" userLabel="width = 21"/>
@@ -419,14 +419,14 @@
                                             <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </view>
                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="AccessibleIcon" translatesAutoresizingMaskIntoConstraints="NO" id="D3a-Bg-nH8">
-                                            <rect key="frame" x="8" y="15" width="35" height="35.5"/>
+                                            <rect key="frame" x="8" y="16.5" width="35" height="35"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="35" id="02F-an-iuV"/>
                                                 <constraint firstAttribute="width" constant="35" id="DsS-al-zdp"/>
                                             </constraints>
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Station Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CrJ-5H-pfQ">
-                                            <rect key="frame" x="79" y="18.5" width="241" height="29"/>
+                                            <rect key="frame" x="79" y="19" width="241" height="29.5"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
@@ -438,7 +438,7 @@
                                             <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </view>
                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="exclamationmark.circle" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="php-gR-e8m">
-                                            <rect key="frame" x="328" y="16" width="35" height="34"/>
+                                            <rect key="frame" x="328" y="17" width="35" height="34"/>
                                             <color key="tintColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="35" id="PE9-VP-rzD"/>
@@ -446,7 +446,7 @@
                                             </constraints>
                                         </imageView>
                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="star.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="Rmu-yD-Rq5">
-                                            <rect key="frame" x="371" y="15.5" width="35" height="35"/>
+                                            <rect key="frame" x="371" y="16.5" width="35" height="35"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="35" id="ba5-gV-fie"/>
                                                 <constraint firstAttribute="height" constant="35" id="c2I-k5-IJw"/>
@@ -454,18 +454,18 @@
                                         </imageView>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstAttribute="bottom" secondItem="D3a-Bg-nH8" secondAttribute="bottom" constant="15" id="FgB-al-gTf"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="CrJ-5H-pfQ" secondAttribute="bottom" constant="8" id="AoS-rY-kAI"/>
                                         <constraint firstItem="CrJ-5H-pfQ" firstAttribute="centerY" secondItem="mDn-2d-pDY" secondAttribute="centerY" id="ICI-gb-1RN"/>
                                         <constraint firstItem="g1M-dr-5We" firstAttribute="leading" secondItem="D3a-Bg-nH8" secondAttribute="trailing" constant="8" id="ML4-H7-r6I"/>
                                         <constraint firstItem="D3a-Bg-nH8" firstAttribute="leading" secondItem="mDn-2d-pDY" secondAttribute="leading" constant="8" id="VNw-Z7-3b9"/>
                                         <constraint firstItem="g1M-dr-5We" firstAttribute="centerY" secondItem="mDn-2d-pDY" secondAttribute="centerY" id="bUS-9t-2WZ"/>
                                         <constraint firstAttribute="trailing" secondItem="Rmu-yD-Rq5" secondAttribute="trailing" constant="8" id="dMK-bN-KaU"/>
                                         <constraint firstItem="D3a-Bg-nH8" firstAttribute="centerY" secondItem="mDn-2d-pDY" secondAttribute="centerY" id="dYy-Ax-Gju"/>
-                                        <constraint firstItem="D3a-Bg-nH8" firstAttribute="top" secondItem="mDn-2d-pDY" secondAttribute="top" constant="15" id="fwX-ai-Ty7"/>
                                         <constraint firstItem="CrJ-5H-pfQ" firstAttribute="leading" secondItem="g1M-dr-5We" secondAttribute="trailing" constant="8" id="gns-uo-zWU"/>
                                         <constraint firstItem="php-gR-e8m" firstAttribute="leading" secondItem="CrJ-5H-pfQ" secondAttribute="trailing" constant="8" id="kbN-ma-CwY"/>
                                         <constraint firstItem="Rmu-yD-Rq5" firstAttribute="centerY" secondItem="mDn-2d-pDY" secondAttribute="centerY" id="pIp-vY-Q1Z"/>
                                         <constraint firstItem="Rmu-yD-Rq5" firstAttribute="leading" secondItem="php-gR-e8m" secondAttribute="trailing" constant="8" id="q54-Rv-vyN"/>
+                                        <constraint firstItem="CrJ-5H-pfQ" firstAttribute="top" secondItem="mDn-2d-pDY" secondAttribute="topMargin" constant="8" id="u1h-QF-CTh"/>
                                         <constraint firstItem="php-gR-e8m" firstAttribute="centerY" secondItem="mDn-2d-pDY" secondAttribute="centerY" id="uF6-sl-SuE"/>
                                         <constraint firstItem="Rmu-yD-Rq5" firstAttribute="leading" secondItem="php-gR-e8m" secondAttribute="trailing" constant="8" id="xL8-mr-ZXl"/>
                                     </constraints>
