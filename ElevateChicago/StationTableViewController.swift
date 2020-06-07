@@ -16,19 +16,17 @@ class StationTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+//        deleteAllStations()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
-//        deleteAllStations()
         
-        //TODO: Fix this!
-        if (stations.count == 0){
-            print("Pulling stations")
-            pullStations()
-        }
+        //TODO: Don't allow favorites for stations without elevators
+        //TODO: Constraint issue with All Lines
         
+        print("View Will Appear")
         getStationFavorites()
         tableView.reloadData()
     }
@@ -114,60 +112,14 @@ class StationTableViewController: UITableViewController {
     
     //MARK: Actions
     @IBAction func unwindFromDetail(sender: UIStoryboardSegue) {
-//        if sender.source is StationViewController {
-//            tableView.reloadData()
-//        }
+        if sender.source is StationViewController {
+            print("Unwinding")
+            getStationFavorites()
+            tableView.reloadData()
+        }
     }
     
     //MARK: Private Methods
-     
-//    private func loadSampleStations() {
-//        save(id: "40100", name: "Morse", hasElevator: false, red: true, blue: false, brown: false, green: false, orange: false, pink: false, purple: false, yellow: false)
-//
-//        save(id: "40120", name: "35th/Archer", hasElevator: true, red: false, blue: false, brown: false, green: false, orange: true, pink: false, purple: false, yellow: false)
-//
-//        save(id: "40380", name: "Clark/Lake", hasElevator: true, red: false, blue: false, brown: false, green: true, orange: true, pink: true, purple: true, yellow: false)
-//    }
-//
-//    private func save(id: String, name: String, hasElevator: Bool, red: Bool, blue: Bool, brown: Bool, green: Bool, orange: Bool, pink: Bool, purple: Bool, yellow: Bool) {
-//
-//        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-//            return
-//        }
-//
-//        let managedContext = appDelegate.persistentContainer.viewContext
-//        let entity = NSEntityDescription.entity(forEntityName: "Station",
-//                                   in: managedContext)!
-//        let station = NSManagedObject(entity: entity, insertInto: managedContext)
-//
-//        station.setValue(name, forKeyPath: "name")
-//        station.setValue("", forKeyPath: "alertDetails")
-//        station.setValue(id, forKeyPath: "id")
-//        station.setValue(false, forKeyPath: "hasAlert")
-//        station.setValue(hasElevator, forKeyPath: "hasElevator")
-//        station.setValue(false, forKeyPath: "isFavorite")
-//        station.setValue(blue, forKeyPath: "blue")
-//        station.setValue(brown, forKeyPath: "brown")
-//        station.setValue(green, forKeyPath: "green")
-//        station.setValue(orange, forKeyPath: "orange")
-//        station.setValue(pink, forKeyPath: "pink")
-//        station.setValue(purple, forKeyPath: "purple")
-//        station.setValue(red, forKeyPath: "red")
-//        station.setValue(yellow, forKeyPath: "yellow")
-//
-//        if (id == "40380"){
-//            station.setValue(true, forKeyPath: "hasAlert")
-//            station.setValue("The elevator at Clark/Lake is out of service.", forKeyPath: "alertDetails")
-//            station.setValue(true, forKeyPath: "isFavorite")
-//        }
-//
-//        do {
-//            try managedContext.save()
-//            stations.append(station)
-//            } catch let error as NSError {
-//            print("Could not save. \(error), \(error.userInfo)")
-//        }
-//    }
     
     //For testing only
     private func deleteAllStations(){
@@ -188,11 +140,12 @@ class StationTableViewController: UITableViewController {
                 managedContext.delete(objectData)
             }
         } catch let error {
-            print("Detele all data in Station error :", error)
+            print("Delete all data in Station error :", error)
         }
     }
     
     private func pullStations(){
+        print("Pulling stations")
         let session = URLSession.shared
         let url = URL(string: "https://data.cityofchicago.org/resource/8pix-ypme.json")!
         
@@ -217,8 +170,6 @@ class StationTableViewController: UITableViewController {
         
             do{
                 stationsJSON = try JSONDecoder().decode([StationJSON].self, from: data!)
-                print(stationsJSON[0].station_name)
-                print("Loading stations")
                 DispatchQueue.main.async {
                     self.loadStations(currStations: stationsJSON)
                     self.getStationFavorites()
@@ -233,7 +184,8 @@ class StationTableViewController: UITableViewController {
     }
     
     private func loadStations(currStations: [StationJSON]){
-        print(currStations.count)
+        //FIXME: Make sure # of stations is correct
+        print("Loading stations")
         var stationDict = [String: StationJSON]()
         
         for stationJSON in currStations {
@@ -254,17 +206,9 @@ class StationTableViewController: UITableViewController {
                 stationDict[stationJSON.map_id]?.o = tempStation.o || alreadyLoadedStation.o
             } else {
                 stationDict[stationJSON.map_id] = stationJSON
-                
-                if stationJSON.map_id == "40900"{
-                    print("Updating Howard 1st")
-                    print("Red: " + stationJSON.red.description)
-                }
             }
         }
         
-        print("Station logic parsed")
-        print(stationDict.values.count)
-
         for stationJSON in stationDict.values{
             guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
                   return
@@ -291,9 +235,9 @@ class StationTableViewController: UITableViewController {
             station.setValue(stationJSON.y, forKeyPath: "yellow")
             
             //Dummy alerts
-            if stationJSON.map_id == "40100" {
+            if stationJSON.map_id == "41300" {
                 station.setValue(true, forKeyPath: "hasAlert")
-                station.setValue("The elevator at Morse is out!", forKeyPath: "alertDetails")
+                station.setValue("The elevator at Loyola is out!", forKeyPath: "alertDetails")
             }
             
             do {
@@ -307,6 +251,10 @@ class StationTableViewController: UITableViewController {
     
     private func getStationFavorites(){
         print("Getting station favorites")
+        
+        if (stations.count == 0){
+            pullStations()
+        }
         
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
             return
