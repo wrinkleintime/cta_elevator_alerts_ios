@@ -88,30 +88,36 @@ class SpecificLineTableViewController: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)
 
-        guard let stationNavController = segue.destination as? UINavigationController else {
-                fatalError("Unexpected destination: \(segue.destination)")
+        switch(segue.identifier ?? "") {
+        case "ShowDetailSpecific":
+
+            guard let stationNavController = segue.destination as? UINavigationController else {
+                    fatalError("Unexpected destination: \(segue.destination)")
+                }
+            
+            guard let stationViewController = stationNavController.viewControllers[0] as? StationViewController else {
+                fatalError("Unexpected viewController!")
             }
-        
-        guard let stationViewController = stationNavController.viewControllers[0] as? StationViewController else {
-            fatalError("Unexpected viewConroller!")
-        }
 
-        guard let selectedStationCell = sender as? SpecificLineTableViewCell else {
-            fatalError("Unexpected sender: \(String(describing: sender))")
-        }
+            guard let selectedStationCell = sender as? SpecificLineTableViewCell else {
+                fatalError("Unexpected sender: \(String(describing: sender))")
+            }
 
-        guard let indexPath = tableView.indexPath(for: selectedStationCell) else {
-            fatalError("The selected cell is not being displayed by the table")
-        }
-        
-        // Fetches the appropriate line for the data source layout.
-        let stationID = getStationsInOrder(name: line)[indexPath.row]
-        let selectedStation = getStationById(id: stationID)
+            guard let indexPath = tableView.indexPath(for: selectedStationCell) else {
+                fatalError("The selected cell is not being displayed by the table")
+            }
+            
+            // Fetches the appropriate line for the data source layout.
+            let stationID = getStationsInOrder(name: line)[indexPath.row]
+            let selectedStation = getStationById(id: stationID)
 
-        if let selectedStation = selectedStation {
-            stationViewController.station = selectedStation
-        } else {
-            stationViewController.station = nil
+            if let selectedStation = selectedStation {
+                stationViewController.station = selectedStation
+            } else {
+                stationViewController.station = nil
+            }
+        default:
+            return
         }
     }
     
@@ -121,7 +127,6 @@ class SpecificLineTableViewController: UITableViewController {
             tableView.reloadData()
         }
     }
-    
     
     //MARK: Private Methods
     private func getStationsInOrder(name: String) -> [String] {

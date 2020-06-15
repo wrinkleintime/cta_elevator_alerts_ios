@@ -11,6 +11,15 @@ import CoreData
 
 class StationTableViewController: UITableViewController {
     
+    //TODO: Alerts, push notifications, alerts by line, home button, splash screen
+    //TODO: Specific line -- locations of alert, star
+    //TODO: Architecture - performance, concurrency
+    //TODO: Testing - unit tests, functional tests, user tests
+    //TODO: Apple watch - ??
+    //TODO: Pay close attention to Apple deployment
+    
+    //TODO: Schedule - week 7 (coding complete), week 10 (testing & deployment), week 12 (as done as possible)
+    
     //MARK: Properties
     var stations: [NSManagedObject] = []
 
@@ -116,6 +125,14 @@ class StationTableViewController: UITableViewController {
         }
     }
     
+    @IBAction func unwindFromSpecificLine(sender: UIStoryboardSegue) {
+        if sender.source is SpecificLineTableViewController {
+            print("Unwinding")
+            getStationFavorites()
+            tableView.reloadData()
+        }
+    }
+    
     //MARK: Private Methods
     
     //For testing only
@@ -141,6 +158,7 @@ class StationTableViewController: UITableViewController {
         }
     }
     
+    //TODO: Where to put this?
     private func pullStations(){
         print("Pulling stations")
         let session = URLSession.shared
