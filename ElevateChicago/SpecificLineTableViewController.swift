@@ -18,9 +18,6 @@ class SpecificLineTableViewController: UITableViewController {
         super.viewDidLoad()
         
         self.navigationItem.title = line + " Line";
-    
-        //TODO: Line name color
-//        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: getLineColor()!]
     }
     
     override func viewWillAppear(_ animated: Bool) {

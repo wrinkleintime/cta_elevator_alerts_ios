@@ -11,9 +11,8 @@ import CoreData
 
 class StationTableViewController: UITableViewController {
     
-    //TODO: Alerts, push notifications, alerts by line, specific line locations of alert/star icons, concurrency in network requests/json/io
+    //TODO: Push notifications, alerts by line, concurrency in network requests/json/io & alert pulling timing
     //TODO: Testing - unit tests, functional tests, user tests
-    //TODO: Apple watch - ??
     //TODO: Pay close attention to Apple deployment
     
     //TODO: Schedule - week 7 (coding complete), week 10 (testing & deployment), week 12 (as done as possible)
@@ -270,7 +269,6 @@ class StationTableViewController: UITableViewController {
                                          in: managedContext)!
             let station = NSManagedObject(entity: entity, insertInto: managedContext)
             
-            station.setValue(stationJSON.station_name, forKeyPath: "name")
             station.setValue("", forKeyPath: "alertDetails")
             station.setValue(stationJSON.map_id, forKeyPath: "id")
             station.setValue(false, forKeyPath: "hasAlert")
@@ -285,11 +283,22 @@ class StationTableViewController: UITableViewController {
             station.setValue(stationJSON.red, forKeyPath: "red")
             station.setValue(stationJSON.y, forKeyPath: "yellow")
             
-            //Dummy alerts
-//            if stationJSON.map_id == "41300" {
-//                station.setValue(true, forKeyPath: "hasAlert")
-//                station.setValue("The elevator at Loyola is out!", forKeyPath: "alertDetails")
-//            }
+            //Fix incorrect data in JSON
+            if stationJSON.map_id == "40040" {
+                station.setValue(true, forKeyPath: "hasElevator")
+            }
+            
+            //Shorten long station names
+            switch stationJSON.map_id {
+                case "40850": station.setValue("Harold Wash. Library", forKeyPath: "name")
+                case "40670": station.setValue("Western (O'Hare)", forKeyPath: "name")
+                case "40220": station.setValue("Western (Forest Pk)", forKeyPath: "name")
+                case "40750": station.setValue("Harlem (O'Hare)", forKeyPath: "name")
+                case "40980": station.setValue("Harlem (Forest Pk)", forKeyPath: "name")
+                case "40810": station.setValue("IL Med. District", forKeyPath: "name")
+                case "41690": station.setValue("Cermak-McCorm. Pl.", forKeyPath: "name")
+                default: station.setValue(stationJSON.station_name, forKeyPath: "name")
+            }
             
             do {
                 try managedContext.save()
