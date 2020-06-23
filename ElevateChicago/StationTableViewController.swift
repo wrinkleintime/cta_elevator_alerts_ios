@@ -11,7 +11,7 @@ import CoreData
 
 class StationTableViewController: UITableViewController {
     
-    //TODO: Push notifications, alerts by line, concurrency in network requests/json/io & alert pulling timing
+    //TODO: Push notifications, alerts by line, concurrency in network requests/json/io & alert pulling timing. 
     //TODO: Testing - unit tests, functional tests, user tests
     //TODO: Pay close attention to Apple deployment
     
@@ -24,14 +24,15 @@ class StationTableViewController: UITableViewController {
         super.viewDidLoad()
         
 //        deleteAllStations()
-        pullAlerts()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
                 
         print("View Will Appear")
+        fetchStations()
         getStationFavorites()
+        fetchAlerts()
         tableView.reloadData()
     }
 
@@ -133,6 +134,25 @@ class StationTableViewController: UITableViewController {
     
     //MARK: Private Methods
     
+    
+    private func fetchAlerts() {
+        AlertManager.pullAlerts() { (alerts) in
+            self.loadAlerts(currAlerts: alerts)
+            self.tableView.reloadData()
+        }
+    }
+    
+    private func fetchStations() {
+        if (getStationsExist()){
+            return
+        }
+        
+        StationManager.pullStations() { (stations) in
+            self.loadStations(currStations: stations)
+            self.tableView.reloadData()
+        }
+    }
+    
     //For testing only
     private func deleteAllStations(){
         print("Deleting stations")
@@ -155,88 +175,12 @@ class StationTableViewController: UITableViewController {
             print("Delete all data in Station error :", error)
         }
     }
+
     
-    //TODO: Where to put this?
-    private func pullStations(){
-        print("Pulling stations")
-        let session = URLSession.shared
-        let url = URL(string: "https://data.cityofchicago.org/resource/8pix-ypme.json")!
-        
-        var stationsJSON: [StationJSON] = []
-                
-        let task = session.dataTask(with: url) { data, response, error in
-            if error != nil {
-                print("Error!")
-                return
-            }
-            
-            guard let httpResponse = response as? HTTPURLResponse,
-                  (200...299).contains(httpResponse.statusCode) else {
-                print("Bad HTTP status code!")
-                return
-            }
-            
-            guard let mime = response?.mimeType, mime == "application/json" else {
-                print("Wrong MIME type!")
-                return
-            }
-        
-            do{
-                stationsJSON = try JSONDecoder().decode([StationJSON].self, from: data!)
-                DispatchQueue.main.async {
-                    self.loadStations(currStations: stationsJSON)
-                    self.getStationFavorites()
-                    self.tableView.reloadData()
-                }
-                
-            } catch {
-                print("JSON error: \(error.localizedDescription)")
-            }
-        }
-        task.resume()
-    }
-    
-    private func pullAlerts(){
-        print("Pulling alerts")
-        let session = URLSession.shared
-        let url = URL(string: "https://lapi.transitchicago.com/api/1.0/alerts.aspx?outputType=JSON")!
-                        
-        let task = session.dataTask(with: url) { data, response, error in
-            if error != nil {
-                print("Error!")
-                return
-            }
-            
-            guard let httpResponse = response as? HTTPURLResponse,
-                  (200...299).contains(httpResponse.statusCode) else {
-                print("Bad HTTP status code!")
-                return
-            }
-            
-            guard let mime = response?.mimeType, mime == "application/json" else {
-                print("Wrong MIME type!")
-                return
-            }
-        
-            do{
-                let alertsJSON = try JSONDecoder().decode(AlertOverallJSON.self, from: data!)
-                DispatchQueue.main.async {
-                    self.loadAlerts(currAlerts: alertsJSON)
-                    self.getStationFavorites()
-                    self.tableView.reloadData()
-                }
-                
-            } catch {
-                print("JSON error: \(error.localizedDescription)")
-            }
-        }
-        task.resume()
-    }
-    
-    private func loadStations(currStations: [StationJSON]){
+    private func loadStations(currStations: [CtaStation]){
         //FIXME: Make sure # of stations is correct
         print("Loading stations")
-        var stationDict = [String: StationJSON]()
+        var stationDict = [String: CtaStation]()
         
         for stationJSON in currStations {
             if stationDict.keys.contains(stationJSON.map_id){
@@ -303,14 +247,14 @@ class StationTableViewController: UITableViewController {
             do {
                 try managedContext.save()
                 //TODO: Do we need this?
-                stations.append(station)
+//                stations.append(station)
                 } catch let error as NSError {
                 print("Could not save. \(error), \(error.userInfo)")
             }
         }
     }
     
-    private func loadAlerts(currAlerts: AlertOverallJSON){
+    private func loadAlerts(currAlerts: Alert){
         print("Loading alerts")
         let alerts = currAlerts.ctaAlerts.alerts
         
@@ -318,9 +262,6 @@ class StationTableViewController: UITableViewController {
             let impact = alertJSON.impact
             let headline = alertJSON.headline
             let shortDesc = alertJSON.shortDescription
-            print(impact)
-            print(headline)
-            print(shortDesc)
             
             if impact != "Elevator Status" || headline == "Back in Service"{
                 continue
@@ -342,12 +283,11 @@ class StationTableViewController: UITableViewController {
                         stations = try managedContext.fetch(fetchRequest)
                         if !stations.isEmpty{
                             let station = stations[0]
-                            print("Saving alert for station in a sec")
                             station.setValue(shortDesc, forKeyPath: "alertDetails")
                             station.setValue(true, forKeyPath: "hasAlert")
                             
                             do {
-                                print("saving alert for station now!")
+                                print("saving alert: " + headline)
                                 try managedContext.save()
                                 } catch let error as NSError {
                                 print("Could not save. \(error), \(error.userInfo)")
@@ -359,14 +299,11 @@ class StationTableViewController: UITableViewController {
                 }
             }
         }
+        getStationFavorites()
     }
     
     private func getStationFavorites(){
         print("Getting station favorites")
-        
-        if (stations.count == 0){
-            pullStations()
-        }
         
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
             return
@@ -382,82 +319,27 @@ class StationTableViewController: UITableViewController {
            print("Could not fetch. \(error), \(error.userInfo)")
         }
     }
-    
-    //Decoded from stations API call
-    struct StationJSON: Codable {
-        var map_id: String
-        var station_name: String
-        var ada: Bool
-        var red: Bool
-        var blue: Bool
-        var g: Bool
-        var brn: Bool
-        var p: Bool
-        var pexp: Bool
-        var y: Bool
-        var pnk: Bool
-        var o: Bool
-    }
-    
-    //Decoded from alerts API call
-    struct AlertOverallJSON: Codable {
-        var ctaAlerts: AlertContainerJSON
+
+    private func getStationsExist() -> Bool {
+        print("Getting stations exist")
         
-        enum CodingKeys: String, CodingKey {
-            case ctaAlerts = "CTAAlerts"
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+            return false
         }
-    }
-    
-    struct AlertContainerJSON: Codable {
-        var alerts: [AlertJSON]
+
+        let managedContext = appDelegate.persistentContainer.viewContext
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Station")
         
-        enum CodingKeys: String, CodingKey {
-            case alerts = "Alert"
-        }
-    }
-    
-    
-    struct AlertJSON: Codable {
-        var impact: String
-        var shortDescription: String
-        var headline: String
-        var impactedService: ImpactedServiceContainer
-        
-        enum CodingKeys: String, CodingKey {
-            case impact = "Impact"
-            case shortDescription = "ShortDescription"
-            case headline = "Headline"
-            case impactedService = "ImpactedService"
-        }
-    }
-    
-    struct ImpactedServiceContainer: Codable{
-        var service: [ImpactedService]
-        
-        enum CodingKeys: String, CodingKey{
-            case service = "Service"
-        }
-        
-        //Sometimes service comes in as an object, sometimes as an array
-        init(from decoder: Decoder) throws {
-            let container = try decoder.container(keyedBy: CodingKeys.self)
-            do {
-                let serviceSingle = try container.decode(ImpactedService.self, forKey: .service)
-                service = [serviceSingle]
-            } catch DecodingError.typeMismatch {
-                service = try container.decode([ImpactedService].self, forKey: .service)
+        do {
+            let count = try managedContext.count(for: fetchRequest)
+            print(count.description)
+            if count > 0{
+                return true
             }
+        } catch {
+            print(error)
         }
-    }
-    
-    struct ImpactedService: Codable{
-        var serviceType: String
-        var serviceId: String
-        
-        enum CodingKeys: String, CodingKey{
-            case serviceType = "ServiceType"
-            case serviceId = "ServiceId"
-        }
+        return false
     }
 }
 
