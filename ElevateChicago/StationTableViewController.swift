@@ -11,7 +11,7 @@ import CoreData
 
 class StationTableViewController: UITableViewController {
     
-    //TODO: Push notifications, alerts by line, concurrency in network requests/json/io & alert pulling timing. 
+    //TODO: Push notifications, alerts by line, concurrency in network requests/json/io & alert pulling timing
     //TODO: Testing - unit tests, functional tests, user tests
     //TODO: Pay close attention to Apple deployment
     
@@ -133,8 +133,7 @@ class StationTableViewController: UITableViewController {
     }
     
     //MARK: Private Methods
-    
-    
+
     private func fetchAlerts() {
         AlertManager.pullAlerts() { (alerts) in
             self.loadAlerts(currAlerts: alerts)
@@ -176,9 +175,8 @@ class StationTableViewController: UITableViewController {
         }
     }
 
-    
+    //FIXME: put in background?
     private func loadStations(currStations: [CtaStation]){
-        //FIXME: Make sure # of stations is correct
         print("Loading stations")
         var stationDict = [String: CtaStation]()
         
@@ -246,15 +244,15 @@ class StationTableViewController: UITableViewController {
             
             do {
                 try managedContext.save()
-                //TODO: Do we need this?
-//                stations.append(station)
                 } catch let error as NSError {
                 print("Could not save. \(error), \(error.userInfo)")
             }
         }
     }
     
+    //FIXME: Put in background?
     private func loadAlerts(currAlerts: Alert){
+        clearAlerts()
         print("Loading alerts")
         let alerts = currAlerts.ctaAlerts.alerts
         
@@ -300,6 +298,35 @@ class StationTableViewController: UITableViewController {
             }
         }
         getStationFavorites()
+    }
+    
+    //FIXME: Put in background?
+    private func clearAlerts(){        
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+            return
+        }
+
+        let managedContext = appDelegate.persistentContainer.viewContext
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Station")
+        fetchRequest.predicate = NSPredicate(format: "hasAlert == YES")
+
+        do{
+            stations = try managedContext.fetch(fetchRequest)
+            
+            for station in stations {
+                print("Clearing alert")
+                station.setValue("", forKeyPath: "alertDetails")
+                station.setValue(false, forKeyPath: "hasAlert")
+        
+                do {
+                    try managedContext.save()
+                    } catch let error as NSError {
+                    print("Could not save. \(error), \(error.userInfo)")
+                }
+            }
+        } catch let error as NSError {
+            print("Could not fetch. \(error), \(error.userInfo)")
+        }
     }
     
     private func getStationFavorites(){

@@ -9,6 +9,7 @@
 import UIKit
 
 class AlertManager {
+    static let urlSession = URLSession(configuration: .default)
   
     static func pullAlerts(completionHandler: @escaping (_ alerts: Alert) -> Void) {
         print("Pulling alerts")
@@ -18,7 +19,7 @@ class AlertManager {
             return
         }
                         
-        URLSession.shared.dataTask(with: url) { data, response, error in
+        urlSession.dataTask(with: url) { data, response, error in
             if error != nil {
                 print("Error!")
                 return

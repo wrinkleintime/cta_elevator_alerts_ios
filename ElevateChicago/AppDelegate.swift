@@ -8,12 +8,20 @@
 
 import UIKit
 import CoreData
+import BackgroundTasks
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+//        BGTaskScheduler.shared.register(
+//          forTaskWithIdentifier: "com.samsiner.fetchAlerts",
+//          using: nil) { (task) in
+//            print("Task handler")
+//            self.handleAppRefreshTask(task: task as! BGAppRefreshTask)
+//        }
+        
         return true
     }
 
@@ -73,6 +81,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 let nserror = error as NSError
                 fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
             }
+        }
+    }
+    
+    // MARK: Private Functions
+    
+    func handleAppRefreshTask(task: BGAppRefreshTask){
+        task.expirationHandler = {
+            AlertManager.urlSession.invalidateAndCancel()
         }
     }
 }
