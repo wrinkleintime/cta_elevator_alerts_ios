@@ -11,7 +11,9 @@ import CoreData
 
 class StationTableViewController: UITableViewController {
     
-    //TODO: Push notifications, alerts by line, concurrency in network requests/json/io & alert pulling timing
+    //TODO: Push notifications, alerts by line
+    //TODO: Background refresh of alerts
+    //TODO: Get IO tasks off main thread
     //TODO: Testing - unit tests, functional tests, user tests
     //TODO: Pay close attention to Apple deployment
     
@@ -22,8 +24,22 @@ class StationTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        registerForNotifications()
 //        deleteAllStations()
+    }
+    
+    func registerForNotifications() {
+      NotificationCenter.default.addObserver(
+        forName: .newAlertsFetched,
+        object: nil,
+        queue: nil) { (notification) in
+          print("notification received")
+          if let uInfo = notification.userInfo,
+             let alerts = uInfo["alerts"] as? Alert {
+            self.loadAlerts(currAlerts: alerts)
+            self.tableView.reloadData()
+          }
+      }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -143,12 +159,15 @@ class StationTableViewController: UITableViewController {
     
     private func fetchStations() {
         if (getStationsExist()){
+            print("Stations exist")
             return
-        }
-        
-        StationManager.pullStations() { (stations) in
+        } else
+        {
+            print("No stations exist")
+            StationManager.pullStations() { (stations) in
             self.loadStations(currStations: stations)
             self.tableView.reloadData()
+            }
         }
     }
     
@@ -175,133 +194,135 @@ class StationTableViewController: UITableViewController {
         }
     }
 
-    //FIXME: put in background?
     private func loadStations(currStations: [CtaStation]){
         print("Loading stations")
         var stationDict = [String: CtaStation]()
         
-        for stationJSON in currStations {
-            if stationDict.keys.contains(stationJSON.map_id){
-                
-                let tempStation = stationJSON
-                let alreadyLoadedStation = stationDict[stationJSON.map_id]!
-                
-                stationDict[stationJSON.map_id]?.ada = tempStation.ada || alreadyLoadedStation.ada
-                stationDict[stationJSON.map_id]?.red = tempStation.red || alreadyLoadedStation.red
-                stationDict[stationJSON.map_id]?.blue = tempStation.blue || alreadyLoadedStation.blue
-                stationDict[stationJSON.map_id]?.g = tempStation.g || alreadyLoadedStation.g
-                stationDict[stationJSON.map_id]?.brn = tempStation.brn || alreadyLoadedStation.brn
-                stationDict[stationJSON.map_id]?.p = tempStation.p || alreadyLoadedStation.p
-                stationDict[stationJSON.map_id]?.pexp = tempStation.pexp || alreadyLoadedStation.pexp
-                stationDict[stationJSON.map_id]?.y = tempStation.y || alreadyLoadedStation.y
-                stationDict[stationJSON.map_id]?.pnk = tempStation.pnk || alreadyLoadedStation.pnk
-                stationDict[stationJSON.map_id]?.o = tempStation.o || alreadyLoadedStation.o
-            } else {
-                stationDict[stationJSON.map_id] = stationJSON
-            }
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+              return
         }
+        let managedContext = appDelegate.persistentContainer.viewContext
         
-        for stationJSON in stationDict.values{
-            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-                  return
+        let privateContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
+        privateContext.parent = managedContext
+        
+        privateContext.performAndWait {
+        
+            for stationJSON in currStations {
+                if stationDict.keys.contains(stationJSON.map_id){
+                    
+                    let tempStation = stationJSON
+                    let alreadyLoadedStation = stationDict[stationJSON.map_id]!
+                    
+                    stationDict[stationJSON.map_id]?.ada = tempStation.ada || alreadyLoadedStation.ada
+                    stationDict[stationJSON.map_id]?.red = tempStation.red || alreadyLoadedStation.red
+                    stationDict[stationJSON.map_id]?.blue = tempStation.blue || alreadyLoadedStation.blue
+                    stationDict[stationJSON.map_id]?.g = tempStation.g || alreadyLoadedStation.g
+                    stationDict[stationJSON.map_id]?.brn = tempStation.brn || alreadyLoadedStation.brn
+                    stationDict[stationJSON.map_id]?.p = tempStation.p || alreadyLoadedStation.p
+                    stationDict[stationJSON.map_id]?.pexp = tempStation.pexp || alreadyLoadedStation.pexp
+                    stationDict[stationJSON.map_id]?.y = tempStation.y || alreadyLoadedStation.y
+                    stationDict[stationJSON.map_id]?.pnk = tempStation.pnk || alreadyLoadedStation.pnk
+                    stationDict[stationJSON.map_id]?.o = tempStation.o || alreadyLoadedStation.o
+                } else {
+                    stationDict[stationJSON.map_id] = stationJSON
+                }
             }
             
-            let managedContext = appDelegate.persistentContainer.viewContext
-            let entity = NSEntityDescription.entity(forEntityName: "Station",
-                                         in: managedContext)!
-            let station = NSManagedObject(entity: entity, insertInto: managedContext)
-            
-            station.setValue("", forKeyPath: "alertDetails")
-            station.setValue(stationJSON.map_id, forKeyPath: "id")
-            station.setValue(false, forKeyPath: "hasAlert")
-            station.setValue(stationJSON.ada, forKeyPath: "hasElevator")
-            station.setValue(false, forKeyPath: "isFavorite")
-            station.setValue(stationJSON.blue, forKeyPath: "blue")
-            station.setValue(stationJSON.brn, forKeyPath: "brown")
-            station.setValue(stationJSON.g, forKeyPath: "green")
-            station.setValue(stationJSON.o, forKeyPath: "orange")
-            station.setValue(stationJSON.pnk, forKeyPath: "pink")
-            station.setValue(stationJSON.p || stationJSON.pexp, forKeyPath: "purple")
-            station.setValue(stationJSON.red, forKeyPath: "red")
-            station.setValue(stationJSON.y, forKeyPath: "yellow")
-            
-            //Fix incorrect data in JSON
-            if stationJSON.map_id == "40040" {
-                station.setValue(true, forKeyPath: "hasElevator")
-            }
-            
-            //Shorten long station names
-            switch stationJSON.map_id {
-                case "40850": station.setValue("Harold Wash. Library", forKeyPath: "name")
-                case "40670": station.setValue("Western (O'Hare)", forKeyPath: "name")
-                case "40220": station.setValue("Western (Forest Pk)", forKeyPath: "name")
-                case "40750": station.setValue("Harlem (O'Hare)", forKeyPath: "name")
-                case "40980": station.setValue("Harlem (Forest Pk)", forKeyPath: "name")
-                case "40810": station.setValue("IL Med. District", forKeyPath: "name")
-                case "41690": station.setValue("Cermak-McCorm. Pl.", forKeyPath: "name")
-                default: station.setValue(stationJSON.station_name, forKeyPath: "name")
-            }
-            
-            do {
-                try managedContext.save()
-                } catch let error as NSError {
-                print("Could not save. \(error), \(error.userInfo)")
+            for stationJSON in stationDict.values{
+                let entity = NSEntityDescription.entity(forEntityName: "Station",
+                                             in: managedContext)!
+                let station = NSManagedObject(entity: entity, insertInto: managedContext)
+                
+                station.setValue("", forKeyPath: "alertDetails")
+                station.setValue(stationJSON.map_id, forKeyPath: "id")
+                station.setValue(false, forKeyPath: "hasAlert")
+                station.setValue(stationJSON.ada, forKeyPath: "hasElevator")
+                station.setValue(false, forKeyPath: "isFavorite")
+                station.setValue(stationJSON.blue, forKeyPath: "blue")
+                station.setValue(stationJSON.brn, forKeyPath: "brown")
+                station.setValue(stationJSON.g, forKeyPath: "green")
+                station.setValue(stationJSON.o, forKeyPath: "orange")
+                station.setValue(stationJSON.pnk, forKeyPath: "pink")
+                station.setValue(stationJSON.p || stationJSON.pexp, forKeyPath: "purple")
+                station.setValue(stationJSON.red, forKeyPath: "red")
+                station.setValue(stationJSON.y, forKeyPath: "yellow")
+                
+                //Fix incorrect data in JSON
+                if stationJSON.map_id == "40040" {
+                    station.setValue(true, forKeyPath: "hasElevator")
+                }
+                
+                //Shorten long station names
+                switch stationJSON.map_id {
+                    case "40850": station.setValue("Harold Wash. Library", forKeyPath: "name")
+                    case "40670": station.setValue("Western (O'Hare)", forKeyPath: "name")
+                    case "40220": station.setValue("Western (Forest Pk)", forKeyPath: "name")
+                    case "40750": station.setValue("Harlem (O'Hare)", forKeyPath: "name")
+                    case "40980": station.setValue("Harlem (Forest Pk)", forKeyPath: "name")
+                    case "40810": station.setValue("IL Med. District", forKeyPath: "name")
+                    case "41690": station.setValue("Cermak-McCorm. Pl.", forKeyPath: "name")
+                    default: station.setValue(stationJSON.station_name, forKeyPath: "name")
+                }
+                
+                saveContext(forContext: privateContext)
             }
         }
     }
     
-    //FIXME: Put in background?
     private func loadAlerts(currAlerts: Alert){
-        clearAlerts()
         print("Loading alerts")
         let alerts = currAlerts.ctaAlerts.alerts
         
-        for alertJSON in alerts {
-            let impact = alertJSON.impact
-            let headline = alertJSON.headline
-            let shortDesc = alertJSON.shortDescription
-            
-            if impact != "Elevator Status" || headline == "Back in Service"{
-                continue
-            }
-            
-            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-                  return
-            }
-            
-            let managedContext = appDelegate.persistentContainer.viewContext
-            
-            for service in alertJSON.impactedService.service{
-                if service.serviceType == "T"{
-                    let stationId = service.serviceId
-                    let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Station")
-                    fetchRequest.predicate = NSPredicate(format: "id == %@", stationId)
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+              return
+        }
+        let managedContext = appDelegate.persistentContainer.viewContext
+        
+        let privateContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
+        privateContext.parent = managedContext
+        
+        privateContext.performAndWait {
+            clearAlerts()
 
-                    do{
-                        stations = try managedContext.fetch(fetchRequest)
-                        if !stations.isEmpty{
-                            let station = stations[0]
-                            station.setValue(shortDesc, forKeyPath: "alertDetails")
-                            station.setValue(true, forKeyPath: "hasAlert")
-                            
-                            do {
-                                print("saving alert: " + headline)
-                                try managedContext.save()
-                                } catch let error as NSError {
-                                print("Could not save. \(error), \(error.userInfo)")
+            for alertJSON in alerts {
+                let impact = alertJSON.impact
+                let headline = alertJSON.headline
+                let shortDesc = alertJSON.shortDescription
+                
+                if impact != "Elevator Status" || headline == "Back in Service"{
+                    continue
+                }
+                
+                for service in alertJSON.impactedService.service{
+                    if service.serviceType == "T"{
+                        let stationId = service.serviceId
+                        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Station")
+                        fetchRequest.predicate = NSPredicate(format: "id == %@", stationId)
+
+                        do{
+                            stations = try managedContext.fetch(fetchRequest)
+                            if !stations.isEmpty{
+                                let station = stations[0]
+                                station.setValue(shortDesc, forKeyPath: "alertDetails")
+                                station.setValue(true, forKeyPath: "hasAlert")
+                                
+                                saveContext(forContext: privateContext)
                             }
+                        } catch let error as NSError {
+                            print("Could not fetch. \(error), \(error.userInfo)")
                         }
-                    } catch let error as NSError {
-                        print("Could not fetch. \(error), \(error.userInfo)")
                     }
                 }
             }
+            getStationFavorites()
+            print("Alerts loaded")
         }
-        getStationFavorites()
     }
     
     //FIXME: Put in background?
-    private func clearAlerts(){        
+    private func clearAlerts(){
+        print("Clearing alerts")
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
             return
         }
@@ -314,7 +335,6 @@ class StationTableViewController: UITableViewController {
             stations = try managedContext.fetch(fetchRequest)
             
             for station in stations {
-                print("Clearing alert")
                 station.setValue("", forKeyPath: "alertDetails")
                 station.setValue(false, forKeyPath: "hasAlert")
         
@@ -339,9 +359,10 @@ class StationTableViewController: UITableViewController {
         let managedContext = appDelegate.persistentContainer.viewContext
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Station")
         fetchRequest.predicate = NSPredicate(format: "isFavorite == 1")
-
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
+        
         do{
-           stations = try managedContext.fetch(fetchRequest)
+            stations = try managedContext.fetch(fetchRequest)
         } catch let error as NSError {
            print("Could not fetch. \(error), \(error.userInfo)")
         }
@@ -359,7 +380,6 @@ class StationTableViewController: UITableViewController {
         
         do {
             let count = try managedContext.count(for: fetchRequest)
-            print(count.description)
             if count > 0{
                 return true
             }
@@ -367,6 +387,23 @@ class StationTableViewController: UITableViewController {
             print(error)
         }
         return false
+    }
+    
+    private func saveContext(forContext context: NSManagedObjectContext) {
+        if context.hasChanges {
+            context.performAndWait {
+                do {
+                    try context.save()
+                } catch {
+                    let nserror = error as NSError
+                    print("Error when saving !!! \(nserror.localizedDescription)")
+                    print("Callstack :")
+                    for symbol: String in Thread.callStackSymbols {
+                        print(" > \(symbol)")
+                    }
+                }
+            }
+        }
     }
 }
 

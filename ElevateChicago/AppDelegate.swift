@@ -15,16 +15,44 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-//        BGTaskScheduler.shared.register(
-//          forTaskWithIdentifier: "com.samsiner.fetchAlerts",
-//          using: nil) { (task) in
-//            print("Task handler")
-//            self.handleAppRefreshTask(task: task as! BGAppRefreshTask)
-//        }
+        BGTaskScheduler.shared.register(
+          forTaskWithIdentifier: "com.samsiner.fetchAlerts",
+          using: nil) { (task) in
+            print("Task handler")
+            self.handleAppRefreshTask(task: task as! BGAppRefreshTask)
+        }
         
         return true
     }
-
+    
+    func handleAppRefreshTask(task: BGAppRefreshTask){
+        print("Handling task")
+        task.expirationHandler = {
+            task.setTaskCompleted(success: false)
+            AlertManager.urlSession.invalidateAndCancel()
+        }
+        
+        AlertManager.pullAlerts{ (alerts) in
+            print("Loading alerts in the background")
+            NotificationCenter.default.post(name: .newAlertsFetched,
+                                            object: self,
+                                            userInfo: ["alerts": alerts])
+            task.setTaskCompleted(success: true)
+        }
+        scheduleBackgroundAlertFetch()
+    }
+    
+    func scheduleBackgroundAlertFetch() {
+        let alertFetchTask = BGAppRefreshTaskRequest(identifier: "com.samsiner.fetchAlerts")
+        alertFetchTask.earliestBeginDate = Date(timeIntervalSinceNow: 60)
+        do {
+          try BGTaskScheduler.shared.submit(alertFetchTask)
+            print("task scheduled")
+        } catch {
+          print("Unable to submit task: \(error.localizedDescription)")
+        }
+    }
+    
     // MARK: UISceneSession Lifecycle
 
     func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
@@ -83,13 +111,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
     }
-    
-    // MARK: Private Functions
-    
-    func handleAppRefreshTask(task: BGAppRefreshTask){
-        task.expirationHandler = {
-            AlertManager.urlSession.invalidateAndCancel()
-        }
-    }
+
+
 }
 
