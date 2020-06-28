@@ -13,7 +13,6 @@ class StationTableViewController: UITableViewController {
     
     //TODO: Push notifications, alerts by line
     //TODO: Background refresh of alerts
-    //TODO: Get IO tasks off main thread
     //TODO: Testing - unit tests, functional tests, user tests
     //TODO: Pay close attention to Apple deployment
     
@@ -25,7 +24,7 @@ class StationTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         registerForNotifications()
-//        deleteAllStations()
+        deleteAllStations()
     }
     
     func registerForNotifications() {
@@ -47,7 +46,6 @@ class StationTableViewController: UITableViewController {
                 
         print("View Will Appear")
         fetchStations()
-        getStationFavorites()
         fetchAlerts()
         tableView.reloadData()
     }
@@ -181,16 +179,21 @@ class StationTableViewController: UITableViewController {
 
         let managedContext = appDelegate.persistentContainer.viewContext
         
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Station")
-        fetchRequest.returnsObjectsAsFaults = false
-        do {
-            let results = try managedContext.fetch(fetchRequest)
-            for object in results {
-                guard let objectData = object as? NSManagedObject else {continue}
-                managedContext.delete(objectData)
+        let privateContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
+        privateContext.parent = managedContext
+        
+        privateContext.performAndWait {
+            let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Station")
+            fetchRequest.returnsObjectsAsFaults = false
+            do {
+                let results = try managedContext.fetch(fetchRequest)
+                for object in results {
+                    guard let objectData = object as? NSManagedObject else {continue}
+                    managedContext.delete(objectData)
+                }
+            } catch let error {
+                print("Delete all data in Station error :", error)
             }
-        } catch let error {
-            print("Delete all data in Station error :", error)
         }
     }
 
@@ -272,6 +275,7 @@ class StationTableViewController: UITableViewController {
     
     private func loadAlerts(currAlerts: Alert){
         print("Loading alerts")
+        clearAlerts()
         let alerts = currAlerts.ctaAlerts.alerts
         
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
@@ -283,8 +287,6 @@ class StationTableViewController: UITableViewController {
         privateContext.parent = managedContext
         
         privateContext.performAndWait {
-            clearAlerts()
-
             for alertJSON in alerts {
                 let impact = alertJSON.impact
                 let headline = alertJSON.headline
@@ -328,24 +330,25 @@ class StationTableViewController: UITableViewController {
         }
 
         let managedContext = appDelegate.persistentContainer.viewContext
-        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Station")
-        fetchRequest.predicate = NSPredicate(format: "hasAlert == YES")
-
-        do{
-            stations = try managedContext.fetch(fetchRequest)
-            
-            for station in stations {
-                station.setValue("", forKeyPath: "alertDetails")
-                station.setValue(false, forKeyPath: "hasAlert")
         
-                do {
-                    try managedContext.save()
-                    } catch let error as NSError {
-                    print("Could not save. \(error), \(error.userInfo)")
+        let privateContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
+        privateContext.parent = managedContext
+        
+        privateContext.performAndWait {
+            let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Station")
+            fetchRequest.predicate = NSPredicate(format: "hasAlert == YES")
+
+            do{
+                stations = try managedContext.fetch(fetchRequest)
+                
+                for station in stations {
+                    station.setValue("", forKeyPath: "alertDetails")
+                    station.setValue(false, forKeyPath: "hasAlert")
+                    saveContext(forContext: privateContext)
                 }
+            } catch let error as NSError {
+                print("Could not fetch. \(error), \(error.userInfo)")
             }
-        } catch let error as NSError {
-            print("Could not fetch. \(error), \(error.userInfo)")
         }
     }
     
