@@ -15,7 +15,7 @@ class StationTableViewController: UITableViewController {
     //TODO: Testing - unit tests, functional tests, user tests
     //TODO: Pay close attention to Apple deployment
     
-    //TODO: UI: add alerts to all lines, add alerts section above specific line, add no favorites text to home, unclick star itself (and show all starts) in specific line
+    //TODO: UI: add alerts to all lines, add alerts section above specific line, add no favorites text to home
     
     //TODO: Schedule - week 7 (coding complete), week 10 (testing & deployment), week 12 (as done as possible)
     

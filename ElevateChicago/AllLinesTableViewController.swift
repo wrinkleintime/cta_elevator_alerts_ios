@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 class AllLinesTableViewController: UITableViewController {
 
@@ -38,8 +39,46 @@ class AllLinesTableViewController: UITableViewController {
         let imageName = line + "LineIcon"
         cell.lineIcon.image = UIImage(named: imageName)
         cell.lineName.text = line + " Line"
+        
+        var hasAlert = false
+        
+        for id in SpecificLineTableViewController.getStationsInOrder(name: line){
+            if let station = getStationById(id: id){
+                if (station.value(forKeyPath: "hasAlert") as? Bool ?? true){
+                    hasAlert = true
+                    break
+                }
+            } else {
+                continue
+            }
+        }
+        
+        cell.hasAlert.isHidden = !hasAlert
 
         return cell
+    }
+    
+    private func getStationById(id: String) -> NSManagedObject? {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+            return nil
+        }
+
+        let managedContext = appDelegate.persistentContainer.viewContext
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Station")
+        fetchRequest.predicate = NSPredicate(format: "id == %@", id)
+        
+        do{
+            let station = try managedContext.fetch(fetchRequest)
+            
+            if (station.count == 0){
+                return nil
+            } else {
+                return station[0]
+            }
+        } catch let error as NSError {
+            print("Could not fetch. \(error), \(error.userInfo)")
+        }
+        return nil
     }
 
     // MARK: - Navigation

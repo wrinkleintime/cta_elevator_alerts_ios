@@ -319,24 +319,35 @@
                                             </constraints>
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Line Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0gZ-yp-jPI">
-                                            <rect key="frame" x="78" y="27" width="316" height="36"/>
+                                            <rect key="frame" x="78" y="27" width="273" height="36"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="exclamationmark.circle" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="WmN-2S-z2y">
+                                            <rect key="frame" x="359" y="28" width="35" height="34"/>
+                                            <color key="tintColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="35" id="07B-md-bwj"/>
+                                                <constraint firstAttribute="width" constant="35" id="xoE-jG-skX"/>
+                                            </constraints>
+                                        </imageView>
                                     </subviews>
                                     <constraints>
                                         <constraint firstAttribute="bottomMargin" secondItem="A1F-FW-YZW" secondAttribute="bottom" id="0Fg-9A-IRC"/>
+                                        <constraint firstItem="WmN-2S-z2y" firstAttribute="trailing" secondItem="K4a-g6-jdL" secondAttribute="trailingMargin" id="31f-kG-fnQ"/>
                                         <constraint firstItem="0gZ-yp-jPI" firstAttribute="centerY" secondItem="K4a-g6-jdL" secondAttribute="centerY" id="3ro-UP-Ylz"/>
                                         <constraint firstItem="A1F-FW-YZW" firstAttribute="centerY" secondItem="K4a-g6-jdL" secondAttribute="centerY" id="4iH-SS-kud"/>
                                         <constraint firstItem="A1F-FW-YZW" firstAttribute="top" secondItem="K4a-g6-jdL" secondAttribute="topMargin" id="Ar4-Nq-dS5"/>
-                                        <constraint firstItem="0gZ-yp-jPI" firstAttribute="trailing" secondItem="K4a-g6-jdL" secondAttribute="trailingMargin" id="Vac-F0-t6W"/>
+                                        <constraint firstItem="WmN-2S-z2y" firstAttribute="leading" secondItem="0gZ-yp-jPI" secondAttribute="trailing" constant="8" id="WWu-XW-3VL"/>
                                         <constraint firstItem="A1F-FW-YZW" firstAttribute="leading" secondItem="K4a-g6-jdL" secondAttribute="leadingMargin" id="fCN-RL-T1d"/>
                                         <constraint firstItem="0gZ-yp-jPI" firstAttribute="leading" secondItem="A1F-FW-YZW" secondAttribute="trailing" constant="8" id="iQI-Nh-457"/>
                                         <constraint firstItem="A1F-FW-YZW" firstAttribute="leading" secondItem="K4a-g6-jdL" secondAttribute="leadingMargin" id="leU-Dc-2NK"/>
+                                        <constraint firstItem="WmN-2S-z2y" firstAttribute="centerY" secondItem="K4a-g6-jdL" secondAttribute="centerY" id="rnJ-fs-C5G"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
+                                    <outlet property="hasAlert" destination="WmN-2S-z2y" id="gnR-fn-ilI"/>
                                     <outlet property="lineIcon" destination="A1F-FW-YZW" id="w2T-W6-BqF"/>
                                     <outlet property="lineName" destination="0gZ-yp-jPI" id="dBw-NK-CWJ"/>
                                     <segue destination="adU-er-pOu" kind="show" id="P1Y-wZ-Zut"/>

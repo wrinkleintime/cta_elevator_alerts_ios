@@ -13,6 +13,7 @@ class AllLinesTableViewCell: UITableViewCell {
     //MARK: Properties
     @IBOutlet weak var lineIcon: UIImageView!
     @IBOutlet weak var lineName: UILabel!
+    @IBOutlet weak var hasAlert: UIImageView!
     
     override func awakeFromNib() {
         super.awakeFromNib()

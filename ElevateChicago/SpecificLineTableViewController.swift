@@ -33,7 +33,7 @@ class SpecificLineTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return getStationsInOrder(name: line).count
+        return SpecificLineTableViewController.getStationsInOrder(name: line).count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -57,7 +57,7 @@ class SpecificLineTableViewController: UITableViewController {
         }
         
         // Fetches the appropriate line for the data source layout.
-        let stationID = getStationsInOrder(name: line)[indexPath.row]
+        let stationID = SpecificLineTableViewController.getStationsInOrder(name: line)[indexPath.row]
         let station = getStationById(id: stationID)
 
         if let station = station {
@@ -145,7 +145,7 @@ class SpecificLineTableViewController: UITableViewController {
             }
             
             // Fetches the appropriate line for the data source layout.
-            let stationID = getStationsInOrder(name: line)[indexPath.row]
+            let stationID = SpecificLineTableViewController.getStationsInOrder(name: line)[indexPath.row]
             let selectedStation = getStationById(id: stationID)
 
             if let selectedStation = selectedStation {
@@ -167,7 +167,7 @@ class SpecificLineTableViewController: UITableViewController {
     }
     
     //MARK: Private Methods
-    private func getStationsInOrder(name: String) -> [String] {
+    static func getStationsInOrder(name: String) -> [String] {
         switch(name){
         case "Red":
             return ["40900", "41190", "40100", "41300", "40760", "40880", "41380", "40340", "41200", "40770", "40540", "40080", "41420", "41320", "41220", "40650", "40630", "41450", "40330", "41660", "41090", "40560", "41490", "41400", "41000", "40190", "41230", "41170", "40910", "40990", "40240", "41430", "40450"]
