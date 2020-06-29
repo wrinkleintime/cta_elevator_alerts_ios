@@ -11,10 +11,11 @@ import CoreData
 
 class StationTableViewController: UITableViewController {
     
-    //TODO: Push notifications, alerts by line
-    //TODO: Background refresh of alerts
+    //TODO: Test Push notification, Background refresh of alerts with real device
     //TODO: Testing - unit tests, functional tests, user tests
     //TODO: Pay close attention to Apple deployment
+    
+    //TODO: UI: add alerts to all lines, add alerts section above specific line, add no favorites text to home, unclick star itself (and show all starts) in specific line
     
     //TODO: Schedule - week 7 (coding complete), week 10 (testing & deployment), week 12 (as done as possible)
     
@@ -23,6 +24,10 @@ class StationTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //Remove separator lines for empty cells
+        self.tableView.tableFooterView = UIView()
+        
         registerForNotifications()
         deleteAllStations()
     }
@@ -322,7 +327,6 @@ class StationTableViewController: UITableViewController {
         }
     }
     
-    //FIXME: Put in background?
     private func clearAlerts(){
         print("Clearing alerts")
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {

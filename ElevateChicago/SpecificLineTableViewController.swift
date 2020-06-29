@@ -64,8 +64,17 @@ class SpecificLineTableViewController: UITableViewController {
             cell.name.text = station.value(forKeyPath: "name") as? String
             
             cell.alert.isHidden = !(station.value(forKeyPath: "hasAlert") as? Bool ?? true)
-            cell.isFavorite.isHidden = !(station.value(forKeyPath: "isFavorite") as? Bool ?? true)
-
+            
+            let favorite = (station.value(forKeyPath: "isFavorite") as? Bool ?? true)
+                    
+            cell.isFavorite.isHighlighted = favorite
+            cell.isFavorite.isUserInteractionEnabled = true;
+            let tappy = MyTapGesture(target: self, action: #selector(prechangeFavorite))
+            cell.isFavorite.addGestureRecognizer(tappy)
+            tappy.station = station
+            tappy.isFavorite = favorite
+            tappy.cell = cell
+            
             cell.topLine.backgroundColor = getLineColor()
             cell.bottomLine.backgroundColor = getLineColor()
             cell.circle.tintColor = getLineColor()
@@ -74,11 +83,42 @@ class SpecificLineTableViewController: UITableViewController {
             cell.name.text = "No station!"
         }
         
-        cell.accessible.isHidden = !(station?.value(forKeyPath: "hasElevator") as? Bool ?? true)
+        let hasElevator = (station?.value(forKeyPath: "hasElevator") as? Bool ?? true)
+        
+        cell.accessible.isHidden = !hasElevator
+        cell.isFavorite.isHidden = !hasElevator
 
         return cell
     }
 
+    @objc func prechangeFavorite(_ sender: MyTapGesture) {
+        print("prechanging favorite")
+        if (sender.isFavorite){
+            if let stations = sender.station {
+                changeFavorite(isNowFavorite: false, station: stations)
+            } else {
+                return
+            }
+            if let cell = sender.cell {
+                cell.isFavorite.image = UIImage(systemName: "star")
+            } else {
+                return
+            }
+        } else {
+            if let stations = sender.station {
+                changeFavorite(isNowFavorite: true, station: stations)
+            } else {
+                return
+            }
+            if let cell = sender.cell {
+                cell.isFavorite.image = UIImage(systemName: "star.fill")
+            } else {
+                return
+            }
+        }
+        tableView.reloadData()
+    }
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -121,6 +161,7 @@ class SpecificLineTableViewController: UITableViewController {
     //MARK: Actions
     @IBAction func unwindFromDetail(sender: UIStoryboardSegue) {
         if sender.source is StationViewController {
+            print("unwinding")
             tableView.reloadData()
         }
     }
@@ -194,6 +235,24 @@ class SpecificLineTableViewController: UITableViewController {
                return UIColor(named: "000000")
        }
     }
+    
+    private func changeFavorite(isNowFavorite: Bool, station: NSManagedObject){
+        print("changing favorite")
+        station.setValue(isNowFavorite, forKeyPath: "isFavorite")
+        
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+              return
+          }
+        
+        let managedContext = appDelegate.persistentContainer.viewContext
+        
+        do {
+            try managedContext.save()
+            } catch let error as NSError {
+            print("Could not save. \(error), \(error.userInfo)")
+        }
+        
+    }
 }
 
 public extension UIColor {
@@ -214,5 +273,11 @@ public extension UIColor {
         green: CGFloat( (hexVal & 0x00FF00) >> 8 ) / 255.0,
         blue:  CGFloat( (hexVal & 0x0000FF) >> 0 ) / 255.0, alpha: 1.0)
     }
+}
+
+class MyTapGesture: UITapGestureRecognizer {
+    var station: NSManagedObject?
+    var isFavorite = Bool()
+    var cell: SpecificLineTableViewCell?
 }
 
