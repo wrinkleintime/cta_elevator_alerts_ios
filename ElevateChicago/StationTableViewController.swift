@@ -12,10 +12,10 @@ import UserNotifications
 
 class StationTableViewController: UITableViewController {
     
-    //TODO: Fix issue with re-fetching alerts when going back into app
+    //TODO: Fix issue with re-fetching alerts when going back into app; fix issue with background fetching
     //TODO: Testing - unit tests, functional tests, user tests
     //TODO: Pay close attention to Apple deployment
-    //TODO: UI: Add alerts section above specific line, add no favorites text to home
+    //TODO: UI: Add alerts section above specific line, add no favorites text to home, allow unfavoriting from home screen
     
     //TODO: Schedule - week 7 (coding complete), week 10 (testing & deployment), week 12 (as done as possible)
     

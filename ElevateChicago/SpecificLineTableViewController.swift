@@ -13,6 +13,9 @@ class SpecificLineTableViewController: UITableViewController {
     
     //MARK: Properties
     var line: String = ""
+    
+    var allStations = [NSManagedObject]()
+    var alertStations = [NSManagedObject]()
         
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,50 +26,83 @@ class SpecificLineTableViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        let ids = SpecificLineTableViewController.getStationsInOrder(name: line)
+        
+        for id in ids {
+            let station = getStationById(id: id)
+            
+            if let station = station {
+                allStations.append(station)
+                
+                if (station.value(forKeyPath: "hasAlert") as? Bool ?? false){
+                    alertStations.append(station)
+                }
+            }
+        }
+        
         tableView.reloadData()
     }
     
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        return 2
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return SpecificLineTableViewController.getStationsInOrder(name: line).count
+        switch section {
+            case 0:
+                return alertStations.count
+            case 1:
+                return allStations.count
+            default:
+                return 0
+        }
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
-        let cellIdentifier = "SpecificLineTableViewCell"
-
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? SpecificLineTableViewCell else{
-            fatalError("The dequeued cell is not an instance of SpecificLineTableViewCell.")
-        }
-                
-        switch indexPath.row {
+        switch indexPath.section {
+        case 0:
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "SpecificLineTableViewCell", for: indexPath) as? SpecificLineTableViewCell else{
+                fatalError("The dequeued cell is not an instance of SpecificLineTableViewCell.")
+            }
+            let station = alertStations[indexPath.row]
+            
+            cell.accessible.isHidden = true
+            cell.topLine.isHidden = true
+            cell.bottomLine.isHidden = true
+            cell.isFavorite.isHidden = true
+            cell.circle.tintColor = getLineColor()
+            cell.alert.isHidden = false
+            cell.name.text = station.value(forKeyPath: "name") as? String
+            
+            return cell
+        case 1:
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "SpecificLineTableViewCell", for: indexPath) as? SpecificLineTableViewCell else{
+                fatalError("The dequeued cell is not an instance of SpecificLineTableViewCell.")
+            }
+              
+            let station = allStations[indexPath.row]
+ 
+            switch indexPath.row {
             case 0:
                 cell.topLine.isHidden = true;
+                cell.bottomLine.isHidden = false
 
-            case self.tableView(tableView, numberOfRowsInSection: 0) - 1:
+            case allStations.count - 1:
+                cell.topLine.isHidden = false
                 cell.bottomLine.isHidden = true;
 
             default:
                 cell.topLine.isHidden = false
                 cell.bottomLine.isHidden = false
-        }
-        
-        // Fetches the appropriate line for the data source layout.
-        let stationID = SpecificLineTableViewController.getStationsInOrder(name: line)[indexPath.row]
-        let station = getStationById(id: stationID)
+           }
 
-        if let station = station {
             cell.name.text = station.value(forKeyPath: "name") as? String
-            
             cell.alert.isHidden = !(station.value(forKeyPath: "hasAlert") as? Bool ?? true)
-            
-            let favorite = (station.value(forKeyPath: "isFavorite") as? Bool ?? true)
-                    
+            let favorite = (station.value(forKeyPath: "isFavorite") as? Bool ?? false)
+                   
             cell.isFavorite.isHighlighted = favorite
             cell.isFavorite.isUserInteractionEnabled = true;
             let tappy = MyTapGesture(target: self, action: #selector(prechangeFavorite))
@@ -74,21 +110,38 @@ class SpecificLineTableViewController: UITableViewController {
             tappy.station = station
             tappy.isFavorite = favorite
             tappy.cell = cell
-            
+
             cell.topLine.backgroundColor = getLineColor()
             cell.bottomLine.backgroundColor = getLineColor()
             cell.circle.tintColor = getLineColor()
             cell.accessible.backgroundColor = getLineColor()
-        } else {
-            cell.name.text = "No station!"
-        }
-        
-        let hasElevator = (station?.value(forKeyPath: "hasElevator") as? Bool ?? true)
-        
-        cell.accessible.isHidden = !hasElevator
-        cell.isFavorite.isHidden = !hasElevator
 
-        return cell
+            let hasElevator = (station.value(forKeyPath: "hasElevator") as? Bool ?? false)
+
+            cell.accessible.isHidden = !hasElevator
+            cell.isFavorite.isHidden = !hasElevator
+
+            return cell
+        default:
+            return UITableViewCell()
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        switch section {
+            case 0:
+                if alertStations.count == 0{
+                    return nil
+                }
+                return "Stations with Alerts"
+            case 1:
+                if allStations.count == 0{
+                    return nil
+                }
+                return "All Stations"
+            default:
+                return "Default title"
+        }
     }
 
     @objc func prechangeFavorite(_ sender: MyTapGesture) {
@@ -144,14 +197,13 @@ class SpecificLineTableViewController: UITableViewController {
                 fatalError("The selected cell is not being displayed by the table")
             }
             
-            // Fetches the appropriate line for the data source layout.
-            let stationID = SpecificLineTableViewController.getStationsInOrder(name: line)[indexPath.row]
-            let selectedStation = getStationById(id: stationID)
-
-            if let selectedStation = selectedStation {
-                stationViewController.station = selectedStation
-            } else {
-                stationViewController.station = nil
+            switch indexPath.section {
+                case 0:
+                    stationViewController.station = alertStations[indexPath.row]
+                case 1:
+                    stationViewController.station = allStations[indexPath.row]
+                default:
+                    return
             }
         default:
             return

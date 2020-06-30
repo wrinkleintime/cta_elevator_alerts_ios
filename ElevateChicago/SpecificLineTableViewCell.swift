@@ -18,6 +18,7 @@ class SpecificLineTableViewCell: UITableViewCell {
     @IBOutlet weak var circle: UIImageView!
     @IBOutlet weak var alert: UIImageView!
     @IBOutlet weak var isFavorite: UIImageView!
+    @IBOutlet weak var hasAlertStationsWithAlerts: UIImageView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
