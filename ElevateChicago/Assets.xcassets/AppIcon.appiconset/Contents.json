@@ -6,16 +6,19 @@
       "size" : "20x20"
     },
     {
+      "filename" : "ic_launcher_custom-2.png",
       "idiom" : "iphone",
       "scale" : "3x",
       "size" : "20x20"
     },
     {
+      "filename" : "ic_launcher_custom.png",
       "idiom" : "iphone",
       "scale" : "2x",
       "size" : "29x29"
     },
     {
+      "filename" : "ic_launcher_custom-1.png",
       "idiom" : "iphone",
       "scale" : "3x",
       "size" : "29x29"
