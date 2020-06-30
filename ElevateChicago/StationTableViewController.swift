@@ -14,14 +14,15 @@ class StationTableViewController: UITableViewController {
     
     //TODO: Fix issue with re-fetching alerts when going back into app; fix issue with background fetching
     //TODO: Testing - unit tests, functional tests, user tests
-    //TODO: Pay close attention to Apple deployment
-    //TODO: UI: Add alerts section above specific line, add no favorites text to home, allow unfavoriting from home screen
+    //TODO: Allow unfavoriting from home screen, don't highlight subviews when clicking view
     
     //TODO: Schedule - week 7 (coding complete), week 10 (testing & deployment), week 12 (as done as possible)
-    
+    //TODO: Pay close attention to Apple deployment
+
     //MARK: Properties
     var stations: [NSManagedObject] = []
-
+    @IBOutlet weak var allLinesButton: UIBarButtonItem!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -642,6 +643,14 @@ class StationTableViewController: UITableViewController {
         
         do{
             stations = try managedContext.fetch(fetchRequest)
+            if stations.isEmpty{
+                allLinesButton.image = UIImage(systemName: "plus")
+                allLinesButton.title = ""
+            } else {
+                allLinesButton.image = nil
+                allLinesButton.title = "All Lines"
+            }
+            
         } catch let error as NSError {
            print("Could not fetch. \(error), \(error.userInfo)")
         }

@@ -158,12 +158,15 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Favorite Stations" id="mfR-vY-sYj">
-                        <barButtonItem key="rightBarButtonItem" title="All Lines" id="q1l-UE-5LN">
+                        <barButtonItem key="rightBarButtonItem" image="plus" catalog="system" id="q1l-UE-5LN">
                             <connections>
                                 <segue destination="2kJ-XE-Nbq" kind="show" identifier="ShowAllLines" id="onl-C1-nWv"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="allLinesButton" destination="q1l-UE-5LN" id="4YH-4w-xIl"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Sgz-E0-75W" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -527,12 +530,13 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="bci-MP-fEF"/>
+        <segue reference="XD0-z3-vZr"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="AccessibleIcon" width="450" height="450"/>
         <image name="circle.fill" catalog="system" width="128" height="121"/>
         <image name="exclamationmark.circle" catalog="system" width="128" height="121"/>
+        <image name="plus" catalog="system" width="128" height="113"/>
         <image name="star" catalog="system" width="128" height="116"/>
         <image name="star.fill" catalog="system" width="128" height="116"/>
     </resources>
