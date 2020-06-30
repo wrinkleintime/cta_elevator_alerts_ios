@@ -15,6 +15,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <button key="tableFooterView" hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="DlX-J2-mCl">
+                            <rect key="frame" x="0.0" y="124.5" width="414" height="44"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <state key="normal" title="Test Notifications"/>
+                            <connections>
+                                <action selector="testNotifications:" destination="RFN-vG-oDG" eventType="touchUpInside" id="9UR-Mt-WXP"/>
+                            </connections>
+                        </button>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="StationTableViewCell" id="m9T-Lb-ULI" customClass="StationTableViewCell" customModule="ElevateChicago" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="414" height="68.5"/>
@@ -519,7 +527,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="bci-MP-fEF"/>
+        <segue reference="XD0-z3-vZr"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="AccessibleIcon" width="450" height="450"/>

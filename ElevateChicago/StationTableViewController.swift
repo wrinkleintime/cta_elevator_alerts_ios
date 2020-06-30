@@ -8,10 +8,11 @@
 
 import UIKit
 import CoreData
+import UserNotifications
 
 class StationTableViewController: UITableViewController {
     
-    //TODO: Test Push notification, Background refresh of alerts with real device
+    //TODO: Test Push notifications, refresh functionality
     //TODO: Testing - unit tests, functional tests, user tests
     //TODO: Pay close attention to Apple deployment
     
@@ -26,13 +27,25 @@ class StationTableViewController: UITableViewController {
         super.viewDidLoad()
         
         //Remove separator lines for empty cells
-        self.tableView.tableFooterView = UIView()
+//        self.tableView.tableFooterView = UIView()
         
-        registerForNotifications()
+        registerUserForNotifications()
+        registerAppForNotifications()
 //        deleteAllStations()
     }
     
-    func registerForNotifications() {
+    func registerUserForNotifications() {
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) {
+            (granted, error) in
+            if granted {
+                print("Notification access granted")
+            } else {
+                print("Notification access NOT granted")
+            }
+        }
+    }
+    
+    func registerAppForNotifications() {
       NotificationCenter.default.addObserver(
         forName: .newAlertsFetched,
         object: nil,
@@ -41,7 +54,6 @@ class StationTableViewController: UITableViewController {
           if let uInfo = notification.userInfo,
              let alerts = uInfo["alerts"] as? Alert {
             self.loadAlerts(currAlerts: alerts)
-            self.tableView.reloadData()
           }
       }
     }
@@ -280,7 +292,12 @@ class StationTableViewController: UITableViewController {
     
     private func loadAlerts(currAlerts: Alert){
         print("Loading alerts")
-        clearAlerts()
+        getStationFavorites()
+
+//        clearAlerts()
+        
+        var changedFavoriteElevators = [(String, String, Bool)]()
+        
         let alerts = currAlerts.ctaAlerts.alerts
         
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
@@ -292,6 +309,66 @@ class StationTableViewController: UITableViewController {
         privateContext.parent = managedContext
         
         privateContext.performAndWait {
+            
+            // First, get previous alert IDs
+            var changedAlertIds = [(String, String)]()
+            let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Station")
+            fetchRequest.predicate = NSPredicate(format: "hasAlert == YES")
+
+            do{
+                let tempstations = try managedContext.fetch(fetchRequest)
+                
+                // Add all previous IDs to changedAlertIds, to start
+                for station in tempstations {
+                    if let name = (station.value(forKeyPath: "name") as? String), let id = (station.value(forKeyPath: "id") as? String) {
+                        changedAlertIds.append((id, name))
+                    }
+                }
+            } catch let error as NSError {
+                print("Could not fetch. \(error), \(error.userInfo)")
+            }
+        }
+        
+        privateContext.performAndWait {
+            // First, get previous alert IDs
+            var changedAlertIds = [(String, String)]()
+            let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Station")
+            fetchRequest.predicate = NSPredicate(format: "hasAlert == YES")
+
+            do{
+                let tempstations = try managedContext.fetch(fetchRequest)
+                
+                // Add all previous IDs to changedAlertIds, to start
+                for station in tempstations {
+                    if let name = (station.value(forKeyPath: "name") as? String), let id = (station.value(forKeyPath: "id") as? String) {
+                        changedAlertIds.append((id, name))
+                    }
+                }
+            } catch let error as NSError {
+                print("Could not fetch. \(error), \(error.userInfo)")
+            }
+        }
+        
+        privateContext.performAndWait {
+            // First, get previous alert IDs
+            var changedAlertIds = [(String, String)]()
+            let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Station")
+            fetchRequest.predicate = NSPredicate(format: "hasAlert == YES")
+
+            do{
+                let tempstations = try managedContext.fetch(fetchRequest)
+                
+                // Add all previous IDs to changedAlertIds, to start
+                for station in tempstations {
+                    if let name = (station.value(forKeyPath: "name") as? String), let id = (station.value(forKeyPath: "id") as? String) {
+                        changedAlertIds.append((id, name))
+                    }
+                }
+            } catch let error as NSError {
+                print("Could not fetch. \(error), \(error.userInfo)")
+            }
+        
+            // Second, load alerts
             for alertJSON in alerts {
                 let impact = alertJSON.impact
                 let headline = alertJSON.headline
@@ -304,14 +381,35 @@ class StationTableViewController: UITableViewController {
                 for service in alertJSON.impactedService.service{
                     if service.serviceType == "T"{
                         let stationId = service.serviceId
-                        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Station")
-                        fetchRequest.predicate = NSPredicate(format: "id == %@", stationId)
+                        let newFetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Station")
+                        newFetchRequest.predicate = NSPredicate(format: "id == %@", stationId)
 
                         do{
-                            stations = try managedContext.fetch(fetchRequest)
-                            if !stations.isEmpty{
+                            stations = try managedContext.fetch(newFetchRequest)
+                            
+                            if !stations.isEmpty {
                                 let station = stations[0]
                                 station.setValue(shortDesc, forKeyPath: "alertDetails")
+                                
+                                // If the station didn't have an alert before, it's a new alert
+                                // so add it to the local notification list
+                                let id = (station.value(forKeyPath: "id") as? String ?? "")
+                                let name = (station.value(forKeyPath: "name") as? String ?? "")
+                                
+                                if !(station.value(forKeyPath: "hasAlert") as? Bool ?? true) && (station.value(forKeyPath: "isFavorite") as? Bool ?? false){
+                                    print("Favorite elevator out of service: " + name)
+                                    changedFavoriteElevators.append((id, name, true))
+                                }
+                                
+                                // If the station had an alert before, remove it from the
+                                // changedAlertIds list
+                                for (tempid, tempname) in changedAlertIds{
+                                    if id == tempid {
+                                        changedAlertIds = changedAlertIds.filter{$0 != (tempid, tempname)}
+                                        print(changedAlertIds)
+                                    }
+                                }
+                                
                                 station.setValue(true, forKeyPath: "hasAlert")
                                 
                                 saveContext(forContext: privateContext)
@@ -322,13 +420,147 @@ class StationTableViewController: UITableViewController {
                     }
                 }
             }
+            
+            privateContext.performAndWait {
+                // First, get previous alert IDs
+                var changedAlertIds = [(String, String)]()
+                let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Station")
+                fetchRequest.predicate = NSPredicate(format: "hasAlert == YES")
+
+                do{
+                    let tempstations = try managedContext.fetch(fetchRequest)
+                    
+                    // Add all previous IDs to changedAlertIds, to start
+                    for station in tempstations {
+                        if let name = (station.value(forKeyPath: "name") as? String), let id = (station.value(forKeyPath: "id") as? String) {
+                            changedAlertIds.append((id, name))
+                        }
+                    }
+                } catch let error as NSError {
+                    print("Could not fetch. \(error), \(error.userInfo)")
+                }
+            }
+            
+            privateContext.performAndWait {
+                // First, get previous alert IDs
+                var changedAlertIds = [(String, String)]()
+                let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Station")
+                fetchRequest.predicate = NSPredicate(format: "hasAlert == YES")
+
+                do{
+                    let tempstations = try managedContext.fetch(fetchRequest)
+                    
+                    // Add all previous IDs to changedAlertIds, to start
+                    for station in tempstations {
+                        if let name = (station.value(forKeyPath: "name") as? String), let id = (station.value(forKeyPath: "id") as? String) {
+                            changedAlertIds.append((id, name))
+                        }
+                    }
+                } catch let error as NSError {
+                    print("Could not fetch. \(error), \(error.userInfo)")
+                }
+            }
+                
+            privateContext.performAndWait {
+                // Add alerts that no longer exist to the local notification list
+                // and remove their alert
+                for (tempid, tempname) in changedAlertIds{
+                                        
+                    let newFetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Station")
+                    newFetchRequest.predicate = NSPredicate(format: "id == %@", tempid)
+                    
+                    do{
+                        let tempstations = try managedContext.fetch(newFetchRequest)
+                        let tempstation = tempstations[0]
+                        tempstation.setValue(false, forKeyPath: "hasAlert")
+                        saveContext(forContext: privateContext)
+                        
+                        if (tempstation.value(forKeyPath: "isFavorite") as? Bool ?? false){
+                            print("Favorite elevator back in service: " + tempname)
+                            changedFavoriteElevators.append((tempid, tempname, false))
+                        }
+                    } catch let error as NSError {
+                        print("Could not fetch. \(error), \(error.userInfo)")
+                    }
+                }
+            }
+   
+            sendNotifications(content: changedFavoriteElevators)
             getStationFavorites()
             print("Alerts loaded")
+        }
+    }
+        
+    func sendNotifications(content: [(String, String, Bool)]) {
+        print("Sending notifications")
+        
+        var counter = 1
+            
+        for contentItem in content{
+            print("id: " + contentItem.0 + ", name: " + contentItem.1 + ", bool: " + contentItem.2.description)
+            
+            let content = UNMutableNotificationContent()
+            
+            if contentItem.2{
+                content.title = "Elevator is Out of Service!"
+                content.body = "Elevator is down at " + contentItem.1
+                content.userInfo = ["id": contentItem.0]
+            } else {
+                content.title = "Elevator is Back in Service!"
+                content.body = "Elevator is working at " + contentItem.1
+                content.userInfo = ["id": contentItem.0]
+            }
+            let identifier = "notification.id." + counter.description
+            let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 10, repeats: false)
+            let request = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
+            
+            UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
+            
+            counter += 1
+        }
+    }
+    
+    @IBAction func testNotifications(_ sender: Any) {
+        
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+              return
+        }
+        let managedContext = appDelegate.persistentContainer.viewContext
+        
+        let newFetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Station")
+        
+        //Test adding alert for Logan Square
+        newFetchRequest.predicate = NSPredicate(format: "id == %@", "41020")
+        
+        do{
+            let stations = try managedContext.fetch(newFetchRequest)
+            let station = stations[0]
+            station.setValue(false, forKeyPath: "hasAlert")
+            station.setValue(true, forKeyPath: "isFavorite")
+            saveContext(forContext: managedContext)
+            print("Logan Square test added")
+        } catch let error as NSError {
+            print("Could not fetch. \(error), \(error.userInfo)")
+        }
+        
+        //Test removing alert for Wilson
+        newFetchRequest.predicate = NSPredicate(format: "id == %@", "40540")
+        
+        do{
+            let stations = try managedContext.fetch(newFetchRequest)
+            let station = stations[0]
+            station.setValue(true, forKeyPath: "hasAlert")
+            station.setValue(true, forKeyPath: "isFavorite")
+            saveContext(forContext: managedContext)
+            print("Wilson test added")
+        } catch let error as NSError {
+            print("Could not fetch. \(error), \(error.userInfo)")
         }
     }
     
     private func clearAlerts(){
         print("Clearing alerts")
+                
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
             return
         }
@@ -343,9 +575,9 @@ class StationTableViewController: UITableViewController {
             fetchRequest.predicate = NSPredicate(format: "hasAlert == YES")
 
             do{
-                stations = try managedContext.fetch(fetchRequest)
+                let tempstations = try managedContext.fetch(fetchRequest)
                 
-                for station in stations {
+                for station in tempstations {
                     station.setValue("", forKeyPath: "alertDetails")
                     station.setValue(false, forKeyPath: "hasAlert")
                     saveContext(forContext: privateContext)
@@ -354,6 +586,33 @@ class StationTableViewController: UITableViewController {
                 print("Could not fetch. \(error), \(error.userInfo)")
             }
         }
+    }
+    
+    private func getCurrentAlerts() -> [NSManagedObject]{
+        print("Getting current alerts")
+        
+        var currAlerts = [NSManagedObject]()
+                
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+            return currAlerts
+        }
+
+        let managedContext = appDelegate.persistentContainer.viewContext
+        
+        let privateContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
+        privateContext.parent = managedContext
+        
+        privateContext.performAndWait {
+            let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Station")
+            fetchRequest.predicate = NSPredicate(format: "hasAlert == YES")
+
+            do{
+                currAlerts = try managedContext.fetch(fetchRequest)
+            } catch let error as NSError {
+                print("Could not fetch. \(error), \(error.userInfo)")
+            }
+        }
+        return currAlerts
     }
     
     private func getStationFavorites(){
@@ -412,6 +671,7 @@ class StationTableViewController: UITableViewController {
             }
         }
     }
+
 }
 
 
