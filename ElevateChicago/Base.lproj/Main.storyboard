@@ -108,7 +108,7 @@
                                                 </view>
                                             </subviews>
                                         </stackView>
-                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="star" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="2bN-Rv-bMA">
+                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="star" catalog="system" highlightedImage="star.fill" translatesAutoresizingMaskIntoConstraints="NO" id="2bN-Rv-bMA">
                                             <rect key="frame" x="371" y="17" width="35" height="35"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" secondItem="2bN-Rv-bMA" secondAttribute="height" multiplier="1:1" id="B9Z-Hj-itO"/>

@@ -14,7 +14,7 @@ class StationTableViewController: UITableViewController {
     
     //TODO: Fix issue with re-fetching alerts when going back into app; fix issue with background fetching
     //TODO: Testing - unit tests, functional tests, user tests
-    //TODO: Allow unfavoriting from home screen, don't highlight subviews when clicking view
+    //TODO: UI: don't highlight subviews when clicking view
     
     //TODO: Schedule - week 7 (coding complete), week 10 (testing & deployment), week 12 (as done as possible)
     //TODO: Pay close attention to Apple deployment
@@ -113,14 +113,62 @@ class StationTableViewController: UITableViewController {
         cell.blueLine.isHidden = !(station.value(forKeyPath: "blue") as? Bool ?? true)
         cell.yellowLine.isHidden = !(station.value(forKeyPath: "yellow") as? Bool ?? true)
         
-        //Set filled or unfilled star for favorites
-        if (station.value(forKeyPath: "isFavorite") as? Bool ?? true){
-            cell.isFavorite.image = UIImage(systemName: "star.fill")
-        } else {
-            cell.isFavorite.image = UIImage(systemName: "star")
-        }
-
+        let favorite = (station.value(forKeyPath: "isFavorite") as? Bool ?? false)
+        cell.isFavorite.isHighlighted = favorite
+        cell.isFavorite.isUserInteractionEnabled = true;
+        let tappy = FavoriteTapGesture(target: self, action: #selector(prechangeFavorite))
+        cell.isFavorite.addGestureRecognizer(tappy)
+        tappy.station = station
+        tappy.isFavorite = favorite
+        tappy.cell = cell
+        
         return cell
+    }
+    
+    @objc func prechangeFavorite(_ sender: FavoriteTapGesture) {
+        print("prechanging favorite")
+        if (sender.isFavorite){
+            if let stations = sender.station {
+                changeFavorite(isNowFavorite: false, station: stations)
+            } else {
+                return
+            }
+            if let cell = sender.cell {
+                cell.isFavorite.image = UIImage(systemName: "star")
+            } else {
+                return
+            }
+        } else {
+            if let stations = sender.station {
+                changeFavorite(isNowFavorite: true, station: stations)
+            } else {
+                return
+            }
+            if let cell = sender.cell {
+                cell.isFavorite.image = UIImage(systemName: "star.fill")
+            } else {
+                return
+            }
+        }
+        self.getStationFavorites()
+        tableView.reloadData()
+    }
+    
+    private func changeFavorite(isNowFavorite: Bool, station: NSManagedObject){
+        print("changing favorite")
+        station.setValue(isNowFavorite, forKeyPath: "isFavorite")
+        
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+              return
+          }
+        
+        let managedContext = appDelegate.persistentContainer.viewContext
+        
+        do {
+            try managedContext.save()
+            } catch let error as NSError {
+            print("Could not save. \(error), \(error.userInfo)")
+        }
     }
 
     // MARK: - Navigation
@@ -693,8 +741,14 @@ class StationTableViewController: UITableViewController {
             }
         }
     }
-
 }
+
+class FavoriteTapGesture: UITapGestureRecognizer {
+    var station: NSManagedObject?
+    var isFavorite = Bool()
+    var cell: StationTableViewCell?
+}
+
 
 
 

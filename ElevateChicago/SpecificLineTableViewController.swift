@@ -105,7 +105,7 @@ class SpecificLineTableViewController: UITableViewController {
                    
             cell.isFavorite.isHighlighted = favorite
             cell.isFavorite.isUserInteractionEnabled = true;
-            let tappy = MyTapGesture(target: self, action: #selector(prechangeFavorite))
+            let tappy = SpecificLineTapGesture(target: self, action: #selector(prechangeFavorite))
             cell.isFavorite.addGestureRecognizer(tappy)
             tappy.station = station
             tappy.isFavorite = favorite
@@ -144,7 +144,7 @@ class SpecificLineTableViewController: UITableViewController {
         }
     }
 
-    @objc func prechangeFavorite(_ sender: MyTapGesture) {
+    @objc func prechangeFavorite(_ sender: SpecificLineTapGesture) {
         print("prechanging favorite")
         if (sender.isFavorite){
             if let stations = sender.station {
@@ -303,7 +303,6 @@ class SpecificLineTableViewController: UITableViewController {
             } catch let error as NSError {
             print("Could not save. \(error), \(error.userInfo)")
         }
-        
     }
 }
 
@@ -327,7 +326,7 @@ public extension UIColor {
     }
 }
 
-class MyTapGesture: UITapGestureRecognizer {
+class SpecificLineTapGesture: UITapGestureRecognizer {
     var station: NSManagedObject?
     var isFavorite = Bool()
     var cell: SpecificLineTableViewCell?
