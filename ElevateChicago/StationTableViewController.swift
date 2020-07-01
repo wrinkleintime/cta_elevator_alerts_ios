@@ -13,7 +13,6 @@ import UserNotifications
 class StationTableViewController: UITableViewController {
     
     //TODO: Fix issue with background fetching not sending push notification
-    //TODO: Testing - unit tests, functional tests, user tests
     
     //TODO: Schedule - week 7 (coding complete), week 10 (testing & deployment), week 12 (as done as possible)
     //TODO: Pay close attention to Apple deployment
