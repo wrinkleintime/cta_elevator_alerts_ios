@@ -35,7 +35,7 @@ class StationTableViewController: UITableViewController {
         
         // Setting observer for UIApplication.willEnterForegroundNotification
         NotificationCenter.default.addObserver(self, selector: #selector(willEnterForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
-
+        
 //        deleteAllStations()
     }
     

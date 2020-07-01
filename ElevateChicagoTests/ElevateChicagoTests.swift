@@ -7,28 +7,36 @@
 //
 
 import XCTest
+import CoreData
 @testable import ElevateChicago
 
 class ElevateChicagoTests: XCTestCase {
-
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+    
+    // Test CtaStation.Swift
+    func testCtaStation() {
+        let morseStation = CtaStation.init(map_id: "11111", station_name: "Morse", ada: true, red: true, blue: false, g: false, brn: false, p: false, pexp: false, y: false, pnk: false, o: false)
+        XCTAssertNotNil(morseStation)
+        XCTAssertEqual(morseStation.map_id, "11111")
+        XCTAssertTrue(morseStation.red)
+        XCTAssertFalse(morseStation.g)
     }
-
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+    
+    // Test stations property in StationTableViewController
+    func testStationTableViewControllerStations() {
+        let vc = StationTableViewController.init()
+        vc.stations = [NSManagedObject]()
+        
+        XCTAssertNotNil(vc)
+        XCTAssertNotNil(vc.stations)
+        XCTAssertTrue(vc.stations.isEmpty)
     }
-
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    
+    // Test station property in StationViewController
+    func testStationViewControllerStations() {
+        let vc = StationViewController.init()
+        vc.station = NSManagedObject()
+        
+        XCTAssertNotNil(vc)
+        XCTAssertNotNil(vc.station)
     }
-
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
-    }
-
 }

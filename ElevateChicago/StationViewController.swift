@@ -12,7 +12,6 @@ import CoreData
 class StationViewController: UIViewController, UINavigationControllerDelegate {
 
     //MARK: Properties
-
     @IBOutlet weak var stationName: UILabel!
     @IBOutlet weak var redLine: UIView!
     @IBOutlet weak var brownLine: UIView!
@@ -56,29 +55,9 @@ class StationViewController: UIViewController, UINavigationControllerDelegate {
             
             favoriteButton.isEnabled = false
             favoriteButton.tintColor = UIColor.clear
-            
-//            if ((station.value(forKeyPath: "hasElevator") as? Bool ?? false) == false){
-//                favoriteButton.isEnabled = false
-//                favoriteButton.tintColor = UIColor.clear
-//            } else if (station.value(forKeyPath: "isFavorite") as? Bool ?? false){
-//                favoriteButton.image = UIImage(systemName: "star.fill")
-//            } else {
-//                favoriteButton.image = UIImage(systemName: "star")
-//            }
         }
     }
     
-//    //MARK: Actions
-//    @IBAction func clickFavoriteButton(_ sender: UIBarButtonItem) {
-//        if (sender.image == UIImage(systemName: "star.fill")){
-//            changeFavorite(isNowFavorite: false);
-//            sender.image = UIImage(systemName: "star")
-//        } else {
-//            changeFavorite(isNowFavorite: true);
-//            sender.image = UIImage(systemName: "star.fill")
-//        }
-//    }
-//
     //MARK: Private functions
     func changeFavorite(isNowFavorite: Bool){
         station?.setValue(isNowFavorite, forKeyPath: "isFavorite")

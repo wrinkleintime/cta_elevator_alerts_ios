@@ -13,7 +13,6 @@ class SpecificLineTableViewController: UITableViewController {
     
     //MARK: Properties
     var line: String = ""
-    
     var allStations = [NSManagedObject]()
     var alertStations = [NSManagedObject]()
         
