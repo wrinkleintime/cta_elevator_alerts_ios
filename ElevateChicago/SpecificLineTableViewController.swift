@@ -115,6 +115,7 @@ class SpecificLineTableViewController: UITableViewController {
             cell.bottomLine.backgroundColor = getLineColor()
             cell.circle.tintColor = getLineColor()
             cell.accessible.backgroundColor = getLineColor()
+            cell.selectionStyle = UITableViewCell.SelectionStyle.none
 
             let hasElevator = (station.value(forKeyPath: "hasElevator") as? Bool ?? false)
 
