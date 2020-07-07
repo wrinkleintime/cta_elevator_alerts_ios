@@ -524,7 +524,7 @@ class StationTableViewController: UITableViewController {
    
             privateContext.performAndWait {
                 sendNotifications(content: changedFavoriteElevators)
-                sendTestNotification()
+//                sendTestNotification()
                 getStationFavorites()
                 print("Alerts loaded")
             }
