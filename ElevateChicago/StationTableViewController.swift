@@ -168,6 +168,7 @@ class StationTableViewController: UITableViewController {
         cell.isFavorite.isUserInteractionEnabled = true;
         let tappy = FavoriteTapGesture(target: self, action: #selector(prechangeFavorite))
         cell.isFavorite.addGestureRecognizer(tappy)
+        cell.selectionStyle = UITableViewCell.SelectionStyle.none
         tappy.station = station
         tappy.isFavorite = true
         tappy.cell = cell
