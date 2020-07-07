@@ -13,7 +13,6 @@ import UserNotifications
 class StationTableViewController: UITableViewController {
     
     //Immediate todos:
-    //TODO: Fix issue with initial loading time
     //TODO: UI testing framework - try to write some VC tests
     
     //TODO: Week 10 (testing & deployment), week 12 (as done as possible)
@@ -36,6 +35,7 @@ class StationTableViewController: UITableViewController {
         // Setting observer for UIApplication.willEnterForegroundNotification
         NotificationCenter.default.addObserver(self, selector: #selector(willEnterForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
         
+        // For testing only
 //        deleteAllStations()
     }
     
@@ -75,8 +75,7 @@ class StationTableViewController: UITableViewController {
     
     @objc func willEnterForeground() {
         print("View Entering Foreground")
-        fetchStations()
-        fetchAlerts()
+        fetchStationsAndAlerts()
         tableView.reloadData()
     }
     
@@ -84,8 +83,7 @@ class StationTableViewController: UITableViewController {
         super.viewWillAppear(animated)
 
         print("View Will Appear")
-        fetchStations()
-        fetchAlerts()
+        fetchStationsAndAlerts()
         tableView.reloadData()
     }
 
@@ -286,9 +284,10 @@ class StationTableViewController: UITableViewController {
         }
     }
     
-    private func fetchStations() {
+    private func fetchStationsAndAlerts() {
         if (getStationsExist()){
             print("Stations exist")
+            fetchAlerts()
             return
         } else
         {
@@ -401,6 +400,7 @@ class StationTableViewController: UITableViewController {
                 
                 saveContext(forContext: privateContext)
             }
+            fetchAlerts()
         }
     }
     
