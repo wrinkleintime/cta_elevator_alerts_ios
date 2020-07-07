@@ -23,6 +23,7 @@ class StationViewController: UIViewController, UINavigationControllerDelegate {
     @IBOutlet weak var yellowLine: UIView!
     @IBOutlet weak var alertDetails: UILabel!
     @IBOutlet weak var favoriteButton: UIBarButtonItem!
+    @IBOutlet weak var accessibleLineNames: UILabel!
     
     //This value is passed by in `prepare(for:sender:)`
     var station: NSManagedObject?
@@ -32,15 +33,62 @@ class StationViewController: UIViewController, UINavigationControllerDelegate {
         
         if let station = station {
             stationName.text = station.value(forKeyPath: "name") as? String
-            redLine.isHidden = !(station.value(forKeyPath: "red") as? Bool ?? true)
-            blueLine.isHidden = !(station.value(forKeyPath: "blue") as? Bool ?? true)
-            brownLine.isHidden = !(station.value(forKeyPath: "brown") as? Bool ?? true)
-            greenLine.isHidden = !(station.value(forKeyPath: "green") as? Bool ?? true)
-            orangeLine.isHidden = !(station.value(forKeyPath: "orange") as? Bool ?? true)
-            pinkLine.isHidden = !(station.value(forKeyPath: "pink") as? Bool ?? true)
-            purpleLine.isHidden = !(station.value(forKeyPath: "purple") as? Bool ?? true)
-            blueLine.isHidden = !(station.value(forKeyPath: "blue") as? Bool ?? true)
-            yellowLine.isHidden = !(station.value(forKeyPath: "yellow") as? Bool ?? true)
+            
+            
+            // Allow for differentiation without color
+            if UIAccessibility.shouldDifferentiateWithoutColor{
+                redLine.isHidden = true
+                blueLine.isHidden = true
+                brownLine.isHidden = true
+                greenLine.isHidden = true
+                orangeLine.isHidden = true
+                pinkLine.isHidden = true
+                purpleLine.isHidden = true
+                blueLine.isHidden = true
+                yellowLine.isHidden = true
+                
+                accessibleLineNames.isHidden = false
+                var name = ""
+                            
+                if (station.value(forKeyPath: "red") as? Bool ?? true){
+                    name += "R/"
+                }
+                if (station.value(forKeyPath: "blue") as? Bool ?? true){
+                    name += "Blu/"
+                }
+                if (station.value(forKeyPath: "brown") as? Bool ?? true){
+                    name += "Brn/"
+                }
+                if (station.value(forKeyPath: "green") as? Bool ?? true){
+                    name += "G/"
+                }
+                if (station.value(forKeyPath: "orange") as? Bool ?? true){
+                    name += "O/"
+                }
+                if (station.value(forKeyPath: "pink") as? Bool ?? true){
+                    name += "Pnk/"
+                }
+                if (station.value(forKeyPath: "purple") as? Bool ?? true){
+                    name += "Pur/"
+                }
+                if (station.value(forKeyPath: "yellow") as? Bool ?? true){
+                    name += "Y/"
+                }
+                
+                name = String(name.dropLast())
+                accessibleLineNames.text = name
+            } else {
+                accessibleLineNames.isHidden = true
+                redLine.isHidden = !(station.value(forKeyPath: "red") as? Bool ?? true)
+                blueLine.isHidden = !(station.value(forKeyPath: "blue") as? Bool ?? true)
+                brownLine.isHidden = !(station.value(forKeyPath: "brown") as? Bool ?? true)
+                greenLine.isHidden = !(station.value(forKeyPath: "green") as? Bool ?? true)
+                orangeLine.isHidden = !(station.value(forKeyPath: "orange") as? Bool ?? true)
+                pinkLine.isHidden = !(station.value(forKeyPath: "pink") as? Bool ?? true)
+                purpleLine.isHidden = !(station.value(forKeyPath: "purple") as? Bool ?? true)
+                blueLine.isHidden = !(station.value(forKeyPath: "blue") as? Bool ?? true)
+                yellowLine.isHidden = !(station.value(forKeyPath: "yellow") as? Bool ?? true)
+            }
             
             //Display the correct elevator status details.
             if !(station.value(forKeyPath: "hasElevator") as? Bool ?? true){

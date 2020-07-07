@@ -12,10 +12,11 @@ import UserNotifications
 
 class StationTableViewController: UITableViewController {
     
-    //TODO: Fix issue with background fetching not sending push notification
+    //Immediate todos:
+    //TODO: Fix issue with initial loading time
+    //TODO: UI testing framework - try to write some VC tests
     
-    //TODO: Schedule - week 7 (coding complete), week 10 (testing & deployment), week 12 (as done as possible)
-    //TODO: Pay close attention to Apple deployment
+    //TODO: Week 10 (testing & deployment), week 12 (as done as possible)
 
     //MARK: Properties
     var stations: [NSManagedObject] = []
@@ -110,23 +111,67 @@ class StationTableViewController: UITableViewController {
         
         cell.stationName.text = station.value(forKeyPath: "name") as? String
         cell.hasAlert.isHidden = !(station.value(forKeyPath: "hasAlert") as? Bool ?? true)
-        cell.redLine.isHidden = !(station.value(forKeyPath: "red") as? Bool ?? true)
-        cell.blueLine.isHidden = !(station.value(forKeyPath: "blue") as? Bool ?? true)
-        cell.brownLine.isHidden = !(station.value(forKeyPath: "brown") as? Bool ?? true)
-        cell.greenLine.isHidden = !(station.value(forKeyPath: "green") as? Bool ?? true)
-        cell.orangeLine.isHidden = !(station.value(forKeyPath: "orange") as? Bool ?? true)
-        cell.pinkLine.isHidden = !(station.value(forKeyPath: "pink") as? Bool ?? true)
-        cell.purpleLine.isHidden = !(station.value(forKeyPath: "purple") as? Bool ?? true)
-        cell.blueLine.isHidden = !(station.value(forKeyPath: "blue") as? Bool ?? true)
-        cell.yellowLine.isHidden = !(station.value(forKeyPath: "yellow") as? Bool ?? true)
+
+        // Allow for differentiation without color
+        if UIAccessibility.shouldDifferentiateWithoutColor{
+            cell.redLine.isHidden = true
+            cell.blueLine.isHidden = true
+            cell.brownLine.isHidden = true
+            cell.greenLine.isHidden = true
+            cell.orangeLine.isHidden = true
+            cell.pinkLine.isHidden = true
+            cell.purpleLine.isHidden = true
+            cell.blueLine.isHidden = true
+            cell.yellowLine.isHidden = true
+            
+            cell.accessibleLineNames.isHidden = false
+            var name = ""
+                        
+            if (station.value(forKeyPath: "red") as? Bool ?? true){
+                name += "R/"
+            }
+            if (station.value(forKeyPath: "blue") as? Bool ?? true){
+                name += "Blu/"
+            }
+            if (station.value(forKeyPath: "brown") as? Bool ?? true){
+                name += "Brn/"
+            }
+            if (station.value(forKeyPath: "green") as? Bool ?? true){
+                name += "G/"
+            }
+            if (station.value(forKeyPath: "orange") as? Bool ?? true){
+                name += "O/"
+            }
+            if (station.value(forKeyPath: "pink") as? Bool ?? true){
+                name += "Pnk/"
+            }
+            if (station.value(forKeyPath: "purple") as? Bool ?? true){
+                name += "Pur/"
+            }
+            if (station.value(forKeyPath: "yellow") as? Bool ?? true){
+                name += "Y/"
+            }
+            
+            name = String(name.dropLast())
+            cell.accessibleLineNames.text = name
+        } else {
+            cell.accessibleLineNames.isHidden = true
+            cell.redLine.isHidden = !(station.value(forKeyPath: "red") as? Bool ?? true)
+            cell.blueLine.isHidden = !(station.value(forKeyPath: "blue") as? Bool ?? true)
+            cell.brownLine.isHidden = !(station.value(forKeyPath: "brown") as? Bool ?? true)
+            cell.greenLine.isHidden = !(station.value(forKeyPath: "green") as? Bool ?? true)
+            cell.orangeLine.isHidden = !(station.value(forKeyPath: "orange") as? Bool ?? true)
+            cell.pinkLine.isHidden = !(station.value(forKeyPath: "pink") as? Bool ?? true)
+            cell.purpleLine.isHidden = !(station.value(forKeyPath: "purple") as? Bool ?? true)
+            cell.yellowLine.isHidden = !(station.value(forKeyPath: "yellow") as? Bool ?? true)
+        }
         
-        let favorite = (station.value(forKeyPath: "isFavorite") as? Bool ?? false)
-        cell.isFavorite.isHighlighted = favorite
+        cell.isFavorite.isHighlighted = true
         cell.isFavorite.isUserInteractionEnabled = true;
         let tappy = FavoriteTapGesture(target: self, action: #selector(prechangeFavorite))
         cell.isFavorite.addGestureRecognizer(tappy)
         tappy.station = station
-        tappy.isFavorite = favorite
+        tappy.isFavorite = true
         tappy.cell = cell
         
         return cell
@@ -509,7 +554,7 @@ class StationTableViewController: UITableViewController {
             }
             let identifier = "notification.id." + counter.description
             print(identifier)
-            let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
+            let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 10, repeats: false)
             let request = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
             
             UNUserNotificationCenter.current().add(request)
@@ -518,18 +563,26 @@ class StationTableViewController: UITableViewController {
         }
     }
     
+    var testCounter = 0
+    
     func sendTestNotification() {
         print("Sending test notification")
         
         let content = UNMutableNotificationContent()
+        content.title = "TEST NOTIFICATION!"
         
-        content.title = "Test Notification!"
-        content.body = "Data pulled successfully in background!"
+        let timestamp = DateFormatter.localizedString(from: Date(), dateStyle: .short, timeStyle: .short)
         
-        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
-        let request = UNNotificationRequest(identifier: "notification.id.99", content: content, trigger: trigger)
+        content.body = "\(timestamp)"
         
+        let identifier = "notification.id." + testCounter.description
+        
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 10, repeats: false)
+        let request = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
+            
         UNUserNotificationCenter.current().add(request)
+        
+        testCounter += 1
     }
     
     @IBAction func testNotifications(_ sender: Any) {

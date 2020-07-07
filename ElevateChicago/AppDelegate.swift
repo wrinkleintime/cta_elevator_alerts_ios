@@ -45,7 +45,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func scheduleBackgroundAlertFetch() {
         let alertFetchTask = BGAppRefreshTaskRequest(identifier: "com.samsiner.fetchAlerts")
-        alertFetchTask.earliestBeginDate = Date(timeIntervalSinceNow: 15 * 60)
         do {
           try BGTaskScheduler.shared.submit(alertFetchTask)
             print("task scheduled")

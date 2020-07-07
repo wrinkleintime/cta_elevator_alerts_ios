@@ -22,6 +22,7 @@ class StationTableViewCell: UITableViewCell {
     @IBOutlet weak var blueLine: UIView!
     @IBOutlet weak var yellowLine: UIView!
     @IBOutlet weak var isFavorite: UIImageView!
+    @IBOutlet weak var accessibleLineNames: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
