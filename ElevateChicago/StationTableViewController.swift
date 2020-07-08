@@ -12,9 +12,8 @@ import UserNotifications
 
 class StationTableViewController: UITableViewController {
     
-    //Immediate todos:
     //TODO: UI testing framework - try to write some VC tests
-    
+    //FIXME: Possible issue with crashes relating to duplicate session
     //TODO: Week 10 (testing & deployment), week 12 (as done as possible)
 
     //MARK: Properties
