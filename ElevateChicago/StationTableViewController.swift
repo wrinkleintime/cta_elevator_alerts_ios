@@ -173,6 +173,8 @@ class StationTableViewController: UITableViewController {
         tappy.isFavorite = true
         tappy.cell = cell
         
+        cell.configureCell(!cell.hasAlert.isHidden)
+        
         return cell
     }
     

@@ -25,5 +25,23 @@ class AllLinesTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-
+    
+    func configureCell(_ containsAlert: Bool) {
+        applyAccessibility(containsAlert)
+    }
 }
+
+extension AllLinesTableViewCell {
+    func applyAccessibility(_ containsAlert: Bool) {
+        lineIcon.isAccessibilityElement = true
+        lineIcon.accessibilityTraits = .none
+        lineIcon.accessibilityLabel = "Icon of a train."
+        
+        if (containsAlert){
+            hasAlert.isAccessibilityElement = true
+            hasAlert.accessibilityTraits = .image
+            hasAlert.accessibilityLabel = "This line contains a station with an elevator alert."
+        }
+  }
+}
+

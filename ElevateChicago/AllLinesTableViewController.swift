@@ -54,6 +54,7 @@ class AllLinesTableViewController: UITableViewController {
         }
         
         cell.hasAlert.isHidden = !hasAlert
+        cell.configureCell(hasAlert)
 
         return cell
     }

@@ -76,6 +76,8 @@ class SpecificLineTableViewController: UITableViewController {
             cell.alert.isHidden = false
             cell.name.text = station.value(forKeyPath: "name") as? String
             
+            cell.configureCell(!cell.alert.isHidden, !cell.isFavorite.isHidden)
+            
             return cell
         case 1:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "SpecificLineTableViewCell", for: indexPath) as? SpecificLineTableViewCell else{
@@ -120,6 +122,8 @@ class SpecificLineTableViewController: UITableViewController {
 
             cell.accessible.isHidden = !hasElevator
             cell.isFavorite.isHidden = !hasElevator
+            
+            cell.configureCell(!cell.alert.isHidden, !cell.isFavorite.isHidden)
 
             return cell
         default:

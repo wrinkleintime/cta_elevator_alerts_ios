@@ -30,5 +30,36 @@ class SpecificLineTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
+    
+    func configureCell(_ containsAlert: Bool, _ containsFavorite: Bool) {
+        applyAccessibility(containsAlert, containsFavorite)
+    }
+}
 
+extension SpecificLineTableViewCell {
+    func applyAccessibility(_ containsAlert: Bool, _ containsFavorite: Bool) {
+        
+        circle.isAccessibilityElement = true
+        accessible.accessibilityTraits = .image
+        accessible.accessibilityLabel = "New station."
+        
+        accessible.isAccessibilityElement = true
+        accessible.accessibilityTraits = .none
+        accessible.accessibilityLabel = "This station is accessible."
+        
+        isFavorite.isAccessibilityElement = true
+        isFavorite.accessibilityTraits = [.image, .button]
+        
+        if (containsFavorite){
+            isFavorite.accessibilityLabel = "This is a favorite station. Click to make it not a favorite."
+        } else {
+            isFavorite.accessibilityLabel = "This is not a favorite station. Click to make it a favorite."
+        }
+        
+        if (containsAlert){
+            alert.isAccessibilityElement = true
+            alert.accessibilityTraits = .image
+            alert.accessibilityLabel = "This station has an elevator alert. Click to find out more information."
+        }
+  }
 }
