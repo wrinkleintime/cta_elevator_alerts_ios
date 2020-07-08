@@ -45,10 +45,11 @@ extension StationTableViewCell {
         isFavorite.isAccessibilityElement = true
         isFavorite.accessibilityTraits = [.image, .button]
         isFavorite.accessibilityLabel = "This is a favorite station. Click to remove it as a favorite."
+        
         if (containsAlert){
             hasAlert.isAccessibilityElement = true
-            hasAlert.accessibilityTraits = .button
-            hasAlert.accessibilityLabel = "This station has an elevator alert. Click to find out more information."
+            hasAlert.accessibilityTraits = .image
+            hasAlert.accessibilityLabel = "This station has an elevator alert."
         }
   }
 }

@@ -39,9 +39,7 @@ class SpecificLineTableViewCell: UITableViewCell {
 extension SpecificLineTableViewCell {
     func applyAccessibility(_ containsAlert: Bool, _ containsFavorite: Bool) {
         
-        circle.isAccessibilityElement = true
-        accessible.accessibilityTraits = .image
-        accessible.accessibilityLabel = "New station."
+        circle.isAccessibilityElement = false
         
         accessible.isAccessibilityElement = true
         accessible.accessibilityTraits = .none

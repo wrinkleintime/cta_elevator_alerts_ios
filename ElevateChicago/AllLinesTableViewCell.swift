@@ -33,9 +33,7 @@ class AllLinesTableViewCell: UITableViewCell {
 
 extension AllLinesTableViewCell {
     func applyAccessibility(_ containsAlert: Bool) {
-        lineIcon.isAccessibilityElement = true
-        lineIcon.accessibilityTraits = .none
-        lineIcon.accessibilityLabel = "Icon of a train."
+        lineIcon.isAccessibilityElement = false
         
         if (containsAlert){
             hasAlert.isAccessibilityElement = true
