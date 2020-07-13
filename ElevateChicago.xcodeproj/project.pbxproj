@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -19,12 +19,16 @@
 		38505B0F247B2B5400EE12D2 /* ElevateChicago.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 38505B0D247B2B5400EE12D2 /* ElevateChicago.xcdatamodeld */; };
 		3856F13C24775E3400474F98 /* SpecificLineTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3856F13B24775E3400474F98 /* SpecificLineTableViewCell.swift */; };
 		3856F13E24775EBF00474F98 /* SpecificLineTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3856F13D24775EBF00474F98 /* SpecificLineTableViewController.swift */; };
+		38717CC424BC1B8A00C88540 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 38717CC324BC1B8A00C88540 /* GoogleService-Info.plist */; };
+		38717CC524BC1B8A00C88540 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 38717CC324BC1B8A00C88540 /* GoogleService-Info.plist */; };
 		38AB86D8247208BC0072EF69 /* StationTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38AB86D7247208BC0072EF69 /* StationTableViewController.swift */; };
 		38CA5E262471FACE00570FEF /* StationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38CA5E252471FACE00570FEF /* StationTableViewCell.swift */; };
 		38E4FF6D24A19A1900648086 /* AlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38E4FF6C24A19A1900648086 /* AlertManager.swift */; };
 		38E4FF6F24A1A0EE00648086 /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38E4FF6E24A1A0EE00648086 /* Alert.swift */; };
 		38E4FF7324A1A8CF00648086 /* StationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38E4FF7224A1A8CF00648086 /* StationManager.swift */; };
 		38E4FF7424A2405000648086 /* CtaStation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38E4FF7024A1A8A000648086 /* CtaStation.swift */; };
+		394516E7EFC0CAA4056152ED /* Pods_ElevateChicago.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F589A205F29C982DDD7080F /* Pods_ElevateChicago.framework */; };
+		941F7C947C1704D9C94F7E04 /* Pods_ElevateChicagoTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE7C42F10C1A24E1759C5BE8 /* Pods_ElevateChicagoTests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,6 +58,7 @@
 		38505B0E247B2B5400EE12D2 /* ElevateChicago.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ElevateChicago.xcdatamodel; sourceTree = "<group>"; };
 		3856F13B24775E3400474F98 /* SpecificLineTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpecificLineTableViewCell.swift; sourceTree = "<group>"; };
 		3856F13D24775EBF00474F98 /* SpecificLineTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpecificLineTableViewController.swift; sourceTree = "<group>"; };
+		38717CC324BC1B8A00C88540 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		38AB86D7247208BC0072EF69 /* StationTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationTableViewController.swift; sourceTree = "<group>"; };
 		38CA5E252471FACE00570FEF /* StationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationTableViewCell.swift; sourceTree = "<group>"; };
 		38E4FF6C24A19A1900648086 /* AlertManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertManager.swift; sourceTree = "<group>"; };
@@ -61,6 +66,12 @@
 		38E4FF7024A1A8A000648086 /* CtaStation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CtaStation.swift; sourceTree = "<group>"; };
 		38E4FF7224A1A8CF00648086 /* StationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationManager.swift; sourceTree = "<group>"; };
 		38EC8C7024A9667300BB7A81 /* ElevateChicago.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ElevateChicago.entitlements; sourceTree = "<group>"; };
+		44B1C0BEEB92AEF2811328B3 /* Pods-ElevateChicagoTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ElevateChicagoTests.debug.xcconfig"; path = "Target Support Files/Pods-ElevateChicagoTests/Pods-ElevateChicagoTests.debug.xcconfig"; sourceTree = "<group>"; };
+		5F589A205F29C982DDD7080F /* Pods_ElevateChicago.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ElevateChicago.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6A5226F26A5C54653986FDEE /* Pods-ElevateChicagoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ElevateChicagoTests.release.xcconfig"; path = "Target Support Files/Pods-ElevateChicagoTests/Pods-ElevateChicagoTests.release.xcconfig"; sourceTree = "<group>"; };
+		BBBF7535A321B29B2E2323E3 /* Pods-ElevateChicago.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ElevateChicago.release.xcconfig"; path = "Target Support Files/Pods-ElevateChicago/Pods-ElevateChicago.release.xcconfig"; sourceTree = "<group>"; };
+		BE7C42F10C1A24E1759C5BE8 /* Pods_ElevateChicagoTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ElevateChicagoTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		FE8E123B9F97D793111CDC47 /* Pods-ElevateChicago.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ElevateChicago.debug.xcconfig"; path = "Target Support Files/Pods-ElevateChicago/Pods-ElevateChicago.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,6 +79,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				394516E7EFC0CAA4056152ED /* Pods_ElevateChicago.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -75,18 +87,41 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				941F7C947C1704D9C94F7E04 /* Pods_ElevateChicagoTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		032003033753267A5CCC9269 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				FE8E123B9F97D793111CDC47 /* Pods-ElevateChicago.debug.xcconfig */,
+				BBBF7535A321B29B2E2323E3 /* Pods-ElevateChicago.release.xcconfig */,
+				44B1C0BEEB92AEF2811328B3 /* Pods-ElevateChicagoTests.debug.xcconfig */,
+				6A5226F26A5C54653986FDEE /* Pods-ElevateChicagoTests.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		0A71A5D9E0C2DC5F24E05CAC /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				5F589A205F29C982DDD7080F /* Pods_ElevateChicago.framework */,
+				BE7C42F10C1A24E1759C5BE8 /* Pods_ElevateChicagoTests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		383B5436246E187B0095BEB3 = {
 			isa = PBXGroup;
 			children = (
 				383B5441246E187B0095BEB3 /* ElevateChicago */,
 				383B5458246E18860095BEB3 /* ElevateChicagoTests */,
 				383B5440246E187B0095BEB3 /* Products */,
+				032003033753267A5CCC9269 /* Pods */,
+				0A71A5D9E0C2DC5F24E05CAC /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -121,6 +156,7 @@
 				383B544D246E18850095BEB3 /* LaunchScreen.storyboard */,
 				38505B0D247B2B5400EE12D2 /* ElevateChicago.xcdatamodeld */,
 				383B5450246E18850095BEB3 /* Info.plist */,
+				38717CC324BC1B8A00C88540 /* GoogleService-Info.plist */,
 			);
 			path = ElevateChicago;
 			sourceTree = "<group>";
@@ -141,9 +177,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 383B545E246E18860095BEB3 /* Build configuration list for PBXNativeTarget "ElevateChicago" */;
 			buildPhases = (
+				C8980C9DCFA91B1A22FA6F12 /* [CP] Check Pods Manifest.lock */,
 				383B543B246E187B0095BEB3 /* Sources */,
 				383B543C246E187B0095BEB3 /* Frameworks */,
 				383B543D246E187B0095BEB3 /* Resources */,
+				843B878B6080BB2A1F5C4D7C /* [CP] Embed Pods Frameworks */,
+				38AF915524BC211A00BF1050 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -158,6 +197,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 383B5461246E18860095BEB3 /* Build configuration list for PBXNativeTarget "ElevateChicagoTests" */;
 			buildPhases = (
+				ED1095DC86139D4484FC8DA4 /* [CP] Check Pods Manifest.lock */,
 				383B5451246E18860095BEB3 /* Sources */,
 				383B5452246E18860095BEB3 /* Frameworks */,
 				383B5453246E18860095BEB3 /* Resources */,
@@ -216,6 +256,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				383B544F246E18850095BEB3 /* LaunchScreen.storyboard in Resources */,
+				38717CC424BC1B8A00C88540 /* GoogleService-Info.plist in Resources */,
 				383B544C246E18850095BEB3 /* Assets.xcassets in Resources */,
 				383B544A246E187B0095BEB3 /* Main.storyboard in Resources */,
 			);
@@ -225,10 +266,94 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				38717CC524BC1B8A00C88540 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		38AF915524BC211A00BF1050 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${TARGET_NAME}",
+				"$(SRCROOT)/$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)",
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\"${PODS_ROOT}/FirebaseCrashlytics/run\"\n";
+		};
+		843B878B6080BB2A1F5C4D7C /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-ElevateChicago/Pods-ElevateChicago-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-ElevateChicago/Pods-ElevateChicago-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ElevateChicago/Pods-ElevateChicago-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C8980C9DCFA91B1A22FA6F12 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-ElevateChicago-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		ED1095DC86139D4484FC8DA4 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-ElevateChicagoTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		383B543B246E187B0095BEB3 /* Sources */ = {
@@ -406,10 +531,13 @@
 		};
 		383B545F246E18860095BEB3 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = FE8E123B9F97D793111CDC47 /* Pods-ElevateChicago.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = ElevateChicago/ElevateChicago.entitlements;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = YZ34247UJY;
 				INFOPLIST_FILE = ElevateChicago/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
@@ -417,6 +545,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.01;
 				PRODUCT_BUNDLE_IDENTIFIER = com.samsiner.ElevateChicago;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -426,10 +555,12 @@
 		};
 		383B5460246E18860095BEB3 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BBBF7535A321B29B2E2323E3 /* Pods-ElevateChicago.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = ElevateChicago/ElevateChicago.entitlements;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = YZ34247UJY;
 				INFOPLIST_FILE = ElevateChicago/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
@@ -437,6 +568,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.01;
 				PRODUCT_BUNDLE_IDENTIFIER = com.samsiner.ElevateChicago;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -446,6 +578,7 @@
 		};
 		383B5462246E18860095BEB3 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 44B1C0BEEB92AEF2811328B3 /* Pods-ElevateChicagoTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -468,6 +601,7 @@
 		};
 		383B5463246E18860095BEB3 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6A5226F26A5C54653986FDEE /* Pods-ElevateChicagoTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";

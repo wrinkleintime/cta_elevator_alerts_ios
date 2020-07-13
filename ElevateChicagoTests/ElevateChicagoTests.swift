@@ -39,4 +39,27 @@ class ElevateChicagoTests: XCTestCase {
         XCTAssertNotNil(vc)
         XCTAssertNotNil(vc.station)
     }
+    
+    var vc: StationTableViewController!
+    
+    override func setUp() {
+        super.setUp()
+        
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let vcNav = storyboard.instantiateInitialViewController()! as UINavigationController
+        let vcInitial = vcNav.topViewController as! StationTableViewController
+        vc = vcInitial
+
+        if (vc != nil){
+            vc.loadView()
+            vc.viewDidLoad()
+            vc.viewWillAppear(false)
+        }
+    }
+    
+    func testStationsIsNotEmpty(){
+        XCTAssertTrue(vc.getStationsExist())
+    }
+    
+    
 }

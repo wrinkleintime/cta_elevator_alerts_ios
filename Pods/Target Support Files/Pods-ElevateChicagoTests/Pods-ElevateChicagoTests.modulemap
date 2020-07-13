@@ -1,0 +1,6 @@
+framework module Pods_ElevateChicagoTests {
+  umbrella header "Pods-ElevateChicagoTests-umbrella.h"
+
+  export *
+  module * { export * }
+}

@@ -13,7 +13,6 @@ import UserNotifications
 class StationTableViewController: UITableViewController {
     
     //TODO: UI testing framework - try to write some VC tests
-    //FIXME: Possible issue with crashes relating to duplicate session
     //TODO: Week 10 (testing & deployment), week 12 (as done as possible)
 
     //MARK: Properties
@@ -709,7 +708,7 @@ class StationTableViewController: UITableViewController {
         }
     }
 
-    private func getStationsExist() -> Bool {
+    func getStationsExist() -> Bool {
         print("Getting stations exist")
         
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
