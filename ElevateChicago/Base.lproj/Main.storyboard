@@ -160,7 +160,7 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Favorite Stations" id="mfR-vY-sYj">
-                        <barButtonItem key="rightBarButtonItem" image="plus" catalog="system" id="q1l-UE-5LN">
+                        <barButtonItem key="rightBarButtonItem" title="All Lines" id="q1l-UE-5LN">
                             <connections>
                                 <segue destination="2kJ-XE-Nbq" kind="show" identifier="ShowAllLines" id="onl-C1-nWv"/>
                             </connections>
@@ -491,7 +491,7 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Specific Line" id="zIq-9g-yWs">
-                        <barButtonItem key="rightBarButtonItem" title="Home" id="JRN-3M-bHJ">
+                        <barButtonItem key="rightBarButtonItem" title="Favorites" id="JRN-3M-bHJ">
                             <connections>
                                 <segue destination="rzp-KN-Jwa" kind="unwind" unwindAction="unwindFromSpecificLineWithSender:" id="MYc-Z2-RyW"/>
                             </connections>
@@ -542,13 +542,12 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="bci-MP-fEF"/>
+        <segue reference="XD0-z3-vZr"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="AccessibleIcon" width="256" height="256"/>
         <image name="circle.fill" catalog="system" width="128" height="121"/>
         <image name="exclamationmark.circle" catalog="system" width="128" height="121"/>
-        <image name="plus" catalog="system" width="128" height="113"/>
         <image name="star" catalog="system" width="128" height="116"/>
         <image name="star.fill" catalog="system" width="128" height="116"/>
     </resources>

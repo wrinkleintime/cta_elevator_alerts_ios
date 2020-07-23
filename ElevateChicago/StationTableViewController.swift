@@ -248,6 +248,9 @@ class StationTableViewController: UITableViewController {
                 viewController.station = selectedStation
             
             case "ShowAllLines":
+                let backItem = UIBarButtonItem()
+                backItem.title = "Favorites"
+                navigationItem.backBarButtonItem = backItem
                 return
             
             case "ShowAllAlerts":
@@ -694,14 +697,6 @@ class StationTableViewController: UITableViewController {
         
         do{
             stations = try managedContext.fetch(fetchRequest)
-            if stations.isEmpty{
-                allLinesButton.image = UIImage(systemName: "plus")
-                allLinesButton.title = ""
-            } else {
-                allLinesButton.image = nil
-                allLinesButton.title = "All Lines"
-            }
-            
         } catch let error as NSError {
            print("Could not fetch. \(error), \(error.userInfo)")
         }
