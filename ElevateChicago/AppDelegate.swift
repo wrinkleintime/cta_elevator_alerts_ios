@@ -33,7 +33,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         print("Handling task")
         task.expirationHandler = {
             task.setTaskCompleted(success: false)
-            AlertManager.urlSession.invalidateAndCancel()
         }
         
         AlertManager.pullAlerts{ (alerts) in

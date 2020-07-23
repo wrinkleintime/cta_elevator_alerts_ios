@@ -8,9 +8,7 @@
 
 import UIKit
 
-class AlertManager {
-    static let urlSession = URLSession(configuration: .default)
-  
+class AlertManager {  
     static func pullAlerts(completionHandler: @escaping (_ alerts: Alert) -> Void) {
         print("Pulling alerts")
         
@@ -19,7 +17,7 @@ class AlertManager {
             return
         }
                         
-        urlSession.dataTask(with: url) { data, response, error in
+        URLSession.shared.dataTask(with: url) { data, response, error in
             if error != nil {
                 print("Error!")
                 return
@@ -38,7 +36,6 @@ class AlertManager {
         
             do{
                 let alerts = try JSONDecoder().decode(Alert.self, from: data!)
-                
                 DispatchQueue.main.async {
                     completionHandler(alerts)
                 }
