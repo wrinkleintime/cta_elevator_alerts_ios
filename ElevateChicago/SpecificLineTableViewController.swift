@@ -71,12 +71,20 @@ class SpecificLineTableViewController: UITableViewController {
             cell.accessible.isHidden = true
             cell.topLine.isHidden = true
             cell.bottomLine.isHidden = true
-            cell.isFavorite.isHidden = true
             cell.circle.tintColor = getLineColor()
             cell.alert.isHidden = false
             cell.name.text = station.value(forKeyPath: "name") as? String
             
-            cell.configureCell(!cell.alert.isHidden, !cell.isFavorite.isHidden)
+            let favorite = (station.value(forKeyPath: "isFavorite") as? Bool ?? false)
+            cell.isFavorite.isHighlighted = favorite
+            cell.isFavorite.isUserInteractionEnabled = true;
+            let tappy = SpecificLineTapGesture(target: self, action: #selector(prechangeFavorite))
+            cell.isFavorite.addGestureRecognizer(tappy)
+            tappy.station = station
+            tappy.isFavorite = favorite
+            tappy.cell = cell
+            
+            cell.configureCell(!cell.alert.isHidden, cell.isFavorite.isHighlighted)
             
             return cell
         case 1:
@@ -102,8 +110,8 @@ class SpecificLineTableViewController: UITableViewController {
 
             cell.name.text = station.value(forKeyPath: "name") as? String
             cell.alert.isHidden = !(station.value(forKeyPath: "hasAlert") as? Bool ?? true)
+            
             let favorite = (station.value(forKeyPath: "isFavorite") as? Bool ?? false)
-                   
             cell.isFavorite.isHighlighted = favorite
             cell.isFavorite.isUserInteractionEnabled = true;
             let tappy = SpecificLineTapGesture(target: self, action: #selector(prechangeFavorite))

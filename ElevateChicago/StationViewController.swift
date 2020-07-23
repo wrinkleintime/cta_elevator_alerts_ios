@@ -95,9 +95,10 @@ class StationViewController: UIViewController, UINavigationControllerDelegate {
                 alertDetails.text = "There are no elevators at this station."
             } else {
                 if (station.value(forKeyPath: "hasAlert") as? Bool ?? true) {
-                    alertDetails.text = station.value(forKeyPath: "alertDetails") as? String
+                    let str = station.value(forKeyPath: "alertDetails") as? String
+                    alertDetails.text = str?.replacingOccurrences(of: "temp.", with: "temporarily")
                 } else{
-                    alertDetails.text = "All elevators at this station are working properly."
+                    alertDetails.text = "All elevators at this station are working properly!"
                 }
             }
             

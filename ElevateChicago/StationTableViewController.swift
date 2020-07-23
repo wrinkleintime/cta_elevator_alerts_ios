@@ -12,8 +12,7 @@ import UserNotifications
 
 class StationTableViewController: UITableViewController {
     
-    //TODO: UI testing framework - try to write some VC tests
-    //TODO: Week 10 (testing & deployment), week 12 (as done as possible)
+    //TODO: Week 12 - design tweaks, second round of beta, write some tests, submit
 
     //MARK: Properties
     var stations: [NSManagedObject] = []
