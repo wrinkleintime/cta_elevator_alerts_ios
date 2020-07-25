@@ -59,6 +59,10 @@ class AllLinesTableViewController: UITableViewController {
         return cell
     }
     
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return self.view.safeAreaLayoutGuide.layoutFrame.size.height / CGFloat(lines.count)
+    }
+    
     private func getStationById(id: String) -> NSManagedObject? {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
             return nil
