@@ -18,7 +18,6 @@ class SpecificLineTableViewCell: UITableViewCell {
     @IBOutlet weak var circle: UIImageView!
     @IBOutlet weak var alert: UIImageView!
     @IBOutlet weak var isFavorite: UIImageView!
-    @IBOutlet weak var hasAlertStationsWithAlerts: UIImageView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -29,6 +28,17 @@ class SpecificLineTableViewCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+
+        accessible.isHidden = true
+        topLine.isHidden = true
+        bottomLine.isHidden = true
+        alert.isHidden = true
+        isFavorite.isHidden = true
+        isFavorite.isHighlighted = false
     }
     
     func configureCell(_ containsAlert: Bool, _ containsFavorite: Bool) {

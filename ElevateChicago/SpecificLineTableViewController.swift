@@ -74,11 +74,12 @@ class SpecificLineTableViewController: UITableViewController {
             cell.circle.tintColor = getLineColor()
             cell.alert.isHidden = false
             cell.name.text = station.value(forKeyPath: "name") as? String
-            
+            cell.isFavorite.isHidden = false
+                        
             let favorite = (station.value(forKeyPath: "isFavorite") as? Bool ?? false)
             cell.isFavorite.isHighlighted = favorite
             cell.isFavorite.isUserInteractionEnabled = true;
-            let tappy = SpecificLineTapGesture(target: self, action: #selector(prechangeFavorite))
+            let tappy = SpecificLineTapGesture(target: self, action: #selector(changeFavorite))
             cell.isFavorite.addGestureRecognizer(tappy)
             tappy.station = station
             tappy.isFavorite = favorite
@@ -107,14 +108,17 @@ class SpecificLineTableViewController: UITableViewController {
                 cell.topLine.isHidden = false
                 cell.bottomLine.isHidden = false
            }
+            
+            cell.isFavorite.isHighlighted = false
 
             cell.name.text = station.value(forKeyPath: "name") as? String
             cell.alert.isHidden = !(station.value(forKeyPath: "hasAlert") as? Bool ?? true)
             
             let favorite = (station.value(forKeyPath: "isFavorite") as? Bool ?? false)
+            
             cell.isFavorite.isHighlighted = favorite
             cell.isFavorite.isUserInteractionEnabled = true;
-            let tappy = SpecificLineTapGesture(target: self, action: #selector(prechangeFavorite))
+            let tappy = SpecificLineTapGesture(target: self, action: #selector(changeFavorite))
             cell.isFavorite.addGestureRecognizer(tappy)
             tappy.station = station
             tappy.isFavorite = favorite
@@ -155,30 +159,25 @@ class SpecificLineTableViewController: UITableViewController {
         }
     }
 
-    @objc func prechangeFavorite(_ sender: SpecificLineTapGesture) {
-        print("prechanging favorite")
-        if (sender.isFavorite){
-            if let stations = sender.station {
-                changeFavorite(isNowFavorite: false, station: stations)
-            } else {
-                return
+    @objc func changeFavorite(_ sender: SpecificLineTapGesture) {
+        print("changing favorite")
+        
+        if let station = sender.station {
+            station.setValue(!sender.isFavorite, forKeyPath: "isFavorite")
+            
+            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+                  return
+              }
+            
+            let managedContext = appDelegate.persistentContainer.viewContext
+            
+            do {
+                try managedContext.save()
+                } catch let error as NSError {
+                print("Could not save. \(error), \(error.userInfo)")
             }
-            if let cell = sender.cell {
-                cell.isFavorite.image = UIImage(systemName: "star")
-            } else {
-                return
-            }
-        } else {
-            if let stations = sender.station {
-                changeFavorite(isNowFavorite: true, station: stations)
-            } else {
-                return
-            }
-            if let cell = sender.cell {
-                cell.isFavorite.image = UIImage(systemName: "star.fill")
-            } else {
-                return
-            }
+            
+            sender.cell?.isFavorite.isHighlighted = !sender.isFavorite
         }
         tableView.reloadData()
     }
@@ -298,23 +297,7 @@ class SpecificLineTableViewController: UITableViewController {
                return UIColor(named: "000000")
        }
     }
-    
-    private func changeFavorite(isNowFavorite: Bool, station: NSManagedObject){
-        print("changing favorite")
-        station.setValue(isNowFavorite, forKeyPath: "isFavorite")
-        
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-              return
-          }
-        
-        let managedContext = appDelegate.persistentContainer.viewContext
-        
-        do {
-            try managedContext.save()
-            } catch let error as NSError {
-            print("Could not save. \(error), \(error.userInfo)")
-        }
-    }
+
 }
 
 public extension UIColor {

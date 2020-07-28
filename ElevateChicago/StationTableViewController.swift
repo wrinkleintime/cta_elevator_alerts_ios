@@ -163,7 +163,7 @@ class StationTableViewController: UITableViewController {
         
         cell.isFavorite.isHighlighted = true
         cell.isFavorite.isUserInteractionEnabled = true;
-        let tappy = FavoriteTapGesture(target: self, action: #selector(prechangeFavorite))
+        let tappy = FavoriteTapGesture(target: self, action: #selector(changeFavorite))
         cell.isFavorite.addGestureRecognizer(tappy)
         cell.selectionStyle = UITableViewCell.SelectionStyle.none
         tappy.station = station
@@ -175,49 +175,26 @@ class StationTableViewController: UITableViewController {
         return cell
     }
     
-    @objc func prechangeFavorite(_ sender: FavoriteTapGesture) {
-        print("prechanging favorite")
-        if (sender.isFavorite){
-            if let stations = sender.station {
-                changeFavorite(isNowFavorite: false, station: stations)
-            } else {
-                return
-            }
-            if let cell = sender.cell {
-                cell.isFavorite.image = UIImage(systemName: "star")
-            } else {
-                return
-            }
-        } else {
-            if let stations = sender.station {
-                changeFavorite(isNowFavorite: true, station: stations)
-            } else {
-                return
-            }
-            if let cell = sender.cell {
-                cell.isFavorite.image = UIImage(systemName: "star.fill")
-            } else {
-                return
-            }
-        }
-        self.getStationFavorites()
-        tableView.reloadData()
-    }
-    
-    private func changeFavorite(isNowFavorite: Bool, station: NSManagedObject){
+    @objc func changeFavorite(_ sender: FavoriteTapGesture) {
         print("changing favorite")
-        station.setValue(isNowFavorite, forKeyPath: "isFavorite")
         
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-              return
-          }
-        
-        let managedContext = appDelegate.persistentContainer.viewContext
-        
-        do {
-            try managedContext.save()
-            } catch let error as NSError {
-            print("Could not save. \(error), \(error.userInfo)")
+        if let station = sender.station {
+            station.setValue(!sender.isFavorite, forKeyPath: "isFavorite")
+            
+            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+                  return
+              }
+            
+            let managedContext = appDelegate.persistentContainer.viewContext
+            
+            do {
+                try managedContext.save()
+                } catch let error as NSError {
+                print("Could not save. \(error), \(error.userInfo)")
+            }
+            
+            getStationFavorites()
+            tableView.reloadData()
         }
     }
 

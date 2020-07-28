@@ -35,6 +35,20 @@ class StationTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+
+        hasAlert.isHidden = true
+        redLine.isHidden = true
+        brownLine.isHidden = true
+        greenLine.isHidden = true
+        orangeLine.isHidden = true
+        pinkLine.isHidden = true
+        purpleLine.isHidden = true
+        blueLine.isHidden = true
+        yellowLine.isHidden = true
+    }
+    
     func configureCell(_ containsAlert: Bool) {
         applyAccessibility(containsAlert)
     }

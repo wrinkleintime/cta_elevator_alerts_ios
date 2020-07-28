@@ -34,7 +34,6 @@ class StationViewController: UIViewController, UINavigationControllerDelegate {
         if let station = station {
             stationName.text = station.value(forKeyPath: "name") as? String
             
-            
             // Allow for differentiation without color
             if UIAccessibility.shouldDifferentiateWithoutColor{
                 redLine.isHidden = true
@@ -105,24 +104,6 @@ class StationViewController: UIViewController, UINavigationControllerDelegate {
             favoriteButton.isEnabled = false
             favoriteButton.tintColor = UIColor.clear
         }
-    }
-    
-    //MARK: Private functions
-    func changeFavorite(isNowFavorite: Bool){
-        station?.setValue(isNowFavorite, forKeyPath: "isFavorite")
-        
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-              return
-          }
-        
-        let managedContext = appDelegate.persistentContainer.viewContext
-        
-        do {
-            try managedContext.save()
-            } catch let error as NSError {
-            print("Could not save. \(error), \(error.userInfo)")
-        }
-        
     }
 }
 
