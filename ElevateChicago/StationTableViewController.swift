@@ -193,8 +193,16 @@ class StationTableViewController: UITableViewController {
                 print("Could not save. \(error), \(error.userInfo)")
             }
             
+            sender.cell?.isFavorite.isHighlighted = false
             getStationFavorites()
-            tableView.reloadData()
+            
+            if tableView.numberOfSections == numberOfSections(in: tableView){
+                let range = NSMakeRange(0, self.tableView.numberOfSections)
+                let sections = NSIndexSet(indexesIn: range)
+                self.tableView.reloadSections(sections as IndexSet, with: .automatic)
+            } else {
+                tableView.reloadData()
+            }
         }
     }
 
