@@ -168,6 +168,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="allLinesButton" destination="q1l-UE-5LN" id="4YH-4w-xIl"/>
+                        <segue destination="tzW-po-oJM" kind="presentation" identifier="OnboardingSegue" id="vbF-FC-cXL"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Sgz-E0-75W" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -317,6 +318,132 @@
                 <exit id="6hj-vK-daO" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="3763.7681159420295" y="92.410714285714278"/>
+        </scene>
+        <!--Page View Controller-->
+        <scene sceneID="KGU-Z3-Gkg">
+            <objects>
+                <pageViewController autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="tzW-po-oJM" customClass="PageViewController" customModule="ElevateChicago" customModuleProvider="target" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="taj-9l-v5D"/>
+                </pageViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dJL-V9-vDQ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1021" y="863"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="C9K-sg-y3g">
+            <objects>
+                <viewController storyboardIdentifier="onboard1" id="hkA-W4-26m" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Q0y-yp-nJf">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome to Elevate!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zud-iN-q0z">
+                                <rect key="frame" x="93" y="84" width="228" height="29"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="First, click &quot;All Lines,&quot; then select a line" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pKG-v4-llz">
+                                <rect key="frame" x="20" y="138" width="374" height="57.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" verticalCompressionResistancePriority="749" image="1" translatesAutoresizingMaskIntoConstraints="NO" id="qFq-JG-xqx">
+                                <rect key="frame" x="19.5" y="215.5" width="375" height="626.5"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="zud-iN-q0z" firstAttribute="centerX" secondItem="Q0y-yp-nJf" secondAttribute="centerX" id="GPC-wu-ILW"/>
+                            <constraint firstItem="qFq-JG-xqx" firstAttribute="centerX" secondItem="Q0y-yp-nJf" secondAttribute="centerX" id="GqP-Uk-AUh"/>
+                            <constraint firstItem="qFq-JG-xqx" firstAttribute="top" secondItem="pKG-v4-llz" secondAttribute="bottom" constant="20" id="eED-Fs-RsB"/>
+                            <constraint firstItem="m4Q-Nm-9Oq" firstAttribute="trailing" secondItem="pKG-v4-llz" secondAttribute="trailing" constant="20" id="g15-CK-z5Z"/>
+                            <constraint firstItem="zud-iN-q0z" firstAttribute="top" secondItem="m4Q-Nm-9Oq" secondAttribute="top" constant="40" id="gFG-UV-ctS"/>
+                            <constraint firstItem="qFq-JG-xqx" firstAttribute="bottom" secondItem="m4Q-Nm-9Oq" secondAttribute="bottom" constant="-20" id="lDY-OI-B7u"/>
+                            <constraint firstItem="pKG-v4-llz" firstAttribute="leading" secondItem="m4Q-Nm-9Oq" secondAttribute="leading" constant="20" id="nAu-Zz-eN6"/>
+                            <constraint firstItem="pKG-v4-llz" firstAttribute="top" secondItem="zud-iN-q0z" secondAttribute="bottom" constant="25" id="vat-V2-M1Z"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="m4Q-Nm-9Oq"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="R1h-QT-d0V" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-355.07246376811599" y="1548.8839285714284"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="HYR-nV-U7S">
+            <objects>
+                <viewController storyboardIdentifier="onboard2" id="mFP-ku-iwk" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="MFU-Kq-aSm">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Next, select the star to add a favorite station" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uU7-P3-8Id">
+                                <rect key="frame" x="20" y="138" width="374" height="57.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome to Elevate!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Byd-E0-2UZ">
+                                <rect key="frame" x="93" y="84" width="228" height="29"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" verticalCompressionResistancePriority="749" image="2" translatesAutoresizingMaskIntoConstraints="NO" id="Fbo-18-8tH">
+                                <rect key="frame" x="20" y="216" width="375" height="626"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="uU7-P3-8Id" firstAttribute="leading" secondItem="szr-hW-Mdn" secondAttribute="leading" constant="20" id="1Ll-Ih-5B8"/>
+                            <constraint firstItem="Byd-E0-2UZ" firstAttribute="centerX" secondItem="MFU-Kq-aSm" secondAttribute="centerX" id="8cA-4u-MYh"/>
+                            <constraint firstItem="Fbo-18-8tH" firstAttribute="bottom" secondItem="szr-hW-Mdn" secondAttribute="bottom" constant="-20" id="BME-Je-5VM"/>
+                            <constraint firstItem="Fbo-18-8tH" firstAttribute="top" secondItem="uU7-P3-8Id" secondAttribute="bottom" constant="20" id="Wt5-RK-4rQ"/>
+                            <constraint firstItem="Byd-E0-2UZ" firstAttribute="top" secondItem="szr-hW-Mdn" secondAttribute="top" constant="40" id="erh-ca-jjL"/>
+                            <constraint firstItem="Fbo-18-8tH" firstAttribute="centerX" secondItem="MFU-Kq-aSm" secondAttribute="centerX" id="gfI-Dh-fxZ"/>
+                            <constraint firstItem="szr-hW-Mdn" firstAttribute="trailing" secondItem="uU7-P3-8Id" secondAttribute="trailing" constant="20" id="rJn-Fz-vVM"/>
+                            <constraint firstItem="uU7-P3-8Id" firstAttribute="top" secondItem="Byd-E0-2UZ" secondAttribute="bottom" constant="25" id="wN5-qD-jQy"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="szr-hW-Mdn"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="zVY-9w-XSs" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <view contentMode="scaleToFill" id="8JG-5G-b7s">
+                    <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome to Elevate!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EOj-I0-QLL">
+                            <rect key="frame" x="93" y="64" width="228" height="29"/>
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1) Click &quot;All Lines,&quot; then click a line." textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fXt-wc-14I">
+                            <rect key="frame" x="26.5" y="118" width="361.5" height="29"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="1" translatesAutoresizingMaskIntoConstraints="NO" id="ocn-pt-jJH">
+                            <rect key="frame" x="19.5" y="195" width="375" height="667"/>
+                        </imageView>
+                    </subviews>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                    <constraints>
+                        <constraint firstItem="ocn-pt-jJH" firstAttribute="centerX" secondItem="8JG-5G-b7s" secondAttribute="centerX" id="2ky-DY-VdG"/>
+                        <constraint firstItem="ocn-pt-jJH" firstAttribute="bottom" secondItem="cCB-Ja-w51" secondAttribute="bottom" id="BFj-8s-Rks"/>
+                        <constraint firstItem="EOj-I0-QLL" firstAttribute="centerX" secondItem="8JG-5G-b7s" secondAttribute="centerX" id="EEv-fh-LDo"/>
+                        <constraint firstItem="EOj-I0-QLL" firstAttribute="top" secondItem="cCB-Ja-w51" secondAttribute="top" constant="20" id="Ga0-Az-bdS"/>
+                        <constraint firstItem="fXt-wc-14I" firstAttribute="centerX" secondItem="8JG-5G-b7s" secondAttribute="centerX" id="XFv-Ha-Y8j"/>
+                        <constraint firstItem="fXt-wc-14I" firstAttribute="top" secondItem="EOj-I0-QLL" secondAttribute="bottom" constant="25" id="ZCk-AV-HL3"/>
+                        <constraint firstItem="fXt-wc-14I" firstAttribute="centerX" secondItem="8JG-5G-b7s" secondAttribute="centerX" id="ib5-dK-hSt"/>
+                    </constraints>
+                    <viewLayoutGuide key="safeArea" id="cCB-Ja-w51"/>
+                </view>
+            </objects>
+            <point key="canvasLocation" x="360.86956521739131" y="1550.8928571428571"/>
         </scene>
         <!--All Lines-->
         <scene sceneID="ciH-2o-kJS">
@@ -540,11 +667,56 @@
             </objects>
             <point key="canvasLocation" x="2853.6231884057975" y="92.410714285714278"/>
         </scene>
+        <!--View Controller-->
+        <scene sceneID="aMm-Hh-IFU">
+            <objects>
+                <viewController storyboardIdentifier="onboard3" id="a1l-Bo-z8X" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="QF2-y2-AK1">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" verticalCompressionResistancePriority="749" image="3" translatesAutoresizingMaskIntoConstraints="NO" id="nQ3-yP-cmW">
+                                <rect key="frame" x="19.5" y="220.5" width="375" height="621.5"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Finally, see your favorites all in one place!" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xJK-aJ-z1x">
+                                <rect key="frame" x="20" y="138" width="374" height="57.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome to Elevate!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CvH-Zl-LJo">
+                                <rect key="frame" x="93" y="84" width="228" height="29"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="xJK-aJ-z1x" firstAttribute="top" secondItem="CvH-Zl-LJo" secondAttribute="bottom" constant="25" id="SU0-ev-Jq1"/>
+                            <constraint firstItem="HPE-Yy-u3l" firstAttribute="trailing" secondItem="xJK-aJ-z1x" secondAttribute="trailing" constant="20" id="ZId-HT-cl6"/>
+                            <constraint firstItem="nQ3-yP-cmW" firstAttribute="top" secondItem="xJK-aJ-z1x" secondAttribute="bottom" constant="25" id="a8R-8e-EFi"/>
+                            <constraint firstItem="CvH-Zl-LJo" firstAttribute="top" secondItem="HPE-Yy-u3l" secondAttribute="top" constant="40" id="fPL-Yh-1iT"/>
+                            <constraint firstItem="xJK-aJ-z1x" firstAttribute="leading" secondItem="HPE-Yy-u3l" secondAttribute="leading" constant="20" id="jtt-QW-e4x"/>
+                            <constraint firstItem="nQ3-yP-cmW" firstAttribute="bottom" secondItem="HPE-Yy-u3l" secondAttribute="bottom" constant="-20" id="lml-Qs-p6a"/>
+                            <constraint firstItem="nQ3-yP-cmW" firstAttribute="centerX" secondItem="QF2-y2-AK1" secondAttribute="centerX" id="ohS-rI-y9s"/>
+                            <constraint firstItem="CvH-Zl-LJo" firstAttribute="centerX" secondItem="QF2-y2-AK1" secondAttribute="centerX" id="tIj-Iv-xPL"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="HPE-Yy-u3l"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gUx-iO-krp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1044.9275362318842" y="1550.8928571428571"/>
+        </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="bci-MP-fEF"/>
+        <segue reference="XD0-z3-vZr"/>
     </inferredMetricsTieBreakers>
     <resources>
+        <image name="1" width="375" height="667"/>
+        <image name="2" width="375" height="667"/>
+        <image name="3" width="375" height="667"/>
         <image name="AccessibleIcon" width="256" height="256"/>
         <image name="circle.fill" catalog="system" width="128" height="121"/>
         <image name="exclamationmark.circle" catalog="system" width="128" height="121"/>

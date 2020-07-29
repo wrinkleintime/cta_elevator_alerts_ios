@@ -11,16 +11,24 @@ import CoreData
 import UserNotifications
 
 class StationTableViewController: UITableViewController {
-    
-    //TODO: Week 12 - design tweaks, second round of beta, write some tests, submit
 
     //MARK: Properties
     var stations: [NSManagedObject] = []
     @IBOutlet weak var allLinesButton: UIBarButtonItem!
+    let defaults = UserDefaults.standard
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        if defaults.bool(forKey: "First Launch") == true {
+            print("Second+")
+            defaults.set(true, forKey: "First Launch")
+        } else {
+            print("First")
+            performSegue(withIdentifier: "OnboardingSegue", sender: self)
+            defaults.set(true, forKey: "First Launch")
+        }
+
         // Registering notifications
         registerUserForNotifications()
         registerAppForNotifications()
@@ -241,6 +249,9 @@ class StationTableViewController: UITableViewController {
             case "ShowAllAlerts":
                 return
 
+            case "OnboardingSegue":
+                return
+            
             default:
                    fatalError("Unexpected Segue Identifier; \(String(describing: segue.identifier))")
         }
