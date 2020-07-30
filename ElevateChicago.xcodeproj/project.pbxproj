@@ -24,6 +24,7 @@
 		38AB86D8247208BC0072EF69 /* StationTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38AB86D7247208BC0072EF69 /* StationTableViewController.swift */; };
 		38CA5E262471FACE00570FEF /* StationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38CA5E252471FACE00570FEF /* StationTableViewCell.swift */; };
 		38D90BAC24D0FCD3009E0303 /* PageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38D90BAB24D0FCD3009E0303 /* PageViewController.swift */; };
+		38D90BAE24D11FA2009E0303 /* StoreReviewHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38D90BAD24D11FA2009E0303 /* StoreReviewHelper.swift */; };
 		38E4FF6D24A19A1900648086 /* AlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38E4FF6C24A19A1900648086 /* AlertManager.swift */; };
 		38E4FF6F24A1A0EE00648086 /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38E4FF6E24A1A0EE00648086 /* Alert.swift */; };
 		38E4FF7324A1A8CF00648086 /* StationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38E4FF7224A1A8CF00648086 /* StationManager.swift */; };
@@ -63,6 +64,7 @@
 		38AB86D7247208BC0072EF69 /* StationTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationTableViewController.swift; sourceTree = "<group>"; };
 		38CA5E252471FACE00570FEF /* StationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationTableViewCell.swift; sourceTree = "<group>"; };
 		38D90BAB24D0FCD3009E0303 /* PageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageViewController.swift; sourceTree = "<group>"; };
+		38D90BAD24D11FA2009E0303 /* StoreReviewHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreReviewHelper.swift; sourceTree = "<group>"; };
 		38E4FF6C24A19A1900648086 /* AlertManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertManager.swift; sourceTree = "<group>"; };
 		38E4FF6E24A1A0EE00648086 /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
 		38E4FF7024A1A8A000648086 /* CtaStation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CtaStation.swift; sourceTree = "<group>"; };
@@ -147,6 +149,7 @@
 				383B5446246E187B0095BEB3 /* StationViewController.swift */,
 				38CA5E252471FACE00570FEF /* StationTableViewCell.swift */,
 				38AB86D7247208BC0072EF69 /* StationTableViewController.swift */,
+				38D90BAD24D11FA2009E0303 /* StoreReviewHelper.swift */,
 				3856F13B24775E3400474F98 /* SpecificLineTableViewCell.swift */,
 				3856F13D24775EBF00474F98 /* SpecificLineTableViewController.swift */,
 				38E4FF6C24A19A1900648086 /* AlertManager.swift */,
@@ -364,6 +367,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				38E4FF6D24A19A1900648086 /* AlertManager.swift in Sources */,
+				38D90BAE24D11FA2009E0303 /* StoreReviewHelper.swift in Sources */,
 				38AB86D8247208BC0072EF69 /* StationTableViewController.swift in Sources */,
 				383B5447246E187B0095BEB3 /* StationViewController.swift in Sources */,
 				383B5443246E187B0095BEB3 /* AppDelegate.swift in Sources */,
@@ -540,7 +544,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = ElevateChicago/ElevateChicago.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = YZ34247UJY;
 				INFOPLIST_FILE = ElevateChicago/Info.plist;
@@ -549,7 +553,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.01;
+				MARKETING_VERSION = 1.02;
 				PRODUCT_BUNDLE_IDENTIFIER = com.samsiner.ElevateChicago;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -564,7 +568,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = ElevateChicago/ElevateChicago.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = YZ34247UJY;
 				INFOPLIST_FILE = ElevateChicago/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
@@ -572,7 +576,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.01;
+				MARKETING_VERSION = 1.02;
 				PRODUCT_BUNDLE_IDENTIFIER = com.samsiner.ElevateChicago;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;

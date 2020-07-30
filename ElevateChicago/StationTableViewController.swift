@@ -22,6 +22,7 @@ class StationTableViewController: UITableViewController {
         
         if defaults.bool(forKey: "First Launch") == true {
             print("Second+")
+            StoreReviewHelper.checkAndAskForReview()
             defaults.set(true, forKey: "First Launch")
         } else {
             print("First")
@@ -39,6 +40,7 @@ class StationTableViewController: UITableViewController {
         
         // Setting observer for UIApplication.willEnterForegroundNotification
         NotificationCenter.default.addObserver(self, selector: #selector(willEnterForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
+        
         
         // For testing only
 //        deleteAllStations()
@@ -480,9 +482,9 @@ class StationTableViewController: UITableViewController {
                                 // changedAlertIds list
                                 for (tempid, tempname) in changedAlertIds{
                                     if id == tempid {
-                                        print("Before: " + changedAlertIds.description)
+//                                        print("Before: " + changedAlertIds.description)
                                         changedAlertIds = changedAlertIds.filter{$0 != (tempid, tempname)}
-                                        print("After: " + changedAlertIds.description)
+//                                        print("After: " + changedAlertIds.description)
                                     }
                                 }
                                 
@@ -536,7 +538,7 @@ class StationTableViewController: UITableViewController {
         var counter = 1
             
         for contentItem in content{
-            print("id: " + contentItem.0 + ", name: " + contentItem.1 + ", bool: " + contentItem.2.description)
+//            print("id: " + contentItem.0 + ", name: " + contentItem.1 + ", bool: " + contentItem.2.description)
             
             let content = UNMutableNotificationContent()
             

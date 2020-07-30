@@ -26,6 +26,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             self.handleAppRefreshTask(task: task as! BGAppRefreshTask)
         }
         
+        StoreReviewHelper.incrementAppOpenedCount()
+
         return true
     }
     
