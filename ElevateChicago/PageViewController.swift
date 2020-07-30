@@ -11,7 +11,12 @@ import UIKit
 class PageViewController: UIPageViewController, UIPageViewControllerDelegate, UIPageViewControllerDataSource  {
     
     var pageControl = UIPageControl()
-
+    @IBOutlet var doneButton: UIBarButtonItem!
+    
+    @IBAction func done(_ sender: UIBarButtonItem) {
+        dismiss(animated: true, completion: nil)
+    }
+    
     func newVc(viewController: String) -> UIViewController {
         return UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: viewController)
     }
@@ -24,9 +29,7 @@ class PageViewController: UIPageViewController, UIPageViewControllerDelegate, UI
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        print("Onboarding loaded")
-
+                
         self.dataSource = self
 
         // This sets up the first view that will show up on our page control
@@ -36,7 +39,7 @@ class PageViewController: UIPageViewController, UIPageViewControllerDelegate, UI
                                animated: true,
                                completion: nil)
         }
-        
+        self.navigationItem.rightBarButtonItem = nil
         self.delegate = self
     }
     
@@ -68,7 +71,7 @@ class PageViewController: UIPageViewController, UIPageViewControllerDelegate, UI
         
         let nextIndex = viewControllerIndex + 1
         let orderedViewControllersCount = orderedViewControllers.count
-        
+
         // User is on the last view controller
         guard orderedViewControllersCount != nextIndex else {
             return nil
@@ -95,18 +98,29 @@ class PageViewController: UIPageViewController, UIPageViewControllerDelegate, UI
     
     // MARK: Delegate functions
     func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
+        if (!completed) {
+            return
+        }
+        
         let pageContentViewController = pageViewController.viewControllers![0]
         self.pageControl.currentPage = orderedViewControllers.firstIndex(of: pageContentViewController)!
-    }
-    
-    /*
-    // MARK: - Navigation
+        
+        // Hides Done button unless on the last page
+        if let firstViewController = viewControllers?.first,
+            let arrayIndex = orderedViewControllers.firstIndex(of: firstViewController) {
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
+            switch arrayIndex {
+            case 0, 1:
+                self.navigationItem.rightBarButtonItem = nil
+                break
 
+            case 2:
+                self.navigationItem.rightBarButtonItem = doneButton
+                break
+
+            default:
+                 return
+            }
+        }
+    }
 }
