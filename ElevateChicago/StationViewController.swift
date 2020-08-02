@@ -22,7 +22,6 @@ class StationViewController: UIViewController, UINavigationControllerDelegate {
     @IBOutlet weak var blueLine: UIView!
     @IBOutlet weak var yellowLine: UIView!
     @IBOutlet weak var alertDetails: UILabel!
-    @IBOutlet weak var favoriteButton: UIBarButtonItem!
     @IBOutlet weak var accessibleLineNames: UILabel!
     
     //This value is passed by in `prepare(for:sender:)`
@@ -100,9 +99,6 @@ class StationViewController: UIViewController, UINavigationControllerDelegate {
                     alertDetails.text = "All elevators at this station are working properly!"
                 }
             }
-            
-            favoriteButton.isEnabled = false
-            favoriteButton.tintColor = UIColor.clear
         }
     }
 }

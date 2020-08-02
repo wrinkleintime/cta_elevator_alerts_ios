@@ -15,7 +15,6 @@ class AllLinesTableViewController: UITableViewController {
     var lines = [String](arrayLiteral: "Red", "Blue", "Brown", "Green", "Orange", "Pink", "Purple", "Yellow")
 
     // MARK: - Table view data source
-
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
@@ -67,7 +66,7 @@ class AllLinesTableViewController: UITableViewController {
             return height
         } else {
             self.tableView.isScrollEnabled = true
-            return tableView.rowHeight
+            return 80
         }
     }
     
