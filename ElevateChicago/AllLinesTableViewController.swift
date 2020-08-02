@@ -60,7 +60,15 @@ class AllLinesTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return self.view.safeAreaLayoutGuide.layoutFrame.size.height / CGFloat(lines.count)
+        let height = self.view.safeAreaLayoutGuide.layoutFrame.size.height / CGFloat(lines.count)
+        
+        if height > 60 {
+            self.tableView.isScrollEnabled = false
+            return height
+        } else {
+            self.tableView.isScrollEnabled = true
+            return tableView.rowHeight
+        }
     }
     
     private func getStationById(id: String) -> NSManagedObject? {
