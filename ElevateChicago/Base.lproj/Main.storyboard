@@ -10,6 +10,43 @@
         <!--Favorite Stations-->
         <scene sceneID="BfM-g8-UhP">
             <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Sgz-E0-75W" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <view contentMode="scaleToFill" id="LDm-u3-lzH">
+                    <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    <subviews>
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" verticalCompressionResistancePriority="749" image="LaunchIcon" translatesAutoresizingMaskIntoConstraints="NO" id="vdy-QI-86G">
+                            <rect key="frame" x="20" y="310" width="374" height="512"/>
+                        </imageView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add favorite stations by clicking &quot;All Lines&quot;" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wX5-vR-f09">
+                            <rect key="frame" x="20" y="278" width="374" height="24"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Welcome to Elevate Chicago!  " textAlignment="center" lineBreakMode="wordWrap" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="niC-Lp-IBS">
+                            <rect key="frame" x="20" y="144" width="374" height="102"/>
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="30"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                    <constraints>
+                        <constraint firstItem="GxE-vI-VlJ" firstAttribute="trailing" secondItem="vdy-QI-86G" secondAttribute="trailing" constant="20" id="C8o-d5-ghk"/>
+                        <constraint firstItem="wX5-vR-f09" firstAttribute="top" secondItem="niC-Lp-IBS" secondAttribute="bottom" constant="32" id="IGZ-vu-Kgb"/>
+                        <constraint firstItem="GxE-vI-VlJ" firstAttribute="trailing" secondItem="wX5-vR-f09" secondAttribute="trailing" constant="20" id="KjX-q8-3hs"/>
+                        <constraint firstItem="GxE-vI-VlJ" firstAttribute="trailing" secondItem="vdy-QI-86G" secondAttribute="trailing" constant="20" id="Kur-Hv-RG4"/>
+                        <constraint firstItem="GxE-vI-VlJ" firstAttribute="trailing" secondItem="niC-Lp-IBS" secondAttribute="trailing" constant="20" id="f2R-sF-hxm"/>
+                        <constraint firstItem="niC-Lp-IBS" firstAttribute="top" secondItem="GxE-vI-VlJ" secondAttribute="top" constant="100" id="fvn-qJ-KP0"/>
+                        <constraint firstItem="niC-Lp-IBS" firstAttribute="leading" secondItem="GxE-vI-VlJ" secondAttribute="leading" constant="20" id="fxp-V4-2aE"/>
+                        <constraint firstItem="GxE-vI-VlJ" firstAttribute="bottom" secondItem="vdy-QI-86G" secondAttribute="bottom" constant="40" id="hdo-ck-f7f"/>
+                        <constraint firstItem="vdy-QI-86G" firstAttribute="top" secondItem="wX5-vR-f09" secondAttribute="bottom" constant="8" id="jnJ-N8-fcK"/>
+                        <constraint firstItem="wX5-vR-f09" firstAttribute="leading" secondItem="GxE-vI-VlJ" secondAttribute="leading" constant="20" id="rqe-6A-ncI"/>
+                        <constraint firstItem="vdy-QI-86G" firstAttribute="leading" secondItem="GxE-vI-VlJ" secondAttribute="leading" constant="20" id="umE-Ac-tUx"/>
+                    </constraints>
+                    <viewLayoutGuide key="safeArea" id="GxE-vI-VlJ"/>
+                </view>
                 <tableViewController id="RFN-vG-oDG" customClass="StationTableViewController" customModule="ElevateChicago" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="lIC-j0-oEy">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
@@ -168,10 +205,10 @@
                     </navigationItem>
                     <connections>
                         <outlet property="allLinesButton" destination="q1l-UE-5LN" id="4YH-4w-xIl"/>
+                        <outlet property="noFavoritesView" destination="LDm-u3-lzH" id="trp-WJ-jg1"/>
                         <segue destination="cvx-dD-QT3" kind="presentation" identifier="OnboardingSegue" id="vbF-FC-cXL"/>
                     </connections>
                 </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Sgz-E0-75W" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1884.057971014493" y="93.75"/>
         </scene>
@@ -626,6 +663,7 @@
         <!--Navigation Controller-->
         <scene sceneID="cab-iB-mNQ">
             <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="R9W-ow-ofb" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="fmK-ms-Pgg" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="rFH-Jf-MFe"/>
@@ -638,7 +676,6 @@
                         <segue destination="RFN-vG-oDG" kind="relationship" relationship="rootViewController" id="AZI-7E-DgJ"/>
                     </connections>
                 </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="R9W-ow-ofb" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="973.91304347826099" y="93.75"/>
         </scene>
@@ -721,6 +758,7 @@
         <image name="2" width="375" height="667"/>
         <image name="3" width="375" height="667"/>
         <image name="AccessibleIcon" width="256" height="256"/>
+        <image name="LaunchIcon" width="512" height="512"/>
         <image name="circle.fill" catalog="system" width="128" height="121"/>
         <image name="exclamationmark.circle" catalog="system" width="128" height="121"/>
         <image name="star" catalog="system" width="128" height="116"/>

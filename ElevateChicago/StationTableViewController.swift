@@ -16,6 +16,7 @@ class StationTableViewController: UITableViewController {
     var stations: [NSManagedObject] = []
     @IBOutlet weak var allLinesButton: UIBarButtonItem!
     let defaults = UserDefaults.standard
+    @IBOutlet var noFavoritesView: UIView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -101,7 +102,43 @@ class StationTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return stations.count
+        if stations.isEmpty {
+//            let newView = UIView(frame: CGRect(x: 0, y: 0, width: self.view.bounds.size.width, height: self.view.bounds.size.height))
+//
+//            let titleLabel = UILabel()
+//            titleLabel.text = "Welcome to Elevate Chicago!"
+//            titleLabel.textAlignment = NSTextAlignment.center
+//            titleLabel.lineBreakMode = NSLineBreakMode.byWordWrapping
+//            titleLabel.font = UIFont.boldSystemFont(ofSize: 16.0)
+//            titleLabel.numberOfLines = 2
+//
+//            let instructionLabel = UILabel()
+//            instructionLabel.text = "No favorites added! \n Go home and click All Lines to add a favorite."
+//            instructionLabel.textAlignment = NSTextAlignment.center
+//            instructionLabel.lineBreakMode = NSLineBreakMode.byWordWrapping
+//            instructionLabel.numberOfLines = 3
+//
+//            let elevateImage = UIImageView(image: UIImage(named: "LaunchIcon"))
+//
+//            newView.addSubview(titleLabel)
+//            newView.addSubview(instructionLabel)
+//            newView.addSubview(elevateImage)
+//
+//            titleLabel.topAnchor.constraint(equalTo: newView.topAnchor).isActive = true
+//            titleLabel.
+//
+//            self.tableView.backgroundView = newView
+//            self.tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
+//            return 0
+            
+            self.tableView.backgroundView = noFavoritesView
+            self.tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
+            return 0
+        } else {
+            self.tableView.backgroundView = nil
+            self.tableView.separatorStyle = UITableViewCell.SeparatorStyle.singleLine
+            return stations.count
+        }
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
