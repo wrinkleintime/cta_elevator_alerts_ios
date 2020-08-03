@@ -742,6 +742,40 @@
             </objects>
             <point key="canvasLocation" x="1020.2898550724639" y="862.5"/>
         </scene>
+        <!--View Controller-->
+        <scene sceneID="I0m-0w-5v3">
+            <objects>
+                <viewController storyboardIdentifier="onboard4" id="aoy-na-g8t" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="2ph-UW-6aE">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="252" verticalHuggingPriority="252" horizontalCompressionResistancePriority="749" verticalCompressionResistancePriority="749" image="4" translatesAutoresizingMaskIntoConstraints="NO" id="yTO-Iw-cLO">
+                                <rect key="frame" x="19.5" y="175" width="375" height="667"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Click any station to see details about its elevator status" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="blY-dJ-fUa">
+                                <rect key="frame" x="20" y="64" width="374" height="86"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="blY-dJ-fUa" firstAttribute="leading" secondItem="xTA-lc-ISn" secondAttribute="leading" constant="20" id="1ab-Op-K2z"/>
+                            <constraint firstItem="xTA-lc-ISn" firstAttribute="trailing" secondItem="blY-dJ-fUa" secondAttribute="trailing" constant="20" id="36h-Jc-v2F"/>
+                            <constraint firstItem="yTO-Iw-cLO" firstAttribute="bottom" secondItem="xTA-lc-ISn" secondAttribute="bottom" constant="-20" id="G9f-pG-eLp"/>
+                            <constraint firstItem="blY-dJ-fUa" firstAttribute="top" secondItem="xTA-lc-ISn" secondAttribute="top" constant="20" id="WM1-SD-O0N"/>
+                            <constraint firstItem="yTO-Iw-cLO" firstAttribute="centerX" secondItem="2ph-UW-6aE" secondAttribute="centerX" id="akE-jz-2JA"/>
+                            <constraint firstItem="yTO-Iw-cLO" firstAttribute="top" secondItem="blY-dJ-fUa" secondAttribute="bottom" constant="25" id="arI-9m-ziN"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="xTA-lc-ISn"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="sfz-8Y-JrH" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1726" y="1551"/>
+        </scene>
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="XD0-z3-vZr"/>
@@ -750,6 +784,7 @@
         <image name="1" width="375" height="667"/>
         <image name="2" width="375" height="667"/>
         <image name="3" width="375" height="667"/>
+        <image name="4" width="375" height="667"/>
         <image name="AccessibleIcon" width="256" height="256"/>
         <image name="LaunchIcon" width="512" height="512"/>
         <image name="circle.fill" catalog="system" width="128" height="121"/>

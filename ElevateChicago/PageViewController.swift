@@ -24,7 +24,8 @@ class PageViewController: UIPageViewController, UIPageViewControllerDelegate, UI
     lazy var orderedViewControllers: [UIViewController] = {
         return [self.newVc(viewController: "onboard1"),
                 self.newVc(viewController: "onboard2"),
-                self.newVc(viewController: "onboard3")]
+                self.newVc(viewController: "onboard3"),
+                self.newVc(viewController: "onboard4")]
     }()
     
     override func viewDidLoad() {
@@ -86,9 +87,11 @@ class PageViewController: UIPageViewController, UIPageViewControllerDelegate, UI
     
     func presentationCount(for pageViewController: UIPageViewController) -> Int {
         let appearance = UIPageControl.appearance()
+
+        appearance.backgroundColor = UIColor.black
         appearance.pageIndicatorTintColor = UIColor.darkGray
-        appearance.currentPageIndicatorTintColor = UIColor.black
-        appearance.backgroundColor = UIColor.white
+        appearance.currentPageIndicatorTintColor = UIColor.white
+        
         return orderedViewControllers.count
     }
 
@@ -110,11 +113,11 @@ class PageViewController: UIPageViewController, UIPageViewControllerDelegate, UI
             let arrayIndex = orderedViewControllers.firstIndex(of: firstViewController) {
 
             switch arrayIndex {
-            case 0, 1:
+            case 0, 1, 2:
                 self.navigationItem.rightBarButtonItem = nil
                 break
 
-            case 2:
+            case 3:
                 self.navigationItem.rightBarButtonItem = doneButton
                 break
 
