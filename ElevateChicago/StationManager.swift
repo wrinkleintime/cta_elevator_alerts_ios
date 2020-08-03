@@ -20,6 +20,11 @@ class StationManager {
                         
         URLSession.shared.dataTask(with: url) { data, response, error in
             if error != nil {
+                if let error = error as NSError?, error.domain == NSURLErrorDomain, error.code == NSURLErrorNotConnectedToInternet {
+                    print("Not connected")
+                } else {
+                    print("Error!")
+                }
                 print("Error!")
                 return
             }

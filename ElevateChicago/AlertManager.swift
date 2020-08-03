@@ -19,7 +19,11 @@ class AlertManager {
                         
         URLSession.shared.dataTask(with: url) { data, response, error in
             if error != nil {
-                print("Error!")
+                if let error = error as NSError?, error.domain == NSURLErrorDomain, error.code == NSURLErrorNotConnectedToInternet {
+                    print("Not connected")
+                } else {
+                    print("Error!")
+                }
                 return
             }
             
